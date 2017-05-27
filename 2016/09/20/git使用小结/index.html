@@ -90,19 +90,19 @@
 
 
 
-<meta name="description" content="Git，目前主流的版本控制工具，git命令是一些命令行工具的集合，它可以用来跟踪，记录文件的变动。比如你可以进行保存，比对，分析，合并等等。 基本的git工作流 在工作目录中修改文件 暂存文件，将文件的快照放入暂存区域 提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录   分支当你在做一个新功能的时候，最好是在一个独立的区域上开发，通常称之为分支。分支之间相互独立，并且拥有自己">
+<meta name="description" content="Git，目前主流的版本控制工具，git命令是一些命令行工具的集合，它可以用来跟踪，记录文件的变动。比如你可以进行保存，比对，分析，合并等等。 基本的git工作流 在工作目录中修改文件 暂存文件，将文件的快照放入暂存区域 提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录">
 <meta name="keywords" content="git,github">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git 常用命令总结">
 <meta property="og:url" content="https://lvraikkonen.github.io/2016/09/20/git使用小结/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
-<meta property="og:description" content="Git，目前主流的版本控制工具，git命令是一些命令行工具的集合，它可以用来跟踪，记录文件的变动。比如你可以进行保存，比对，分析，合并等等。 基本的git工作流 在工作目录中修改文件 暂存文件，将文件的快照放入暂存区域 提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录   分支当你在做一个新功能的时候，最好是在一个独立的区域上开发，通常称之为分支。分支之间相互独立，并且拥有自己">
+<meta property="og:description" content="Git，目前主流的版本控制工具，git命令是一些命令行工具的集合，它可以用来跟踪，记录文件的变动。比如你可以进行保存，比对，分析，合并等等。 基本的git工作流 在工作目录中修改文件 暂存文件，将文件的快照放入暂存区域 提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录">
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/1473343759-1415241085-Git-Logo-2Color.png">
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/566304-ddcf785586305023.png">
-<meta property="og:updated_time" content="2016-09-20T05:27:38.360Z">
+<meta property="og:updated_time" content="2017-05-27T10:50:20.188Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git 常用命令总结">
-<meta name="twitter:description" content="Git，目前主流的版本控制工具，git命令是一些命令行工具的集合，它可以用来跟踪，记录文件的变动。比如你可以进行保存，比对，分析，合并等等。 基本的git工作流 在工作目录中修改文件 暂存文件，将文件的快照放入暂存区域 提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录   分支当你在做一个新功能的时候，最好是在一个独立的区域上开发，通常称之为分支。分支之间相互独立，并且拥有自己">
+<meta name="twitter:description" content="Git，目前主流的版本控制工具，git命令是一些命令行工具的集合，它可以用来跟踪，记录文件的变动。比如你可以进行保存，比对，分析，合并等等。 基本的git工作流 在工作目录中修改文件 暂存文件，将文件的快照放入暂存区域 提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录">
 <meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/1473343759-1415241085-Git-Logo-2Color.png">
 
 
@@ -272,7 +272,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shuo Lv">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -340,6 +340,25 @@
           
 
           
+            <div class="post-wordcount">
+              
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+
+              
+            </div>
+          
 
           
 
@@ -361,6 +380,7 @@
 <li>提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录</li>
 </ol>
 <p><img src="http://7xkfga.com1.z0.glb.clouddn.com/566304-ddcf785586305023.png" alt="git workflow"></p>
+<a id="more"></a>
 <h3 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h3><p>当你在做一个新功能的时候，最好是在一个独立的区域上开发，通常称之为分支。分支之间相互独立，并且拥有自己的历史记录。这样做的原因是：</p>
 <ul>
 <li>稳定版本的代码不会被破坏</li>
@@ -405,6 +425,22 @@
     <div>
       
         
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/WeChatImage_20170527190034.jpg" alt="Shuo Lv WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
 
       
     </div>
@@ -444,6 +480,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/27/Python内置数据结构/" rel="prev" title="Python内置数据结构">
+                Python内置数据结构 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -503,7 +543,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.png"
+               src="/uploads/avatar.jpg"
                alt="Shuo Lv" />
           <p class="site-author-name" itemprop="name">Shuo Lv</p>
            
@@ -515,7 +555,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -537,7 +577,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -641,7 +681,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2015 - 
   <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -801,6 +841,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 

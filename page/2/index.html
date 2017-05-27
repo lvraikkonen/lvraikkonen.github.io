@@ -261,12 +261,12 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/08/12/2015-08-12-word-count-example-in-spark/">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2016/09/20/git使用小结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shuo Lv">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -280,7 +280,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/08/12/2015-08-12-word-count-example-in-spark/" itemprop="url">利用Spark进行单词计数</a></h1>
+                <a class="post-title-link" href="/2016/09/20/git使用小结/" itemprop="url">git 常用命令总结</a></h1>
         
 
         <div class="post-meta">
@@ -292,307 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-12T13:38:08+08:00">
-                2015-08-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Big-Data/" itemprop="url" rel="index">
-                    <span itemprop="name">Big Data</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Big-Data/Spark/" itemprop="url" rel="index">
-                    <span itemprop="name">Spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>这里就不再介绍Spark了，这篇文章主要记录一下关于Spark的核心<code>RDD</code>的相关操作以及以单词计数这个简单的例子，描述一下Spark的处理流程。</p>
-<h2 id="Spark-RDD"><a href="#Spark-RDD" class="headerlink" title="Spark RDD"></a>Spark RDD</h2><p>Spark是以RDD概念为中心运行的。RDD是一个容错的、可以被并行操作的元素集合。创建一个RDD有两个方法：在你的驱动程序中并行化一个已经存在的集合；从外部存储系统中引用一个数据集，这个存储系统可以是一个共享文件系统，比如HDFS、HBase或任意提供了Hadoop输入格式的数据来源。</p>
-<p>RDD支持两类操作：</p>
-<ul>
-<li>转换(Transform)</li>
-<li>动作(Action)</li>
-</ul>
-<p>还是不翻译的好，下面都用英文描述。<code>Transform</code>：用于从已有的数据集转换产生新的数据集，Transform的操作是<code>Lazy Evaluation</code>的，也就是说这条语句过后，转换并没有发生，而是在下一个<code>Action</code>调用的时候才会返回结果。<code>Action</code>：用于计算结果并向驱动程序返回结果。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/08/12/2015-08-12-word-count-example-in-spark/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/08/11/2015-08-11-some-note-about-naive-bayes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/08/11/2015-08-11-some-note-about-naive-bayes/" itemprop="url">朴素贝叶斯算法的一些细节和小技巧</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-11T19:57:39+08:00">
-                2015-08-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="某特征属性的条件概率为0"><a href="#某特征属性的条件概率为0" class="headerlink" title="某特征属性的条件概率为0"></a>某特征属性的条件概率为0</h3><p>当特征属性为离散值时，只要统计训练样本中各个划分在每个类别中出现的频率即可用来估计P(a|y)，若某一特征值的概率为0则会使整个概率乘积变为0，这会让分类器的准确性大幅下降。</p>
-<p>这时候使用Laplace校准：即假定训练数据库很大，以至于对每个计数加1造成的估计概率的变化忽略不计。</p>
-<h3 id="连续分布假定值服从高斯分布-正态分布"><a href="#连续分布假定值服从高斯分布-正态分布" class="headerlink" title="连续分布假定值服从高斯分布(正态分布)"></a>连续分布假定值服从高斯分布(正态分布)</h3><p>当特征属性为连续值时，通常假定其值服从高斯分布，即：</p>
-<p>$$p\left( x_{i}|y\right) =\dfrac {1} {\sqrt {2\pi \sigma_{y}^{2}}}exp\left( -\dfrac {\left( x_{i}-\mu_{y}\right) ^{2}} {2\sigma_{y}^{2}}\right)$$</p>
-<p>所以，对于连续分布的样本特征的训练就是计算其均值和方差</p>
-<h3 id="小数连续相乘"><a href="#小数连续相乘" class="headerlink" title="小数连续相乘"></a>小数连续相乘</h3><p>实际项目中，概率P往往是值很小的小数，连续的微小小数相乘容易造成下溢出使乘积为0或者得不到正确答案。一种解决办法就是对乘积取自然对数，将连乘变为连加，$\ln \left( AB\right) =\ln A+\ln B$。采用自然对数处理不会带来任何损失，可以避免下溢出或者浮点数舍入导致的错误。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/08/11/2015-08-11-some-note-about-naive-bayes/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/08/08/2015-08-08-adding-support-for-math-formula/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/08/08/2015-08-08-adding-support-for-math-formula/" itemprop="url">配置Octopress支持LaTex数学公式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-08T00:01:02+08:00">
-                2015-08-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-20T11:20:32+08:00">
+                2016-09-20
               </time>
             
 
@@ -635,155 +336,24 @@
           
 
           
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Octopress 默认不支持 LaTex 写数学公式需要更改配置才可以。</p>
-<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h2><p>需要使用kramdown来支持LaTex写数学公式</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/08/08/2015-08-08-adding-support-for-math-formula/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/08/07/2015-08-07-naive-bayes-classifier/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/08/07/2015-08-07-naive-bayes-classifier/" itemprop="url">朴素贝叶斯分类器实践</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
+            <div class="post-wordcount">
               
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-07T16:48:32+08:00">
-                2015-08-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
                 </span>
-
                 
+                  <span class="post-meta-item-text">字数统计</span>
                 
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
+                <span title="字数统计">
+                  
                 </span>
-
-                
-                
               
-            </span>
-          
 
-          
-            
-          
+              
 
-          
-          
-
-          
-
+              
+            </div>
           
 
           
@@ -799,780 +369,627 @@
 
       
         
-          <h2 id="实际案例"><a href="#实际案例" class="headerlink" title="实际案例"></a>实际案例</h2><p>举个运动员的例子：</p>
-<blockquote>
-<p>如果我问你Brittney Griner的运动项目是什么，她有6尺8寸高，207磅重，你会说“篮球”；我再问你对此分类的准确度有多少信心，你会回答“非常有信心”。<br>我再问你Heather Zurich，6尺1寸高，重176磅，你可能就不能确定地说她是打篮球的了，至少不会像之前判定Brittney那样肯定。因为从Heather的身高体重来看她也有可能是跑马拉松的。<br>最后，我再问你Yumiko Hara的运动项目，她5尺4寸高，95磅重，你也许会说她是跳体操的，但也不太敢肯定，因为有些马拉松运动员也是类似的身高体重。<br>      ——选自<a href="http://guidetodatamining.com/" target="_blank" rel="external">A Programmer’s Guide to Data Mining</a></p>
-</blockquote>
-<p>这里所说的分类，就用到了所谓的概率模型。</p>
-<h2 id="朴素贝叶斯算法"><a href="#朴素贝叶斯算法" class="headerlink" title="朴素贝叶斯算法"></a>朴素贝叶斯算法</h2><p>朴素贝叶斯算法使用每个属性(特征)属于某个类的概率做出预测，这是一个监督性学习算法，对一个预测性问题进行概率建模。<strong>训练模型的过程可以看做是对条件概率的计算，何以计算每个类别的相应条件概率来估计分类结果。</strong> 这个算法基于一个假设：所有特征相互独立，任意特征的值和其他特征的值没有关联关系，这种假设在实际生活中几乎不存在，但是朴素贝叶斯算法在很多领域，尤其是自然语言处理领域很成功。其他的典型应用还有垃圾邮件过滤等等。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/08/07/2015-08-07-naive-bayes-classifier/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/07/23/2015-07-23-start-to-use-scikit-learn/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/07/23/2015-07-23-start-to-use-scikit-learn/" itemprop="url">开始使用Scikit-Learn</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-23T18:14:35+08:00">
-                2015-07-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Python和R是做数据分析、数据挖掘、机器学习非常好的两门语言，在这儿不去讨论谁更好这个问题，没有最好，只有合适上手。对于码农出身，非科班统计学的我来说，使用Python相当习惯和顺手。</p>
-<h2 id="Python数据科学栈"><a href="#Python数据科学栈" class="headerlink" title="Python数据科学栈"></a>Python数据科学栈</h2><p>Python有很多做数据的类库，先列出常用的几个：</p>
-<ul>
-<li>Numpy、Scipy 基础数据类型</li>
-<li>Matplotlib 绘图库</li>
-<li>Pandas</li>
-<li>Ipython notebook</li>
-<li>Scikit-learn、MLlib 机器学习库</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/07/23/2015-07-23-start-to-use-scikit-learn/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/07/17/2015-07-17-install-spark-on-mac-osx-yosemite/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/07/17/2015-07-17-install-spark-on-mac-osx-yosemite/" itemprop="url">Install Spark on Mac OSX Yosemite</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-17T18:30:50+08:00">
-                2015-07-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Big-Data/" itemprop="url" rel="index">
-                    <span itemprop="name">Big Data</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Big-Data/Spark/" itemprop="url" rel="index">
-                    <span itemprop="name">Spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Spark是个好东西。</p>
-<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/spark_logo.jpg" alt="Spark Logo"></p>
-<p>Spark有以下四种运行模式：</p>
-<ul>
-<li>local: 本地单进程模式，用于本地开发测试Spark代码</li>
-<li>standalone：分布式集群模式，Master-Worker架构，Master负责调度，Worker负责具体Task的执行</li>
-<li>on yarn/mesos: ‌运行在yarn/mesos等资源管理框架之上，yarn/mesos提供资源管理，spark提供计算调度，并可与其他计算框架(如MapReduce/MPI/Storm)共同运行在同一个集群之上</li>
-<li>on cloud(EC2): 运行在AWS的EC2之上</li>
-</ul>
-<p>在Spark上又有多个应用，尤其是<code>MLlib</code>，<code>Spark SQL</code>和<code>DataFrame</code>，提供给数据科学家们无缝接口去搞所谓Data Science</p>
-<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/spark_stack.jpg" alt="spark stack"></p>
-<p>本文记录一下我在Mac上安装Spark单机为分布式的过程</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/07/17/2015-07-17-install-spark-on-mac-osx-yosemite/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/07/17/2015-07-17-install-hadoop-on-mac-osx-yosemite/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/07/17/2015-07-17-install-hadoop-on-mac-osx-yosemite/" itemprop="url">Install Hadoop on Yosemite</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-17T17:20:58+08:00">
-                2015-07-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Big-Data/" itemprop="url" rel="index">
-                    <span itemprop="name">Big Data</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Big-Data/Hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">Hadoop</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>终于进入正题，开始写一写我在大数据方面走过的路，自认为被其他人甩下了，所以一定要紧追而上。 首先现在我的Mac上装上单节点的Hadoop玩玩，个人感觉Apache系列的项目，只要download下来，再配置以下参数就能玩了。</p>
-<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/hadooplogo-e1434684861708.png" alt="Hadoop Logo"></p>
-<p>在这里感谢如下教程：</p>
-<p><a href="http://amodernstory.com/2014/09/23/installing-hadoop-on-mac-osx-yosemite/" target="_blank" rel="external">INSTALLING HADOOP ON MAC</a></p>
-<p><a href="http://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/" target="_blank" rel="external">Writing an Hadoop MapReduce Program in Python</a></p>
-<p>下面开始吧</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/07/17/2015-07-17-install-hadoop-on-mac-osx-yosemite/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/07/17/2015-07-17-write-blog-from-different-machine/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/07/17/2015-07-17-write-blog-from-different-machine/" itemprop="url">在不同的机器上写博客</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-17T16:48:40+08:00">
-                2015-07-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/备忘/" itemprop="url" rel="index">
-                    <span itemprop="name">备忘</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在家的Mac上配置好了Octopress，上班到公司还是要面对大Windows，这时候，想写一篇博客记录一下遇到的问题，怎么办？</p>
-<h2 id="Octopress原理"><a href="#Octopress原理" class="headerlink" title="Octopress原理"></a>Octopress原理</h2><p>Octopress的git仓库(repository)有两个分支，分别是<code>master</code>和<code>source</code>。<code>master</code>存储的是博客网站本身（html静态页面），而<code>source</code>存储的是生成博客的源文件（包括配置等）。<code>master</code>的内容放在根目录的<code>_deploy</code>文件夹内，当你<code>push</code>源文件时会忽略，它使用的是<code>rake deploy</code>命令来更新的。</p>
-<p>下面开始在一台新机器上搞</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/07/17/2015-07-17-write-blog-from-different-machine/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/07/16/2015-07-16-Writing Blogs with Github Pages and Octopress/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/07/16/2015-07-16-Writing Blogs with Github Pages and Octopress/" itemprop="url">使用Github与Octopress写博客</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-16T10:06:06+08:00">
-                2015-07-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/备忘/" itemprop="url" rel="index">
-                    <span itemprop="name">备忘</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Octopress和Github-Pages是什么？"><a href="#Octopress和Github-Pages是什么？" class="headerlink" title="Octopress和Github Pages是什么？"></a>Octopress和Github Pages是什么？</h2><p><img src="http://7xkfga.com1.z0.glb.clouddn.com/octopress_logo.jpg" alt="Octopress_logo"></p>
-<ul>
-<li>Octopress是一个基于Ruby语言的开源静态网站框架</li>
-<li>Github Pages是Github上的一项服务， 注册用户可以申请一个和自己账号关联的二级域名， 在上面可以托管一个静态网站，网站内容本身就是Github的一个repository也就是项目， 维护这个项目的代码就是在维护自己的网站。简单来说就是 yourname.github.io/</li>
-</ul>
-<p>使用Octopress搭建博客，然后使用Github托管，有以下几个原因：</p>
-<ol>
-<li>免费</li>
-<li>版本控制，可以使用git实现写文章、建网站时候修改的版本控制</li>
-<li>Octopress容易上手，并且这个风格正是我喜欢的，尤其对于一个理工男</li>
-<li>使用Markdown，markdown是世界上最流行的轻量级标记语言</li>
-<li>很酷，能装逼，当然这不是重点</li>
+          <p><img src="http://7xkfga.com1.z0.glb.clouddn.com/1473343759-1415241085-Git-Logo-2Color.png" alt="gitlogo"></p>
+<p>Git，目前主流的版本控制工具，git命令是一些命令行工具的集合，它可以用来跟踪，记录文件的变动。比如你可以进行保存，比对，分析，合并等等。</p>
+<h2 id="基本的git工作流"><a href="#基本的git工作流" class="headerlink" title="基本的git工作流"></a>基本的git工作流</h2><ol>
+<li>在工作目录中修改文件</li>
+<li>暂存文件，将文件的快照放入暂存区域</li>
+<li>提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录</li>
 </ol>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/566304-ddcf785586305023.png" alt="git workflow"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/07/16/2015-07-16-Writing Blogs with Github Pages and Octopress/#more" rel="contents">
+            <a class="btn" href="/2016/09/20/git使用小结/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2016/09/18/使用Scrapy编写爬虫/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/09/18/使用Scrapy编写爬虫/" itemprop="url">使用Scrapy编写爬虫</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-18T10:39:32+08:00">
+                2016-09-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/框架/" itemprop="url" rel="index">
+                    <span itemprop="name">框架</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Scrapy是Python开发的一个快速,高层次的屏幕抓取和web抓取框架，用于抓取web站点并从页面中提取结构化的数据。Scrapy用途广泛，可以用于数据挖掘、监测和自动化测试。<br><img src="http://7xkfga.com1.z0.glb.clouddn.com/Scrapy_logo.png" alt="Scrapy Logo"></p>
+<p><a href="https://scrapy.org/" target="_blank" rel="external">Scrapy Home Site</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install scrapy</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/09/18/使用Scrapy编写爬虫/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2016/09/07/如何拍摄星空/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/09/07/如何拍摄星空/" itemprop="url">如何拍摄星空</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-07T21:09:03+08:00">
+                2016-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>好久没写博客了，重新拾起来吧。今天说点技术无关的话题——摄影</p>
+<p>我是一个纯业余的风光狗，向往美丽的大自然，喜欢仰望天空，把深邃的星空拍摄下来，以免子孙后代在严重的光污染中忘记了这篇美丽星空的存在。下面简单介绍一下如何拍星空：</p>
+<p><a href="https://www.zhihu.com/question/27296697/answer/43051123" target="_blank" rel="external">来自知乎我的回答</a><br>我曾经在西藏拍摄过星空，对于拍摄有一定的体会和经验，我说说拍摄方法吧：</p>
+<ol>
+<li>首先，光污染问题。国内很多的地方，尤其是大城市，肉眼几乎看不到几颗星星，更不用说银河了。所以要拍银河星空的话，必须要到完全没有光污染的旷野，当然半夜在荒郊野岭拍照对于心理是个很大的挑战。</li>
+<li>关于拍摄器材。要有个大光圈的广角镜头，最好用单反或者SONY的高级微单来拍，要的是机身的优秀高感也就是ISO能力；光圈的话，当然越大越好，因为外界环境很黑暗，所以需要长时间曝光，进光量一定要够；角度越广角越好，广角更能拍出宽阔感。推荐佳能的14L镜头，这个绝对是星空专用镜头。（一定要用三脚架，越稳定越好）</li>
+<li>关于拍摄参数。M档，我的常用参数是，光圈f2.8，快门15-20秒，感光度ISO1600-6400<br>关于对焦。我来纠正一下很多人误传的一条知识：手动对焦值无穷远再往回拧一点点。这是绝对的错误，这个一点点到底是多少？没人能说清。所以正确的对焦方法是：打开相机的实时取景功能LV，放大到10倍，然后看星点是否对上焦（也就是实心点不发虚），然后调整曝光参数，试拍两张，再调整感光度，达到满意为止。<br>掌握这几点之后，你肯定能拍出肯漂亮的星空银河了，不过没有前景的话，照片就会很枯燥。所以找个漂亮的前景也很重要，因为使用大光圈，所以前景在构图时候不要离得太近，否则会虚掉。至于补光，我只能说多试几次。关于补光的话，不要一直开着手电筒对着前景照射，否则会强烈过曝，正确的方式是：在按下快门到曝光结束这段时间段的最后一秒，打开手电筒对着前景闪一下，这就足够了。</li>
+</ol>
+<p>祝大家都能拍出漂亮的星空照<br>附上在西藏拍的银河和泸沽湖拍的星空</p>
+<ol>
+<li><p>西藏定日县城外小河沟拍的银河<br><img src="http://7xkfga.com1.z0.glb.clouddn.com/tibetStar.jpg" alt="Tibet Milkyway"></p>
+</li>
+<li><p>云南泸沽湖边的星空<br><img src="http://7xkfga.com1.z0.glb.clouddn.com/luguStar.jpeg" alt="LuguLakeStar"></p>
+</li>
+</ol>
+<p>版权声明：<br></p>
+<p><hr><br>除非注明，本博文章均为原创，转载请以链接形式标明本文地址。<br></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/11/28/使用d3.js绘图流水账/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/11/28/使用d3.js绘图流水账/" itemprop="url">使用d3.js绘图</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-28T10:55:16+08:00">
+                2015-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>D3的全称是（Data-Driven Documents），是一个Javascript的函数库，主要用途是用HTML和SVG展现数据。下面简单回顾一下我从0出发把csv文件画在HTML页面上的过程。</p>
+<h2 id="0-引入d3-js库"><a href="#0-引入d3-js库" class="headerlink" title="0. 引入d3.js库"></a>0. 引入d3.js库</h2><p>引入js库可以直接引用网站上host的js库，也可以下载到本地folder下引入</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://d3js.org/d3.v3.min.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/11/28/使用d3.js绘图流水账/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/11/27/2015-11-27-understanding-tf-idf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/11/27/2015-11-27-understanding-tf-idf/" itemprop="url">Understanding TF-IDF</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-27T15:31:50+08:00">
+                2015-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
         
       
     </div>
@@ -1609,7 +1026,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1642,7 +1059,7 @@
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.png"
+               src="/uploads/avatar.jpg"
                alt="Shuo Lv" />
           <p class="site-author-name" itemprop="name">Shuo Lv</p>
            
@@ -1654,7 +1071,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1676,7 +1093,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1764,7 +1181,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2015 - 
   <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -1920,6 +1337,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 

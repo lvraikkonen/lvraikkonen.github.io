@@ -261,12 +261,12 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2016/09/20/git使用小结/">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/05/27/设计短链接TinyURL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shuo Lv">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -280,7 +280,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/09/20/git使用小结/" itemprop="url">git 常用命令总结</a></h1>
+                <a class="post-title-link" href="/2017/05/27/设计短链接TinyURL/" itemprop="url">设计短链接TinyURL</a></h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-20T11:20:32+08:00">
-                2016-09-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-27T18:45:29+08:00">
+                2017-05-27
               </time>
             
 
@@ -303,707 +303,35 @@
           </span>
 
           
-            <span class="post-category" >
+
+          
             
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
               
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/备忘/" itemprop="url" rel="index">
-                    <span itemprop="name">备忘</span>
-                  </a>
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
                 </span>
-
                 
+                  <span class="post-meta-item-text">字数统计</span>
                 
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xkfga.com1.z0.glb.clouddn.com/1473343759-1415241085-Git-Logo-2Color.png" alt="gitlogo"></p>
-<p>Git，目前主流的版本控制工具，git命令是一些命令行工具的集合，它可以用来跟踪，记录文件的变动。比如你可以进行保存，比对，分析，合并等等。</p>
-<h2 id="基本的git工作流"><a href="#基本的git工作流" class="headerlink" title="基本的git工作流"></a>基本的git工作流</h2><ol>
-<li>在工作目录中修改文件</li>
-<li>暂存文件，将文件的快照放入暂存区域</li>
-<li>提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录</li>
-</ol>
-<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/566304-ddcf785586305023.png" alt="git workflow"></p>
-<h3 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h3><p>当你在做一个新功能的时候，最好是在一个独立的区域上开发，通常称之为分支。分支之间相互独立，并且拥有自己的历史记录。这样做的原因是：</p>
-<ul>
-<li>稳定版本的代码不会被破坏</li>
-<li>不同的功能可以由不同开发者同时开发</li>
-<li>开发者可以专注于自己的分支，不用担心被其他人破坏了环境</li>
-<li>在不确定之前，同一个特性可以拥有几个版本，便于比较</li>
-</ul>
-<p>以上，简单介绍了一下git的基本概念，下面记录一下如下几个git命令以及使用：</p>
-<ul>
-<li>git clone</li>
-<li>git remote</li>
-<li>git commit</li>
-<li>git push</li>
-<li>git fetch</li>
-<li>git pull</li>
-</ul>
-<h3 id="git-clone"><a href="#git-clone" class="headerlink" title="git clone"></a>git clone</h3><p>从远程主机克隆一个版本库，git支持SSH, Git, HTTPS等</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone &lt;远程仓库&gt; &lt;本地文件夹名&gt;</div></pre></td></tr></table></figure>
-<h3 id="git-remote"><a href="#git-remote" class="headerlink" title="git remote"></a>git remote</h3><p>git remote命令用于管理主机名</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git remote</div></pre></td></tr></table></figure>
-<h3 id="git-commit"><a href="#git-commit" class="headerlink" title="git commit"></a>git commit</h3><p>将索引内容添加到仓库中</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git commit  -m "提交的描述信息"</div></pre></td></tr></table></figure>
-<h3 id="git-push"><a href="#git-push" class="headerlink" title="git push"></a>git push</h3><p>git push命令用于将本地分支的更新，推送到远程主机</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt;</div></pre></td></tr></table></figure>
-<h3 id="git-fetch"><a href="#git-fetch" class="headerlink" title="git fetch"></a>git fetch</h3><p>git fetch命令从远程主机的更新取回本地</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git fetch &lt;远程主机名&gt; &lt;分支名&gt;</div></pre></td></tr></table></figure>
-<h3 id="git-pull"><a href="#git-pull" class="headerlink" title="git pull"></a>git pull</h3><p>git pull命令的作用是，取回远程主机某个分支的更新，再与本地的指定分支合并</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git pull &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;</div></pre></td></tr></table></figure>
-<p>版权声明：<br></p>
-<p><hr><br>除非注明，本博文章均为原创，转载请以链接形式标明本文地址。<br></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2016/09/18/使用Scrapy编写爬虫/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/09/18/使用Scrapy编写爬虫/" itemprop="url">使用Scrapy编写爬虫</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-18T10:39:32+08:00">
-                2016-09-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
+                <span title="字数统计">
+                  
                 </span>
-
-                
-                
-                  ， 
-                
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/框架/" itemprop="url" rel="index">
-                    <span itemprop="name">框架</span>
-                  </a>
-                </span>
 
-                
-                
               
-            </span>
-          
 
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Scrapy是Python开发的一个快速,高层次的屏幕抓取和web抓取框架，用于抓取web站点并从页面中提取结构化的数据。Scrapy用途广泛，可以用于数据挖掘、监测和自动化测试。<br><img src="http://7xkfga.com1.z0.glb.clouddn.com/Scrapy_logo.png" alt="Scrapy Logo"></p>
-<p><a href="https://scrapy.org/" target="_blank" rel="external">Scrapy Home Site</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install scrapy</div></pre></td></tr></table></figure>
-<h2 id="Scrapy-处理流程图"><a href="#Scrapy-处理流程图" class="headerlink" title="Scrapy 处理流程图"></a>Scrapy 处理流程图</h2><p>借个图简单介绍下Scrapy处理的流程(这就是框架，帮我们完成了大部分工作)<br><img src="http://7xkfga.com1.z0.glb.clouddn.com/scrapy_architecture.png" alt="Scrapy workflow"></p>
-<ul>
-<li>引擎(Scrapy Engine)，用来处理整个系统的数据流处理，触发事务。</li>
-<li>调度器(Scheduler)，用来接受引擎发过来的请求，压入队列中，并在引擎再次请求的时候返回。</li>
-<li>下载器(Downloader)，用于下载网页内容，并将网页内容返回给蜘蛛。</li>
-<li>蜘蛛(Spiders)，蜘蛛是主要干活的，用它来制订特定域名或网页的解析规则。编写用于分析response并提取item(即获取到的item)或额外跟进的URL的类。 每个spider负责处理一个特定(或一些)网站。</li>
-<li>项目管道(Item Pipeline)，负责处理有蜘蛛从网页中抽取的项目，他的主要任务是清晰、验证和存储数据。当页面被蜘蛛解析后，将被发送到项目管道，并经过几个特定的次序处理数据。</li>
-<li>下载器中间件(Downloader Middlewares)，位于Scrapy引擎和下载器之间的钩子框架，主要是处理Scrapy引擎与下载器之间的请求及响应。</li>
-<li>蜘蛛中间件(Spider Middlewares)，介于Scrapy引擎和蜘蛛之间的钩子框架，主要工作是处理蜘蛛的响应输入和请求输出。</li>
-<li>调度中间件(Scheduler Middlewares)，介于Scrapy引擎和调度之间的中间件，从Scrapy引擎发送到调度的请求和响应。</li>
-</ul>
-<p>接下来简单介绍一下爬虫的写法，从开发爬虫到部署，把爬取的数据写入mongodb:</p>
-<ol>
-<li>创建新的Scrapy工程</li>
-<li>定义要抽取的Item对象</li>
-<li>编写一个Spider来爬取某个网站并提取出Item对象</li>
-<li>编写Item Pipeline来存储提取出来的Item对象</li>
-<li>使用Scrapyd-client部署Spider项目</li>
-</ol>
-<p>把Aqicn上的北京空气质量的数据爬取下来，为日后分析做准备<br><img src="http://7xkfga.com1.z0.glb.clouddn.com/Beijing_Aqi.png" alt="Beijing Air Quality"></p>
-<h2 id="创建Scrapy工程"><a href="#创建Scrapy工程" class="headerlink" title="创建Scrapy工程"></a>创建Scrapy工程</h2><p>在目录下执行命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scrapy startproject projectName</div></pre></td></tr></table></figure>
-<p>创建如下的项目文件夹，目录结构如下<br><img src="http://7xkfga.com1.z0.glb.clouddn.com/ScrapyProjectFolder.png" alt="Folder"></p>
-<h2 id="定义Item对象"><a href="#定义Item对象" class="headerlink" title="定义Item对象"></a>定义Item对象</h2><p>创建一个scrapy.Item类，将所要爬取的字段定义好</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scrapy</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AirqualityItem</span><span class="params">(scrapy.Item)</span>:</span></div><div class="line">    date = scrapy.Field()</div><div class="line">    hour = scrapy.Field()</div><div class="line">    city = scrapy.Field()</div><div class="line">    <span class="comment"># area = scrapy.Field()</span></div><div class="line">    aqivalue = scrapy.Field()</div><div class="line">    aqilevel = scrapy.Field()</div><div class="line">    pm2_5 = scrapy.Field()</div><div class="line">    pm10 = scrapy.Field()</div><div class="line">    co = scrapy.Field()</div><div class="line">    no2 = scrapy.Field()</div><div class="line">    o3 = scrapy.Field()</div><div class="line">    so2 = scrapy.Field()</div><div class="line">    temp = scrapy.Field()</div><div class="line">    dew = scrapy.Field()</div><div class="line">    pressure = scrapy.Field()</div><div class="line">    humidity = scrapy.Field()</div><div class="line">    wind = scrapy.Field()</div><div class="line">    <span class="comment"># add field to log spider crawl time</span></div><div class="line">    crawl_time = scrapy.Field()</div></pre></td></tr></table></figure>
-<h2 id="编写Spider"><a href="#编写Spider" class="headerlink" title="编写Spider"></a>编写Spider</h2><p>Spider类里面定义如何从一个domain组中爬取数据，包括：初始化url列表、如何跟踪url和如何解析页面提取Item，定义一个Spider，需要继承scrapy.Spider类</p>
-<ul>
-<li>name: 定义Spider的名称，以后调用爬虫应用时候使用; </li>
-<li>start_url: 初始化url; </li>
-<li>parse(): 解析下载后的Response对象，解析并返回页面数据并提取出相应的Item对象</li>
-</ul>
-<h3 id="抽取Item对象内容"><a href="#抽取Item对象内容" class="headerlink" title="抽取Item对象内容"></a>抽取Item对象内容</h3><p>Scrapy Selector是Scrapy提供的一套选择器，通过特定的XPath或者CSS表达式来选择HTML文件中某个部分 (note: Chrome浏览器自带的copy XPath或者CSS功能非常好用)，在开发过程中，可以使用Scrapy内置的Scrapy-Shell来debug选择器。</p>
-<p>爬虫的代码如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AirQualitySpider</span><span class="params">(CrawlSpider)</span>:</span></div><div class="line">    name = <span class="string">"AqiSpider"</span></div><div class="line">    download_delay = <span class="number">2</span></div><div class="line">    allowed_domains = [<span class="string">'aqicn.org'</span>]</div><div class="line">    start_urls = [<span class="string">'http://aqicn.org/city/beijing/en/'</span>]</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></div><div class="line">        sel = Selector(response)</div><div class="line">        pm25 = int(sel.xpath(<span class="string">'//*[@id="cur_pm25"]/text()'</span>).extract()[<span class="number">0</span>])</div><div class="line">        pm10 = int(sel.xpath(<span class="string">'//*[@id="cur_pm10"]/text()'</span>).extract()[<span class="number">0</span>])</div><div class="line">        o3 = int(sel.xpath(<span class="string">'//*[@id="cur_o3"]/text()'</span>).extract()[<span class="number">0</span>])</div><div class="line">        no2 = int(sel.xpath(<span class="string">'//*[@id="cur_no2"]/text()'</span>).extract()[<span class="number">0</span>])</div><div class="line">        so2 = int(sel.xpath(<span class="string">'//*[@id="cur_so2"]/text()'</span>).extract()[<span class="number">0</span>])</div><div class="line">        co = int(sel.xpath(<span class="string">'//*[@id="cur_co"]/text()'</span>).extract()[<span class="number">0</span>])</div><div class="line">        item = AirqualityItem()</div><div class="line">        item[<span class="string">'date'</span>] = updatetime.strftime(<span class="string">"%Y%m%d"</span>)</div><div class="line">        item[<span class="string">'hour'</span>] = updatetime.hour <span class="comment"># strftime("%H%M%S")</span></div><div class="line">        item[<span class="string">'city'</span>] = city</div><div class="line">        item[<span class="string">'aqivalue'</span>] = aqivalue</div><div class="line">        item[<span class="string">'aqilevel'</span>] = aqilevel</div><div class="line">        item[<span class="string">'pm2_5'</span>] = pm25</div><div class="line">        item[<span class="string">'pm10'</span>] = pm10</div><div class="line">        item[<span class="string">'co'</span>] = co</div><div class="line">        item[<span class="string">'no2'</span>] = no2</div><div class="line">        item[<span class="string">'o3'</span>] = o3</div><div class="line">        item[<span class="string">'so2'</span>] = so2</div><div class="line">        item[<span class="string">'temp'</span>] = temp</div><div class="line">        item[<span class="string">'dew'</span>] = dew</div><div class="line">        item[<span class="string">'pressure'</span>] = pressure</div><div class="line">        item[<span class="string">'humidity'</span>] = humidity</div><div class="line">        item[<span class="string">'wind'</span>] = wind</div><div class="line">        item[<span class="string">'crawl_time'</span>] = cur_time</div><div class="line">        <span class="keyword">yield</span> item</div></pre></td></tr></table></figure>
-<h2 id="数据存储到MongoDB"><a href="#数据存储到MongoDB" class="headerlink" title="数据存储到MongoDB"></a>数据存储到MongoDB</h2><p>在Item已经被爬虫抓取之后，Item被发送到Item Pipeline去做更复杂的处理，比如存储到文件中或者数据库中。Item Pipeline常见的用途如下</p>
-<ul>
-<li>清洗抓取来的HTML数据</li>
-<li>验证抓取来的数据</li>
-<li>查询与去除重复数据</li>
-<li>将Item存储到数据库中</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AirqualityPipeline</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        connection = pymongo.MongoClient(settings[<span class="string">'MONGODB_SERVER'</span>], settings[<span class="string">'MONGODB_PORT'</span>])</div><div class="line">        db = connection[settings[<span class="string">'MONGODB_DB'</span>]]</div><div class="line">        self.collection = db[settings[<span class="string">'MONGODB_COLLECTION'</span>]]</div><div class="line">        </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></div><div class="line">        <span class="comment"># save data into mongodb</span></div><div class="line">        valid = <span class="keyword">True</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> item:</div><div class="line">            valid = <span class="keyword">False</span></div><div class="line">            <span class="keyword">raise</span> DropItem(<span class="string">"Missing &#123;0&#125;"</span>.format(item))</div><div class="line">        <span class="keyword">if</span> valid:</div><div class="line">            self.collection.insert(dict(item))</div><div class="line">            log.msg(<span class="string">"an aqi data added to MongoDB database!"</span>, level=log.DEBUG, spider=spider)</div><div class="line">        <span class="keyword">return</span> item</div></pre></td></tr></table></figure>
-<p>接下来需要在setting.py文件中配置Item Pipeline与数据库信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ITEM_PIPELINES = &#123;</div><div class="line">   'AirQuality.pipelines.AirqualityPipeline': 300,</div><div class="line">&#125;</div><div class="line"></div><div class="line">MONGODB_SERVER = "localhost"</div><div class="line">MONGODB_PORT = 27017</div><div class="line">MONGODB_DB = "aqihistoricaldata"</div><div class="line">MONGODB_COLLECTION = "aqidata"</div></pre></td></tr></table></figure>
-<p>到此，简单的爬虫就已经写好了，可以使用以下命令来抓取相关页面来测试一下这个爬虫</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scrapy crawl AqiSpider</div></pre></td></tr></table></figure>
-<p>其中，AqiSpider就是在Spider程序中设置的Spider的name属性</p>
-<h2 id="防止爬虫被禁的几种方法"><a href="#防止爬虫被禁的几种方法" class="headerlink" title="防止爬虫被禁的几种方法"></a>防止爬虫被禁的几种方法</h2><p>很多网站都有反爬虫的机制，对于这些网站，可以采用以下的一些办法来绕开反爬虫机制：</p>
-<ol>
-<li>使用User Agent池，每次发送请求的时候从池中选取不一样的浏览器头信息</li>
-<li>禁止Cookie，有些网站会根据Cookie识别用户身份</li>
-<li>设置dowload_delay，频繁请求数据肯定会被禁</li>
-</ol>
-<h2 id="使用Scrapyd和Scrapyd-client部署爬虫"><a href="#使用Scrapyd和Scrapyd-client部署爬虫" class="headerlink" title="使用Scrapyd和Scrapyd-client部署爬虫"></a>使用Scrapyd和Scrapyd-client部署爬虫</h2><p>scrapyd是一个用于部署和运行scrapy爬虫的程序，它允许你通过JSON API来部署爬虫项目和控制爬虫运行。crapyd是一个守护进程，监听爬虫的运行和请求，然后启动进程来执行它们。</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pip install scrapyd</div><div class="line">pip install scrapyd-client</div></pre></td></tr></table></figure>
-<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scrapyd</div></pre></td></tr></table></figure>
-<h3 id="配置服务器信息"><a href="#配置服务器信息" class="headerlink" title="配置服务器信息"></a>配置服务器信息</h3><p>编辑scrapy.cfg文件，添加如下内容</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[deploy:MySpider]</div><div class="line">url = http://localhost:6800/</div><div class="line">project = AirQuality</div></pre></td></tr></table></figure>
-<p>其中，MySpider是服务器名称， url是服务器地址</p>
-<p>检查配置，列出当前可用的服务器</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scrapyd-deploy -l</div></pre></td></tr></table></figure>
-<p>部署Spider项目</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scrapyd-deploy MySpider -p AirQuality</div></pre></td></tr></table></figure>
-<p>部署完成后，在<a href="http://localhost:6800" target="_blank" rel="external">http://localhost:6800</a> 可以看到如下的爬虫部署的监控信息<br><img src="http://7xkfga.com1.z0.glb.clouddn.com/scrapyd.png" alt="schedule"></p>
-<p>可以使用curl命令去调用爬虫，也可以使用contab命令来定时的去调用爬虫，来实现定时爬取的任务。</p>
-<p>版权声明：<br></p>
-<p><hr><br>除非注明，本博文章均为原创，转载请以链接形式标明本文地址。<br></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2016/09/07/如何拍摄星空/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/09/07/如何拍摄星空/" itemprop="url">如何拍摄星空</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
               
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-07T21:09:03+08:00">
-                2016-09-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>好久没写博客了，重新拾起来吧。今天说点技术无关的话题——摄影</p>
-<p>我是一个纯业余的风光狗，向往美丽的大自然，喜欢仰望天空，把深邃的星空拍摄下来，以免子孙后代在严重的光污染中忘记了这篇美丽星空的存在。下面简单介绍一下如何拍星空：</p>
-<p><a href="https://www.zhihu.com/question/27296697/answer/43051123" target="_blank" rel="external">来自知乎我的回答</a><br>我曾经在西藏拍摄过星空，对于拍摄有一定的体会和经验，我说说拍摄方法吧：</p>
-<ol>
-<li>首先，光污染问题。国内很多的地方，尤其是大城市，肉眼几乎看不到几颗星星，更不用说银河了。所以要拍银河星空的话，必须要到完全没有光污染的旷野，当然半夜在荒郊野岭拍照对于心理是个很大的挑战。</li>
-<li>关于拍摄器材。要有个大光圈的广角镜头，最好用单反或者SONY的高级微单来拍，要的是机身的优秀高感也就是ISO能力；光圈的话，当然越大越好，因为外界环境很黑暗，所以需要长时间曝光，进光量一定要够；角度越广角越好，广角更能拍出宽阔感。推荐佳能的14L镜头，这个绝对是星空专用镜头。（一定要用三脚架，越稳定越好）</li>
-<li>关于拍摄参数。M档，我的常用参数是，光圈f2.8，快门15-20秒，感光度ISO1600-6400<br>关于对焦。我来纠正一下很多人误传的一条知识：手动对焦值无穷远再往回拧一点点。这是绝对的错误，这个一点点到底是多少？没人能说清。所以正确的对焦方法是：打开相机的实时取景功能LV，放大到10倍，然后看星点是否对上焦（也就是实心点不发虚），然后调整曝光参数，试拍两张，再调整感光度，达到满意为止。<br>掌握这几点之后，你肯定能拍出肯漂亮的星空银河了，不过没有前景的话，照片就会很枯燥。所以找个漂亮的前景也很重要，因为使用大光圈，所以前景在构图时候不要离得太近，否则会虚掉。至于补光，我只能说多试几次。关于补光的话，不要一直开着手电筒对着前景照射，否则会强烈过曝，正确的方式是：在按下快门到曝光结束这段时间段的最后一秒，打开手电筒对着前景闪一下，这就足够了。</li>
-</ol>
-<p>祝大家都能拍出漂亮的星空照<br>附上在西藏拍的银河和泸沽湖拍的星空</p>
-<ol>
-<li><p>西藏定日县城外小河沟拍的银河<br><img src="http://7xkfga.com1.z0.glb.clouddn.com/tibetStar.jpg" alt="Tibet Milkyway"></p>
-</li>
-<li><p>云南泸沽湖边的星空<br><img src="http://7xkfga.com1.z0.glb.clouddn.com/luguStar.jpeg" alt="LuguLakeStar"></p>
-</li>
-</ol>
-<p>版权声明：<br></p>
-<p><hr><br>除非注明，本博文章均为原创，转载请以链接形式标明本文地址。<br></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/11/28/使用d3.js绘图流水账/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/11/28/使用d3.js绘图流水账/" itemprop="url">使用d3.js绘图</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-28T10:55:16+08:00">
-                2015-11-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>D3的全称是（Data-Driven Documents），是一个Javascript的函数库，主要用途是用HTML和SVG展现数据。下面简单回顾一下我从0出发把csv文件画在HTML页面上的过程。</p>
-<h2 id="0-引入d3-js库"><a href="#0-引入d3-js库" class="headerlink" title="0. 引入d3.js库"></a>0. 引入d3.js库</h2><p>引入js库可以直接引用网站上host的js库，也可以下载到本地folder下引入</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://d3js.org/d3.v3.min.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<h2 id="1-创建SCG画布"><a href="#1-创建SCG画布" class="headerlink" title="1. 创建SCG画布"></a>1. 创建SCG画布</h2><p>在 SVG 画布的预定义元素里，有六种基本图形：</p>
-<ul>
-<li>矩形</li>
-<li>圆形</li>
-<li>椭圆</li>
-<li>线段</li>
-<li>折线</li>
-<li>多边形</li>
-</ul>
-<p>另外，还有一种比较特殊，也是功能最强的元素：</p>
-<ul>
-<li>路径<br>画布中的所有图形，都是由以上七种元素组成。在绘制数据图表的时候，都是操作这几种图形元素。</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> margin = &#123;<span class="attr">top</span>: <span class="number">20</span>, <span class="attr">right</span>: <span class="number">20</span>, <span class="attr">bottom</span>: <span class="number">30</span>, <span class="attr">left</span>: <span class="number">50</span>&#125;,</div><div class="line">    width = <span class="number">960</span> - margin.left - margin.right,</div><div class="line">    height = <span class="number">500</span> - margin.top - margin.bottom;</div><div class="line"></div><div class="line"><span class="keyword">var</span> svg = d3.select(<span class="string">"body"</span>).append(<span class="string">"svg"</span>)</div><div class="line">            .attr(<span class="string">"width"</span>, width + margin.left + margin.right)</div><div class="line">            .attr(<span class="string">"height"</span>, height + margin.top + margin.bottom)</div><div class="line">            .append(<span class="string">"g"</span>)</div><div class="line">            .attr(<span class="string">"transform"</span>, <span class="string">"translate("</span> + margin.left + <span class="string">","</span> + margin.top + <span class="string">")"</span>);</div></pre></td></tr></table></figure>
-<p>上面代码的意思是，选取HTML代码中的body元素，再后面添加svg画布元素，然后设置宽度高度等属性，svg的g元素类似于div，在这里作为一组元素的容器，后面加入的元素都放在g里面，g可以设置统一的css，里面的子元素会继承可继承css属性。margin和position对g的定位不起作用，只能使用translate通过位移来定位。</p>
-<h2 id="2-定义比例尺"><a href="#2-定义比例尺" class="headerlink" title="2. 定义比例尺"></a>2. 定义比例尺</h2><p>对于画布或者图形的长度，不可能全部写死，需要通过数据的大小关系来动态确定，参考地图的比例尺。d3.js中，比例尺需要定义定义域和值域两个属性，有线性比例尺 <figure class="highlight plain"><figcaption><span>和序数比例尺 ```d3.scale.ordinal()``` ，线性比例尺针对连续的定义域和值域，序数比例尺针对离散的。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">``` Javascript</div><div class="line">var xScale = d3.time.scale()</div><div class="line">                    .range([0, width]);</div><div class="line">var yScale = d3.scale.linear()</div><div class="line">                     .range([height, 0]);</div></pre></td></tr></table></figure></p>
-<p>这里先定义比例尺的值域，由于定义域需要根据数据来确定，所以写到了后面读取数据的部分。</p>
-<h2 id="3-定义坐标轴"><a href="#3-定义坐标轴" class="headerlink" title="3. 定义坐标轴"></a>3. 定义坐标轴</h2><p>d3.js中的坐标轴由 <figure class="highlight plain"><figcaption><span>来实现，svg的坐标原点是左上角，向右为正，向下为正。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">``` Javascript</div><div class="line">var xAxis = d3.svg.axis()</div><div class="line">                  .scale(xScale)</div><div class="line">                  .orient(&quot;bottom&quot;);</div><div class="line">var yAxis = d3.svg.axis()</div><div class="line">                  .scale(yScale)</div><div class="line">                  .orient(&quot;left&quot;);</div></pre></td></tr></table></figure></p>
-<p>x轴是日期，这里使用d3.time在时间和字符串之间做转换。y轴使用普通的线性缩放坐标轴。</p>
-<h2 id="4-读取数据与绑定数据"><a href="#4-读取数据与绑定数据" class="headerlink" title="4. 读取数据与绑定数据"></a>4. 读取数据与绑定数据</h2><p>d3.js 中自带了读取csv、json等文件的方法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">d3.json(<span class="string">"data.json"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">error, json</span>)</span>&#123;</div><div class="line">  <span class="comment">// process data</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>d3.js 中是通过以下两个函数来绑定数据的：</p>
-<ul>
-<li>datum()：绑定一个数据到选择集上</li>
-<li>data()：绑定一个数组到选择集上，数组的各项值分别与选择集的各元素绑定</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> data = json;</div><div class="line"><span class="comment">// format date field to date</span></div><div class="line">data.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123;</div><div class="line">  d.date = <span class="keyword">new</span> <span class="built_in">Date</span>(d.date);</div><div class="line">  d.close = d.close;</div><div class="line">&#125;);</div><div class="line">xScale.domain(d3.extent(data, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123; <span class="keyword">return</span> d.date;&#125;));</div><div class="line">yScale.domain(d3.extent(data, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123; <span class="keyword">return</span> d.close;&#125;));</div></pre></td></tr></table></figure>
-<p>在这里，data数据是一个列表对象，需要对列表中每一条数据的字段数据类型进行定义，之后需要做的是上面提到的定义x轴y轴的比例尺的定义域的定义。</p>
-<h2 id="5-画线"><a href="#5-画线" class="headerlink" title="5. 画线"></a>5. 画线</h2><p>图形的主题是一条线，需要添加 <figure class="highlight plain"><figcaption><span>元素，path的属性决定了线的路径，下面方法定义线的路径属性。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">``` Javascript</div><div class="line">var line = d3.svg.line()</div><div class="line">             .x(function(d) &#123; return xScale(d.date); &#125;)</div><div class="line">             .y(function(d) &#123; return yScale(d.close); &#125;);</div><div class="line">svg.append(&quot;path&quot;)</div><div class="line">   .datum(data)</div><div class="line">   .attr(&quot;class&quot;, &quot;line&quot;)</div><div class="line">   .attr(&quot;d&quot;, function(d)&#123; return line(d);&#125;);</div></pre></td></tr></table></figure></p>
-<h2 id="6-添加坐标轴"><a href="#6-添加坐标轴" class="headerlink" title="6. 添加坐标轴"></a>6. 添加坐标轴</h2><p>call() 函数，其参数是前面定义的坐标轴 axis</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// add axis</span></div><div class="line">svg.append(<span class="string">"g"</span>)</div><div class="line">   .attr(<span class="string">"class"</span>, <span class="string">"x axis"</span>)</div><div class="line">   .attr(<span class="string">"transform"</span>, <span class="string">"translate(0,"</span> + height + <span class="string">")"</span>)</div><div class="line">   .call(xAxis);</div><div class="line">svg.append(<span class="string">"g"</span>)</div><div class="line">   .attr(<span class="string">"class"</span>, <span class="string">"y axis"</span>)</div><div class="line">   .call(yAxis)</div><div class="line">   .append(<span class="string">"text"</span>)</div><div class="line">   .attr(<span class="string">"transform"</span>, <span class="string">"rotate(-90)"</span>)</div><div class="line">   .attr(<span class="string">"y"</span>, <span class="number">6</span>)</div><div class="line">   .attr(<span class="string">"dy"</span>, <span class="string">".71em"</span>)</div><div class="line">   .style(<span class="string">"text-anchor"</span>, <span class="string">"end"</span>)</div><div class="line">   .text(<span class="string">"Price ($)"</span>);</div></pre></td></tr></table></figure>
-<h2 id="7-生成图表"><a href="#7-生成图表" class="headerlink" title="7. 生成图表"></a>7. 生成图表</h2><p>上面的js脚本写好了之后，理论上就可以生成折线图了。不过在本地调试中，发现报错：文件没有找到。这个是因为由于安全考虑，浏览器不允许js脚本访问本地文件，解决方法有两个：</p>
-<ol>
-<li>在本地开启一个web service</li>
-<li>修改浏览器属性，允许访问本地文件</li>
-</ol>
-<p>由于以后是要在网站上展示数据，所以我是用Flask在后台开启一个web服务，把d3所需要的数据生成出来</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</div><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> render_template</div><div class="line"><span class="keyword">import</span> json</div><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"></div><div class="line">app = Flask(__name__)</div><div class="line"></div><div class="line">data_path = <span class="string">'./sampleData'</span></div><div class="line"></div><div class="line"><span class="meta">@app.route("/")</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> render_template(<span class="string">"line_chart.html"</span>)</div><div class="line"></div><div class="line"><span class="meta">@app.route('/data')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_data</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">with</span> open(data_path + <span class="string">'/line_chart.tsv'</span>) <span class="keyword">as</span> data_file:</div><div class="line">        sample_data = pd.read_csv(data_file, sep=<span class="string">'\t'</span>)</div><div class="line">    <span class="keyword">return</span> sample_data.to_json(orient=<span class="string">'records'</span>)</div></pre></td></tr></table></figure>
-<p>这样，在本地运行Flask，就可以展现出折线图了。这大约就是d3.js数据可视化的基本过程。</p>
-<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/d3_line_chart.JPG" alt="linechart"></p>
-<p>版权声明：<br></p>
-<p><hr><br>除非注明，本博文章均为原创，转载请以链接形式标明本文地址。<br></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/11/27/2015-11-27-understanding-tf-idf/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/11/27/2015-11-27-understanding-tf-idf/" itemprop="url">Understanding TF-IDF</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-27T15:31:50+08:00">
-                2015-11-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
+            </div>
           
 
           
@@ -1063,12 +391,12 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/11/26/2015-11-26-bag-of-words-model/">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/05/27/Python-Collection集合模块/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shuo Lv">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1082,7 +410,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/11/26/2015-11-26-bag-of-words-model/" itemprop="url">Bag of Words Model</a></h1>
+                <a class="post-title-link" href="/2017/05/27/Python-Collection集合模块/" itemprop="url">Python Collection集合模块</a></h1>
         
 
         <div class="post-meta">
@@ -1094,8 +422,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-26T21:34:28+08:00">
-                2015-11-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-27T18:40:54+08:00">
+                2017-05-27
               </time>
             
 
@@ -1105,49 +433,35 @@
           </span>
 
           
-            <span class="post-category" >
+
+          
             
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
               
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
                 </span>
-
                 
+                  <span class="post-meta-item-text">字数统计</span>
                 
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/Kaggle/" itemprop="url" rel="index">
-                    <span itemprop="name">Kaggle</span>
-                  </a>
+                <span title="字数统计">
+                  
                 </span>
-
-                
-                
               
-            </span>
-          
 
-          
-            
-          
+              
 
-          
-          
-
-          
-
+              
+            </div>
           
 
           
@@ -1163,425 +477,18 @@
 
       
         
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/09/21/2015-09-21-cross-validation-in-scikit-learn/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/09/21/2015-09-21-cross-validation-in-scikit-learn/" itemprop="url">Cross-Validation in Scikit-Learn</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-21T19:55:14+08:00">
-                2015-09-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/09/18/2015-09-18-about-regularization/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/09/18/2015-09-18-about-regularization/" itemprop="url">About Regularization</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-18T13:26:10+08:00">
-                2015-09-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>正则化防止过拟合</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/08/19/2015-08-12-logistic-regression-classifier-on-hands/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/08/19/2015-08-12-logistic-regression-classifier-on-hands/" itemprop="url">Logistic Regression原理以及应用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-19T17:54:09+08:00">
-                2015-08-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>逻辑回归算法是一个很有用的分类算法，这篇文章总结一下逻辑回归算法的相关内容。数据使用scikit-learn自带的<code>Iris</code>数据集。</p>
-<h2 id="Iris-dataset"><a href="#Iris-dataset" class="headerlink" title="Iris dataset"></a>Iris dataset</h2><p>Iris数据集，里面包含3种鸢尾花品种的4各属性，这个分类问题可以描述成使用鸢尾花的属性，来判断这个品种倒地属于哪个品种类别。为了简单，这里使用两个类别：<code>Setosa</code>和<code>Versicolor</code>，两个属性：<code>Length</code>和<code>Width</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">data = datasets.load_iris()</div><div class="line">X = data.data[:<span class="number">100</span>, : <span class="number">2</span>]</div><div class="line">y = data.target[:<span class="number">100</span>]</div><div class="line">setosa = plt.scatter(X[:<span class="number">50</span>, <span class="number">0</span>], X[:<span class="number">50</span>, <span class="number">1</span>], c=<span class="string">'b'</span>)</div><div class="line">versicolor = plt.scatter(X[<span class="number">50</span>:, <span class="number">0</span>], X[<span class="number">50</span>:, <span class="number">1</span>], c=<span class="string">'r'</span>)</div><div class="line">plt.xlabel(<span class="string">"Sepal Length"</span>)</div><div class="line">plt.ylabel(<span class="string">"Seqal Width"</span>)</div><div class="line">plt.legend((setosa, versicolor), (<span class="string">"Setosa"</span>, <span class="string">"Versicolor"</span>))</div></pre></td></tr></table></figure>
-<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/iris_data.JPG" alt="Iris dataset"></p>
-<p>可以看出来，两个品种可以被区分开，接下来要使用一种算法，让计算机把这两个类别区分开。可以想象，可以使用线性回归，也就是画一条线来把两个类别分开，但是这种分割很粗暴，准确性也不高，所以接下来要使用的算法要使用概率的方法区分两个类别，比如，算法返回0.9，那么代表属于类别A的概率是90%</p>
+          <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> collections</div></pre></td></tr></table></figure>
+<p>collections是Python内建的一个集合模块，提供了许多有用的集合类。Python拥有一些内置的数据类型，比如str, int, list, tuple, dict等， collections模块在这些内置数据类型的基础上，提供了几个额外的数据类型：</p>
+<ul>
+<li>namedtuple(): 生成可以使用名字来访问元素内容的tuple子类</li>
+<li>deque: 双端队列，可以快速的从另外一侧追加和推出对象</li>
+<li>Counter: 计数器，主要用来计数</li>
+<li>OrderedDict: 有序字典</li>
+<li>defaultdict: 带有默认值的字典</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/08/19/2015-08-12-logistic-regression-classifier-on-hands/#more" rel="contents">
+            <a class="btn" href="/2017/05/27/Python-Collection集合模块/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1627,12 +534,12 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/08/13/2015-08-19-linear-regression-with-one-variable/">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/05/27/SQL-Server数据库分页/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shuo Lv">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1646,7 +553,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/08/13/2015-08-19-linear-regression-with-one-variable/" itemprop="url">单变量线性回归</a></h1>
+                <a class="post-title-link" href="/2017/05/27/SQL-Server数据库分页/" itemprop="url">SQL Server数据库分页</a></h1>
         
 
         <div class="post-meta">
@@ -1658,8 +565,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-13T15:10:52+08:00">
-                2015-08-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-27T18:39:03+08:00">
+                2017-05-27
               </time>
             
 
@@ -1669,49 +576,35 @@
           </span>
 
           
-            <span class="post-category" >
+
+          
             
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
               
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
                 </span>
-
                 
+                  <span class="post-meta-item-text">字数统计</span>
                 
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
+                <span title="字数统计">
+                  
                 </span>
-
-                
-                
               
-            </span>
-          
 
-          
-            
-          
+              
 
-          
-          
-
-          
-
+              
+            </div>
           
 
           
@@ -1727,11 +620,394 @@
 
       
         
-          <p>1月份的时候，参加了Coursera上面Andrew Ng的<a href="https://www.coursera.org/learn/machine-learning/home/welcome" target="_blank" rel="external">Machine Learning</a>课程，课程断断续续的学，没有透彻的理解、推导，再加上作业使用Octave完成，并且还是有模版的，不是从头到尾做出来的，所以效果很差，虽然拿到了完成证书，但是过后即忘。我觉得是时候从头学习一遍，并且用Python实现所有的作业内容了。</p>
-<p>这里写个系列，就当作为这门课程的课程笔记。</p>
+          <p>在编写Web应用程序等系统时，会涉及到与数据库的交互，如果数据库中数据量很大的话，一次检索所有的记录，会占用系统很大的资源，因此常常采用分页语句：需要多少数据就只从数据库中取多少条记录。</p>
+<p>常见的对大数据量查询的解决方案有以下两种：</p>
+<ol>
+<li><p>将全部数据先查询到内存中，然后在内存中进行分页，这种方式对内存占用较大，必须限制一次查询的数据量。</p>
+</li>
+<li><p>采用存储过程在数据库中进行分页，这种方式对数据库的依赖较大，不同的数据库实现机制不通，并且查询效率不够理想。以上两种方式对用户来说都不够友好。</p>
+</li>
+</ol>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/08/13/2015-08-19-linear-regression-with-one-variable/#more" rel="contents">
+            <a class="btn" href="/2017/05/27/SQL-Server数据库分页/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/05/27/二叉树的遍历/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/27/二叉树的遍历/" itemprop="url">二叉树的遍历</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-27T18:30:28+08:00">
+                2017-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>二叉树的遍历分为：</p>
+<ol>
+<li><p>深度优先搜索(Depth First Search)</p>
+<p> 是沿着树的深度遍历树的节点，尽可能深的搜索树的分支。深度优先搜索二叉树是先访问根结点，然后遍历左子树接着是遍历右子树，因此我们可以利用堆栈的先进后出的特点，先将右子树压栈，再将左子树压栈，这样左子树就位于栈顶，可以保证结点的左子树先与右子树被遍历。</p>
+</li>
+<li><p>广度优先搜索(Breadth First Search)</p>
+<p> 是从根结点开始沿着树的宽度搜索遍历，可以利用队列实现广度优先搜索</p>
+</li>
+</ol>
+<p>二叉树的深度优先遍历的非递归的通用做法是采用栈，广度优先遍历的非递归的通用做法是采用队列</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/27/二叉树的遍历/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/05/27/Python内置数据结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/27/Python内置数据结构/" itemprop="url">Python内置数据结构</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-27T18:27:32+08:00">
+                2017-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Python 内置数据类型包括 list, tuple, dict, set</p>
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>Python内置的一种数据类型是列表：list。list是一种有序的集合，可以随时添加和删除其中的元素</p>
+<p>列表常用操作及其复杂度</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>big O</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>index []</td>
+<td>O(1)</td>
+<td>索引操作</td>
+</tr>
+<tr>
+<td>index assignment</td>
+<td>O(1)</td>
+<td>索引赋值操作</td>
+</tr>
+<tr>
+<td>append</td>
+<td>O(1)</td>
+<td>在列表末尾添加新的对象</td>
+</tr>
+<tr>
+<td>pop()</td>
+<td>O(1)</td>
+<td>移除列表中的一个元素（默认最后一个元素），并且返回该元素的值</td>
+</tr>
+<tr>
+<td>pop(i)</td>
+<td>O(n)</td>
+<td>移除列表中索引位置的值，并且返回该元素的值</td>
+</tr>
+<tr>
+<td>insert(i,item)</td>
+<td>O(n)</td>
+<td>将对象插入列表索引i位置</td>
+</tr>
+<tr>
+<td>del operator</td>
+<td>O(n)</td>
+<td>删除列表的的元素</td>
+</tr>
+<tr>
+<td>iteration</td>
+<td>O(n)</td>
+<td></td>
+</tr>
+<tr>
+<td>contains (in)</td>
+<td>O(n)</td>
+<td></td>
+</tr>
+<tr>
+<td>get slice [x:y]</td>
+<td>O(k)</td>
+<td></td>
+</tr>
+<tr>
+<td>del slice</td>
+<td>O(n)</td>
+<td></td>
+</tr>
+<tr>
+<td>set slice</td>
+<td>O(n+k)</td>
+<td></td>
+</tr>
+<tr>
+<td>reverse</td>
+<td>O(n)</td>
+<td>反向列表中元素</td>
+</tr>
+<tr>
+<td>remove</td>
+<td>O(n)</td>
+<td>移除列表中某个值的第一个匹配项</td>
+</tr>
+<tr>
+<td>concatenate</td>
+<td>O(k)</td>
+<td></td>
+</tr>
+<tr>
+<td>sort</td>
+<td>O(n log n)</td>
+<td>列表排序</td>
+</tr>
+<tr>
+<td>multiply</td>
+<td>O(nk)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/27/Python内置数据结构/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1772,7 +1048,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1805,7 +1081,7 @@
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.png"
+               src="/uploads/avatar.jpg"
                alt="Shuo Lv" />
           <p class="site-author-name" itemprop="name">Shuo Lv</p>
            
@@ -1817,7 +1093,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1839,7 +1115,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1927,7 +1203,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2015 - 
   <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -2083,6 +1359,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
