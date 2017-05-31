@@ -99,7 +99,7 @@
 <meta property="og:description" content="Python 内置数据类型包括 list, tuple, dict, set ListPython内置的一种数据类型是列表：list。list是一种有序的集合，可以随时添加和删除其中的元素 列表常用操作及其复杂度    Operation big O description     index [] O(1) 索引操作   index assignment O(1) 索引赋值操作   append">
 <meta property="og:image" content="https://lvraikkonen.github.io/2017/05/27/Python内置数据结构/assets/Basic_DataStructure_Python-21a4b.png">
 <meta property="og:image" content="https://lvraikkonen.github.io/2017/05/27/Python内置数据结构/assets/Basic_DataStructure_Python-277bd.png">
-<meta property="og:updated_time" content="2017-05-27T10:50:43.242Z">
+<meta property="og:updated_time" content="2017-05-31T03:00:11.331Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python内置数据结构">
 <meta name="twitter:description" content="Python 内置数据类型包括 list, tuple, dict, set ListPython内置的一种数据类型是列表：list。list是一种有序的集合，可以随时添加和删除其中的元素 列表常用操作及其复杂度    Operation big O description     index [] O(1) 索引操作   index assignment O(1) 索引赋值操作   append">
@@ -350,7 +350,7 @@
       
 
       
-        <p>Python 内置数据类型包括 list, tuple, dict, set</p>
+        <p>Python 内置数据类型包括 <code>list</code>, <code>tuple</code>, <code>dict</code>, <code>set</code></p>
 <h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>Python内置的一种数据类型是列表：list。list是一种有序的集合，可以随时添加和删除其中的元素</p>
 <p>列表常用操作及其复杂度</p>
 <table>
@@ -451,7 +451,7 @@
 </table>
 <a id="more"></a>
 <h2 id="Dictionary"><a href="#Dictionary" class="headerlink" title="Dictionary"></a>Dictionary</h2><p>Python内置了字典：dict的支持，dict全称dictionary，在其他语言中也称为map，使用键-值（key-value）存储，具有极快的查找速度。dict内部存放的顺序和key放入的顺序是没有关系的。<br>dict的key必须是<strong>不可变对象</strong>。这是因为dict根据key来计算value的存储位置，如果每次计算相同的key得出的结果不同，那dict内部就完全混乱了。这个通过key计算位置的算法称为<strong>哈希算法</strong>（Hash）</p>
-<p>dict: {‘A’: 1, ‘Z’: -1} 创建方式</p>
+<p>dict: <code>{&#39;A&#39;: 1, &#39;Z&#39;: -1}</code> 创建方式</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">a = dict(A=<span class="number">1</span>, Z=<span class="number">-1</span>)</div><div class="line">b = &#123;<span class="string">'A'</span>: <span class="number">1</span>, <span class="string">'Z'</span>: <span class="number">-1</span>&#125;</div><div class="line">c = dict(zip([<span class="string">'A'</span>, <span class="string">'Z'</span>], [<span class="number">1</span>, <span class="number">-1</span>]))</div><div class="line">d = dict([(<span class="string">'A'</span>, <span class="number">1</span>), (<span class="string">'Z'</span>, <span class="number">-1</span>)])</div><div class="line">e = dict(&#123;<span class="string">'Z'</span>: <span class="number">-1</span>, <span class="string">'A'</span>: <span class="number">1</span>&#125;)</div><div class="line">a == b == c == d == e</div><div class="line"><span class="comment"># True</span></div></pre></td></tr></table></figure>
 <p>和list比较，dict有以下几个特点：</p>
 <ul>
@@ -464,17 +464,17 @@
 <li>占用空间小，浪费内存很少。</li>
 </ul>
 <p>所以，dict是用空间来换取时间的一种方法</p>
-<p>遍历一个dict，实际上是在遍历它的所有的Key的集合，然后用这个Key来获得对应的Value</p>
+<p>遍历一个<code>dict</code>，实际上是在遍历它的所有的Key的集合，然后用这个Key来获得对应的Value</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">d = &#123;<span class="string">'Adam'</span>: <span class="number">95</span>, <span class="string">'Lisa'</span>: <span class="number">85</span>, <span class="string">'Bart'</span>: <span class="number">59</span>, <span class="string">'Paul'</span>: <span class="number">75</span>&#125;</div><div class="line"></div><div class="line"><span class="keyword">print</span> d[<span class="string">'Adam'</span>]</div><div class="line"><span class="comment"># 95</span></div><div class="line"><span class="keyword">print</span> d.get(<span class="string">'Jason'</span>)</div><div class="line"><span class="comment"># None</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> key <span class="keyword">in</span> d :</div><div class="line">    <span class="keyword">print</span> key, <span class="string">':'</span>, d.get(key)</div><div class="line"><span class="comment"># Lisa : 85</span></div><div class="line"><span class="comment"># Paul : 75</span></div><div class="line"><span class="comment"># Adam : 95</span></div><div class="line"><span class="comment"># Bart : 59</span></div></pre></td></tr></table></figure>
-<h2 id="Tuple"><a href="#Tuple" class="headerlink" title="Tuple"></a>Tuple</h2><p>tuple和list非常类似，但是tuple一旦初始化就不能修改</p>
+<h2 id="Tuple"><a href="#Tuple" class="headerlink" title="Tuple"></a>Tuple</h2><p><code>tuple</code>和<code>list</code>非常类似，但是tuple一旦初始化就不能修改</p>
 <h4 id="Tuple-的不可变性"><a href="#Tuple-的不可变性" class="headerlink" title="Tuple 的不可变性"></a>Tuple 的不可变性</h4><p>元组一旦创建，它的元素就是不可变的， 例如如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">t = (<span class="string">'a'</span>, <span class="string">'b'</span>, [<span class="string">'A'</span>, <span class="string">'B'</span>])</div><div class="line">t[<span class="number">2</span>][<span class="number">0</span>] = <span class="string">'X'</span></div><div class="line">t[<span class="number">2</span>][<span class="number">1</span>] = <span class="string">'Y'</span></div><div class="line"><span class="keyword">print</span> t</div></pre></td></tr></table></figure>
 <p><img src="assets/Basic_DataStructure_Python-21a4b.png" alt="createTuple1"></p>
 <p>当我们把list的元素’A’和’B’修改为’X’和’Y’后，tuple变为：</p>
 <p><img src="assets/Basic_DataStructure_Python-277bd.png" alt="createTuple2"></p>
 <p>Tuple的每个元素，指向永远不变，其中如果某个元素本身是可变的，那么元素内部也是可变的，但是元组的指向却是没有变化</p>
-<h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><p>set和dict类似，也是一组key的集合，但不存储value。由于key不能重复，所以，<strong>在set中，没有重复的key</strong>。</p>
-<p>set可以看成数学意义上的无序和无重复元素的集合，因此，两个set可以做数学意义上的交集、并集等操作：</p>
+<h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><p><code>set</code>和<code>dict</code>类似，也是一组key的集合，但不存储value。由于key不能重复，所以，<strong>在set中，没有重复的key</strong>。</p>
+<p><code>set</code>可以看成数学意义上的无序和无重复元素的集合，因此，两个set可以做数学意义上的交集、并集等操作：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">s1 = set([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</div><div class="line">s2 = set([<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</div><div class="line"></div><div class="line">s1 &amp; s2</div><div class="line"><span class="comment"># set([2, 3])</span></div><div class="line">s1 | s2</div><div class="line"><span class="comment"># set([1, 2, 3, 4])</span></div></pre></td></tr></table></figure>
 <p>set和dict的唯一区别仅在于没有存储对应的value，但是，set的原理和dict一样，<br>所以，同样不可以放入可变对象，因为无法判断两个可变对象是否相等，也就无法保证set内部“不会有重复元素”。试试把list放入set，看看是否会报错。</p>
 
@@ -621,7 +621,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -643,7 +643,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

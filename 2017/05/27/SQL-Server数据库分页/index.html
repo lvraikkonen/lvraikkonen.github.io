@@ -97,7 +97,7 @@
 <meta property="og:url" content="https://lvraikkonen.github.io/2017/05/27/SQL-Server数据库分页/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
 <meta property="og:description" content="在编写Web应用程序等系统时，会涉及到与数据库的交互，如果数据库中数据量很大的话，一次检索所有的记录，会占用系统很大的资源，因此常常采用分页语句：需要多少数据就只从数据库中取多少条记录。 常见的对大数据量查询的解决方案有以下两种：  将全部数据先查询到内存中，然后在内存中进行分页，这种方式对内存占用较大，必须限制一次查询的数据量。  采用存储过程在数据库中进行分页，这种方式对数据库的依赖较大，不同">
-<meta property="og:updated_time" content="2017-05-27T10:50:51.624Z">
+<meta property="og:updated_time" content="2017-05-31T03:00:42.523Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQL Server数据库分页">
 <meta name="twitter:description" content="在编写Web应用程序等系统时，会涉及到与数据库的交互，如果数据库中数据量很大的话，一次检索所有的记录，会占用系统很大的资源，因此常常采用分页语句：需要多少数据就只从数据库中取多少条记录。 常见的对大数据量查询的解决方案有以下两种：  将全部数据先查询到内存中，然后在内存中进行分页，这种方式对内存占用较大，必须限制一次查询的数据量。  采用存储过程在数据库中进行分页，这种方式对数据库的依赖较大，不同">
@@ -356,9 +356,10 @@
 </li>
 </ol>
 <a id="more"></a>
-<h2 id="使用ROW-NUMBER-函数分页"><a href="#使用ROW-NUMBER-函数分页" class="headerlink" title="使用ROW_NUMBER()函数分页"></a>使用ROW_NUMBER()函数分页</h2><p>SQL Server 2005之后引入了 <figure class="highlight plain"><figcaption><span>函数，通过该函数根据定好的排序字段规则，产生记录序号</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">``` sql</div><div class="line">SELECT  ROW_NUMBER() OVER ( ORDER BY dbo.Products.ProductID DESC ) AS rownum</div><div class="line">      , *</div><div class="line">FROM    dbo.Products</div></pre></td></tr></table></figure></p>
+<h2 id="使用ROW-NUMBER-函数分页"><a href="#使用ROW-NUMBER-函数分页" class="headerlink" title="使用ROW_NUMBER()函数分页"></a>使用ROW_NUMBER()函数分页</h2><p>SQL Server 2005之后引入了 <code>ROW_NUMBER()</code> 函数，通过该函数根据定好的排序字段规则，产生记录序号</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span>  ROW_NUMBER() <span class="keyword">OVER</span> ( <span class="keyword">ORDER</span> <span class="keyword">BY</span> dbo.Products.ProductID <span class="keyword">DESC</span> ) <span class="keyword">AS</span> <span class="keyword">rownum</span></div><div class="line">      , *</div><div class="line"><span class="keyword">FROM</span>    dbo.Products</div></pre></td></tr></table></figure>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span>  *</div><div class="line"><span class="keyword">FROM</span>    ( <span class="keyword">SELECT</span> TOP ( @pageSize * @pageIndex )</div><div class="line">                    ROW_NUMBER() <span class="keyword">OVER</span> ( <span class="keyword">ORDER</span> <span class="keyword">BY</span> dbo.Products.UnitPrice <span class="keyword">DESC</span> ) <span class="keyword">AS</span> <span class="keyword">rownum</span> ,</div><div class="line">                    *</div><div class="line">          <span class="keyword">FROM</span>      dbo.Products</div><div class="line">        ) <span class="keyword">AS</span> temp</div><div class="line"><span class="keyword">WHERE</span>   temp.rownum &gt; ( @pageSize * ( @pageIndex - <span class="number">1</span> ) )</div><div class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> temp.UnitPrice</div></pre></td></tr></table></figure>
-<h2 id="使用OFFSET-FETCH子句分页"><a href="#使用OFFSET-FETCH子句分页" class="headerlink" title="使用OFFSET FETCH子句分页"></a>使用OFFSET FETCH子句分页</h2><p>SQL Server 2012中引入了OFFSET-FETCH语句，可以通过使用OFFSET-FETCH过滤器来实现分页</p>
+<h2 id="使用OFFSET-FETCH子句分页"><a href="#使用OFFSET-FETCH子句分页" class="headerlink" title="使用OFFSET FETCH子句分页"></a>使用OFFSET FETCH子句分页</h2><p>SQL Server 2012中引入了<code>OFFSET-FETCH</code>语句，可以通过使用<code>OFFSET-FETCH</code>过滤器来实现分页</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span>  * </div><div class="line"><span class="keyword">FROM</span>    dbo.Products </div><div class="line"><span class="keyword">ORDER</span>   <span class="keyword">BY</span> UnitPrice <span class="keyword">DESC</span> </div><div class="line"><span class="keyword">OFFSET</span>  ( @pageSize * ( @pageIndex - <span class="number">1</span> )) <span class="keyword">ROWS</span> </div><div class="line"><span class="keyword">FETCH</span> <span class="keyword">NEXT</span> @pageSize <span class="keyword">ROWS</span> <span class="keyword">ONLY</span>;</div></pre></td></tr></table></figure>
       
     </div>
@@ -501,7 +502,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -523,7 +524,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

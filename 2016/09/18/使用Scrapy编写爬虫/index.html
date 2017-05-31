@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/Beijing_Aqi.png">
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/ScrapyProjectFolder.png">
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/scrapyd.png">
-<meta property="og:updated_time" content="2017-05-27T10:51:39.254Z">
+<meta property="og:updated_time" content="2017-05-31T03:03:01.265Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Scrapy编写爬虫">
 <meta name="twitter:description" content="Scrapy是Python开发的一个快速,高层次的屏幕抓取和web抓取框架，用于抓取web站点并从页面中提取结构化的数据。Scrapy用途广泛，可以用于数据挖掘、监测和自动化测试。 Scrapy Home Site 1pip install scrapy">
@@ -413,7 +413,7 @@
 <h2 id="创建Scrapy工程"><a href="#创建Scrapy工程" class="headerlink" title="创建Scrapy工程"></a>创建Scrapy工程</h2><p>在目录下执行命令</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scrapy startproject projectName</div></pre></td></tr></table></figure>
 <p>创建如下的项目文件夹，目录结构如下<br><img src="http://7xkfga.com1.z0.glb.clouddn.com/ScrapyProjectFolder.png" alt="Folder"></p>
-<h2 id="定义Item对象"><a href="#定义Item对象" class="headerlink" title="定义Item对象"></a>定义Item对象</h2><p>创建一个scrapy.Item类，将所要爬取的字段定义好</p>
+<h2 id="定义Item对象"><a href="#定义Item对象" class="headerlink" title="定义Item对象"></a>定义Item对象</h2><p>创建一个<code>scrapy.Item</code>类，将所要爬取的字段定义好</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scrapy</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AirqualityItem</span><span class="params">(scrapy.Item)</span>:</span></div><div class="line">    date = scrapy.Field()</div><div class="line">    hour = scrapy.Field()</div><div class="line">    city = scrapy.Field()</div><div class="line">    <span class="comment"># area = scrapy.Field()</span></div><div class="line">    aqivalue = scrapy.Field()</div><div class="line">    aqilevel = scrapy.Field()</div><div class="line">    pm2_5 = scrapy.Field()</div><div class="line">    pm10 = scrapy.Field()</div><div class="line">    co = scrapy.Field()</div><div class="line">    no2 = scrapy.Field()</div><div class="line">    o3 = scrapy.Field()</div><div class="line">    so2 = scrapy.Field()</div><div class="line">    temp = scrapy.Field()</div><div class="line">    dew = scrapy.Field()</div><div class="line">    pressure = scrapy.Field()</div><div class="line">    humidity = scrapy.Field()</div><div class="line">    wind = scrapy.Field()</div><div class="line">    <span class="comment"># add field to log spider crawl time</span></div><div class="line">    crawl_time = scrapy.Field()</div></pre></td></tr></table></figure>
 <h2 id="编写Spider"><a href="#编写Spider" class="headerlink" title="编写Spider"></a>编写Spider</h2><p>Spider类里面定义如何从一个domain组中爬取数据，包括：初始化url列表、如何跟踪url和如何解析页面提取Item，定义一个Spider，需要继承scrapy.Spider类</p>
 <ul>
@@ -601,7 +601,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -623,7 +623,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

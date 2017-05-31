@@ -98,7 +98,7 @@
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
 <meta property="og:description" content="D3的全称是（Data-Driven Documents），是一个Javascript的函数库，主要用途是用HTML和SVG展现数据。下面简单回顾一下我从0出发把csv文件画在HTML页面上的过程。 0. 引入d3.js库引入js库可以直接引用网站上host的js库，也可以下载到本地folder下引入 1&amp;lt;script src=&quot;http://d3js.org/d3.v3.min.js&quot; c">
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/d3_line_chart.JPG">
-<meta property="og:updated_time" content="2017-05-27T10:51:22.965Z">
+<meta property="og:updated_time" content="2017-05-31T03:02:18.976Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用d3.js绘图">
 <meta name="twitter:description" content="D3的全称是（Data-Driven Documents），是一个Javascript的函数库，主要用途是用HTML和SVG展现数据。下面简单回顾一下我从0出发把csv文件画在HTML页面上的过程。 0. 引入d3.js库引入js库可以直接引用网站上host的js库，也可以下载到本地folder下引入 1&amp;lt;script src=&quot;http://d3js.org/d3.v3.min.js&quot; c">
@@ -370,10 +370,10 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> margin = &#123;<span class="attr">top</span>: <span class="number">20</span>, <span class="attr">right</span>: <span class="number">20</span>, <span class="attr">bottom</span>: <span class="number">30</span>, <span class="attr">left</span>: <span class="number">50</span>&#125;,</div><div class="line">    width = <span class="number">960</span> - margin.left - margin.right,</div><div class="line">    height = <span class="number">500</span> - margin.top - margin.bottom;</div><div class="line"></div><div class="line"><span class="keyword">var</span> svg = d3.select(<span class="string">"body"</span>).append(<span class="string">"svg"</span>)</div><div class="line">            .attr(<span class="string">"width"</span>, width + margin.left + margin.right)</div><div class="line">            .attr(<span class="string">"height"</span>, height + margin.top + margin.bottom)</div><div class="line">            .append(<span class="string">"g"</span>)</div><div class="line">            .attr(<span class="string">"transform"</span>, <span class="string">"translate("</span> + margin.left + <span class="string">","</span> + margin.top + <span class="string">")"</span>);</div></pre></td></tr></table></figure>
 <p>上面代码的意思是，选取HTML代码中的body元素，再后面添加svg画布元素，然后设置宽度高度等属性，svg的g元素类似于div，在这里作为一组元素的容器，后面加入的元素都放在g里面，g可以设置统一的css，里面的子元素会继承可继承css属性。margin和position对g的定位不起作用，只能使用translate通过位移来定位。</p>
 <h2 id="2-定义比例尺"><a href="#2-定义比例尺" class="headerlink" title="2. 定义比例尺"></a>2. 定义比例尺</h2><p>对于画布或者图形的长度，不可能全部写死，需要通过数据的大小关系来动态确定，参考地图的比例尺。d3.js中，比例尺需要定义定义域和值域两个属性</p>
-<p>有线性比例尺 d3.scale.linear() 和序数比例尺 d3.scale.ordinal() ，线性比例尺针对连续的定义域和值域，序数比例尺针对离散的。</p>
+<p>有线性比例尺 <code>d3.scale.linear()</code> 和序数比例尺 <code>d3.scale.ordinal()</code> ，线性比例尺针对连续的定义域和值域，序数比例尺针对离散的。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xScale = d3.time.scale().range([<span class="number">0</span>, width]);</div><div class="line"><span class="keyword">var</span> yScale = d3.scale.linear().range([height, <span class="number">0</span>]);</div></pre></td></tr></table></figure>
 <p>这里先定义比例尺的值域，由于定义域需要根据数据来确定，所以写到了后面读取数据的部分。</p>
-<h2 id="3-定义坐标轴"><a href="#3-定义坐标轴" class="headerlink" title="3. 定义坐标轴"></a>3. 定义坐标轴</h2><p>d3.js中的坐标轴由 d3.svg.axis() 来实现，svg的坐标原点是左上角，向右为正，向下为正。</p>
+<h2 id="3-定义坐标轴"><a href="#3-定义坐标轴" class="headerlink" title="3. 定义坐标轴"></a>3. 定义坐标轴</h2><p>d3.js中的坐标轴由 <code>d3.svg.axis()</code> 来实现，svg的坐标原点是左上角，向右为正，向下为正。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xAxis = d3.svg.axis()</div><div class="line">                  .scale(xScale)</div><div class="line">                  .orient(<span class="string">"bottom"</span>);</div><div class="line"><span class="keyword">var</span> yAxis = d3.svg.axis()</div><div class="line">                  .scale(yScale)</div><div class="line">                  .orient(<span class="string">"left"</span>);</div></pre></td></tr></table></figure>
 <p>x轴是日期，这里使用d3.time在时间和字符串之间做转换。y轴使用普通的线性缩放坐标轴。</p>
 <h2 id="4-读取数据与绑定数据"><a href="#4-读取数据与绑定数据" class="headerlink" title="4. 读取数据与绑定数据"></a>4. 读取数据与绑定数据</h2><p>d3.js 中自带了读取csv、json等文件的方法。</p>
@@ -385,9 +385,9 @@
 </ul>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> data = json;</div><div class="line"><span class="comment">// format date field to date</span></div><div class="line">data.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123;</div><div class="line">  d.date = <span class="keyword">new</span> <span class="built_in">Date</span>(d.date);</div><div class="line">  d.close = d.close;</div><div class="line">&#125;);</div><div class="line">xScale.domain(d3.extent(data, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123; <span class="keyword">return</span> d.date;&#125;));</div><div class="line">yScale.domain(d3.extent(data, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123; <span class="keyword">return</span> d.close;&#125;));</div></pre></td></tr></table></figure>
 <p>在这里，data数据是一个列表对象，需要对列表中每一条数据的字段数据类型进行定义，之后需要做的是上面提到的定义x轴y轴的比例尺的定义域的定义。</p>
-<h2 id="5-画线"><a href="#5-画线" class="headerlink" title="5. 画线"></a>5. 画线</h2><p>图形的主题是一条线，需要添加 path 元素，path的属性决定了线的路径，下面方法定义线的路径属性。</p>
+<h2 id="5-画线"><a href="#5-画线" class="headerlink" title="5. 画线"></a>5. 画线</h2><p>图形的主题是一条线，需要添加 <code>path</code> 元素，path的属性决定了线的路径，下面方法定义线的路径属性。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> line = d3.svg.line()</div><div class="line">             .x(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> xScale(d.date); &#125;)</div><div class="line">             .y(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> yScale(d.close); &#125;);</div><div class="line">svg.append(<span class="string">"path"</span>)</div><div class="line">   .datum(data)</div><div class="line">   .attr(<span class="string">"class"</span>, <span class="string">"line"</span>)</div><div class="line">   .attr(<span class="string">"d"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123; <span class="keyword">return</span> line(d);&#125;);</div></pre></td></tr></table></figure>
-<h2 id="6-添加坐标轴"><a href="#6-添加坐标轴" class="headerlink" title="6. 添加坐标轴"></a>6. 添加坐标轴</h2><p>call() 函数，其参数是前面定义的坐标轴 axis</p>
+<h2 id="6-添加坐标轴"><a href="#6-添加坐标轴" class="headerlink" title="6. 添加坐标轴"></a>6. 添加坐标轴</h2><p><code>call()</code> 函数，其参数是前面定义的坐标轴 <code>axis</code></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// add axis</span></div><div class="line">svg.append(<span class="string">"g"</span>)</div><div class="line">   .attr(<span class="string">"class"</span>, <span class="string">"x axis"</span>)</div><div class="line">   .attr(<span class="string">"transform"</span>, <span class="string">"translate(0,"</span> + height + <span class="string">")"</span>)</div><div class="line">   .call(xAxis);</div><div class="line">svg.append(<span class="string">"g"</span>)</div><div class="line">   .attr(<span class="string">"class"</span>, <span class="string">"y axis"</span>)</div><div class="line">   .call(yAxis)</div><div class="line">   .append(<span class="string">"text"</span>)</div><div class="line">   .attr(<span class="string">"transform"</span>, <span class="string">"rotate(-90)"</span>)</div><div class="line">   .attr(<span class="string">"y"</span>, <span class="number">6</span>)</div><div class="line">   .attr(<span class="string">"dy"</span>, <span class="string">".71em"</span>)</div><div class="line">   .style(<span class="string">"text-anchor"</span>, <span class="string">"end"</span>)</div><div class="line">   .text(<span class="string">"Price ($)"</span>);</div></pre></td></tr></table></figure>
 <h2 id="7-生成图表"><a href="#7-生成图表" class="headerlink" title="7. 生成图表"></a>7. 生成图表</h2><p>上面的js脚本写好了之后，理论上就可以生成折线图了。不过在本地调试中，发现报错：文件没有找到。这个是因为由于安全考虑，浏览器不允许js脚本访问本地文件，解决方法有两个：</p>
 <ol>
@@ -470,8 +470,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/09/07/如何拍摄星空/" rel="prev" title="如何拍摄星空">
-                如何拍摄星空 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/05/31/备份Hexo源文件至GitHub/" rel="prev" title="备份Hexo源文件至GitHub">
+                备份Hexo源文件至GitHub <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -544,7 +544,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -566,7 +566,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
