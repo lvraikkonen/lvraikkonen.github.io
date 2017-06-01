@@ -1228,6 +1228,7 @@ pre .javascript .function {
   position: relative;
   margin: 60px 0;
 }
+.posts-collapse .collection-title h1,
 .posts-collapse .collection-title h2 {
   margin-left: 20px;
 }
@@ -1409,26 +1410,6 @@ pre .javascript .function {
   .posts-expand .post-comments-count {
     display: none;
   }
-}
-.social-like {
-  font-size: 14px;
-  height: 20px;
-  text-align: center;
-  border-top: 1px solid #eee;
-  padding-top: 9px;
-  margin-top: 45px;
-  display: flex;
-  justify-content: center;
-}
-.vk_like {
-  width: 85px;
-  height: 21px;
-  padding-top: 7px;
-  align-self: center;
-}
-.fb_like {
-  height: 30px;
-  align-self: center;
 }
 .post-button {
   margin-top: 50px;
@@ -1654,6 +1635,9 @@ pre .javascript .function {
     transform: rotateZ(-30deg);
   }
 }
+.post-wordcount {
+  display: inline-block;
+}
 .sidebar {
   position: fixed;
   right: 0;
@@ -1811,7 +1795,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #a6ff9f;
+  background: #74f1ff;
 }
 .links-of-blogroll {
   font-size: 13px;
