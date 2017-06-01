@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 
 
 
@@ -10,6 +10,9 @@
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
 
 
 
@@ -97,7 +100,7 @@
 <meta property="og:url" content="https://lvraikkonen.github.io/2016/05/31/备份Hexo源文件至GitHub/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
 <meta property="og:description" content="本文转自：http://www.leyar.me/backup-your-blog-to-github/ Hexo是一款基于Node.js的静态博客框架，前一阵俺的笔记本泡水直接退役，但是博客的原文件还在那台死去的机器上，所以备份啊。。。本质上，Hexo是将本地的md文件编译成静态文件上传到github上（或者其他），所以建议是将本地的整个Hexo项目（blog）原件同步提交到github或者其他">
-<meta property="og:updated_time" content="2017-05-31T03:22:03.728Z">
+<meta property="og:updated_time" content="2017-06-01T03:12:02.372Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="备份Hexo源文件至GitHub">
 <meta name="twitter:description" content="本文转自：http://www.leyar.me/backup-your-blog-to-github/ Hexo是一款基于Node.js的静态博客框架，前一阵俺的笔记本泡水直接退役，但是博客的原文件还在那台死去的机器上，所以备份啊。。。本质上，Hexo是将本地的md文件编译成静态文件上传到github上（或者其他），所以建议是将本地的整个Hexo项目（blog）原件同步提交到github或者其他">
@@ -317,7 +320,9 @@
           
             <div class="post-wordcount">
               
-                <span class="post-meta-divider">|</span>
+                
+                  <span class="post-meta-divider">|</span>
+                
                 <span class="post-meta-item-icon">
                   <i class="fa fa-file-word-o"></i>
                 </span>
@@ -359,12 +364,21 @@
 <p>创建忽略规则文件 <code>.gitignore</code></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi .gitignore</div></pre></td></tr></table></figure>
 <p>按需添加如下内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">.DS_Store </div><div class="line">Thumbs.db</div><div class="line">db.json  </div><div class="line">*.log</div><div class="line">.deploy*/</div><div class="line">node_modules/</div><div class="line">.npmignore</div><div class="line">public/</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">.DS_Store</div><div class="line">Thumbs.db</div><div class="line">db.json  </div><div class="line">*.log</div><div class="line">.deploy*/</div><div class="line">node_modules/</div><div class="line">.npmignore</div><div class="line">public/</div></pre></td></tr></table></figure>
 <p>上面最后一行 public 目录，因其已被 hexo 插件同步到 master 分支里，因此不需要再同步，deploy 是 hexo 的 git 配置存放目录，也不需要同步。其他内容可选择忽略也可以选择同步。</p>
 <p>添加内容到仓库并提交到远程仓库</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git add .</div><div class="line">git commit -m "first commit"</div><div class="line">git remote add origin git@github.com:lvraikkonen/HEXOSource.git		# 后面仓库目录改成自己新建的。</div><div class="line">git push -u origin hexo_source</div></pre></td></tr></table></figure>
 <p>按照以上的步骤就进行了 hexo 源文件的初次备份。<br>以后每次修改了内容之后，都可通过以下几条命令实现同步。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git add .</div><div class="line">git commit -m "..."	 # 双引号内填写更新内容</div><div class="line">git push origin hexo_source	# 或者 git push</div></pre></td></tr></table></figure>
+<h2 id="通过-git-submodule-来同步第三方主题"><a href="#通过-git-submodule-来同步第三方主题" class="headerlink" title="通过 git submodule 来同步第三方主题"></a>通过 git submodule 来同步第三方主题</h2><p>我们一般会选择第三方主题的仓库直接git clone下来。这是一个非常不好的习惯，正确做法是：Fork该第三方主题仓库，这样就会在自己账号下生成一个同名的仓库，并对应一个url，我们应该git clone自己账号下的url。</p>
+<p>这样做的原因是：我们很有可能在原来主题基础上做一些自定义的小改动，为了保持多终端的同步，我们需要将这些改动提交到远程仓库。而第三方仓库我们是无法直接push的。</p>
+<p>这样就会出现git仓库的嵌套问题，我们通过git submodule来解决这个问题。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git submodule add git@github.com:lvraikkonen/hexo-theme-next.git themes/next</div></pre></td></tr></table></figure>
+<p>我们修改主题后:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git commit -am "refine themes"</div><div class="line">git push origin hexo_source</div></pre></td></tr></table></figure>
+<p>然后就完成了第三方主题的备份</p>
+<p>在其他电脑同步源文件时，需要执行如下命令来同步主题</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git submodule init // 这句很重要</div><div class="line">git submodule update</div></pre></td></tr></table></figure>
 <h2 id="新机器同步"><a href="#新机器同步" class="headerlink" title="新机器同步"></a>新机器同步</h2><p>在一个新机器上写博客，用以下步骤同步至最新状态</p>
 <p>新建博客文件夹 <code>hexo_blog</code></p>
 <p>在该文件夹下初始化git仓库</p>
@@ -431,7 +445,7 @@
       
 
       
-        
+      
       
 
       
@@ -465,6 +479,29 @@
 
     <div class="post-spread">
       
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
     </div>
   </div>
 
@@ -475,6 +512,8 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODkwOC81NDc3"></div>
     
   </div>
 
@@ -610,6 +649,20 @@
 
         
         
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://webdemo.myscript.com/views/math.html" title="在线数学公式编辑器" target="_blank">在线数学公式编辑器</a>
+                </li>
+              
+            </ul>
+          </div>
+        
 
         
 
@@ -626,7 +679,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前提"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备份过程"><span class="nav-number">2.</span> <span class="nav-text">备份过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新机器同步"><span class="nav-number">3.</span> <span class="nav-text">新机器同步</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前提"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备份过程"><span class="nav-number">2.</span> <span class="nav-text">备份过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过-git-submodule-来同步第三方主题"><span class="nav-number">3.</span> <span class="nav-text">通过 git submodule 来同步第三方主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新机器同步"><span class="nav-number">4.</span> <span class="nav-text">新机器同步</span></a></li></ol></div>
             
 
           </div>
@@ -791,6 +844,17 @@
 
 
   
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
 
 
 
@@ -802,6 +866,8 @@
 
 
 
+
+  
 
   
 
@@ -834,6 +900,10 @@
   
 
   
+
+
+  <!-- 背景动画 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script>
 
 </body>
 </html>
