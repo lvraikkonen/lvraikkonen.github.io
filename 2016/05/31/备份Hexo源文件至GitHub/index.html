@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="备忘,hexo," />
+  <meta name="keywords" content="hexo,备忘," />
 
 
 
@@ -94,13 +94,13 @@
 
 
 <meta name="description" content="本文转自：http://www.leyar.me/backup-your-blog-to-github/ Hexo是一款基于Node.js的静态博客框架，前一阵俺的笔记本泡水直接退役，但是博客的原文件还在那台死去的机器上，所以备份啊。。。本质上，Hexo是将本地的md文件编译成静态文件上传到github上（或者其他），所以建议是将本地的整个Hexo项目（blog）原件同步提交到github或者其他">
-<meta name="keywords" content="备忘,hexo">
+<meta name="keywords" content="hexo,备忘">
 <meta property="og:type" content="article">
 <meta property="og:title" content="备份Hexo源文件至GitHub">
 <meta property="og:url" content="https://lvraikkonen.github.io/2016/05/31/备份Hexo源文件至GitHub/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
 <meta property="og:description" content="本文转自：http://www.leyar.me/backup-your-blog-to-github/ Hexo是一款基于Node.js的静态博客框架，前一阵俺的笔记本泡水直接退役，但是博客的原文件还在那台死去的机器上，所以备份啊。。。本质上，Hexo是将本地的md文件编译成静态文件上传到github上（或者其他），所以建议是将本地的整个Hexo项目（blog）原件同步提交到github或者其他">
-<meta property="og:updated_time" content="2017-06-01T03:40:43.413Z">
+<meta property="og:updated_time" content="2017-06-05T07:03:56.315Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="备份Hexo源文件至GitHub">
 <meta name="twitter:description" content="本文转自：http://www.leyar.me/backup-your-blog-to-github/ Hexo是一款基于Node.js的静态博客框架，前一阵俺的笔记本泡水直接退役，但是博客的原文件还在那台死去的机器上，所以备份啊。。。本质上，Hexo是将本地的md文件编译成静态文件上传到github上（或者其他），所以建议是将本地的整个Hexo项目（blog）原件同步提交到github或者其他">
@@ -120,9 +120,9 @@
       author: '博主'
     },
     algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
+      applicationID: 'JWQGEFMRGT',
+      apiKey: '7c12daa85b9bf759fcde9b547d3a9349',
+      indexName: 'lvraikkonen_blog',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
@@ -240,9 +240,47 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
   
 </nav>
 
@@ -302,7 +340,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-05T15:03:56+08:00">
+                2017-06-05
+              </time>
             
           </span>
 
@@ -313,6 +363,17 @@
           
 
           
+          
+             <span id="/2016/05/31/备份Hexo源文件至GitHub/" class="leancloud_visitors" data-flag-title="备份Hexo源文件至GitHub">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
@@ -330,7 +391,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  
+                  1,060 字
                 </span>
               
 
@@ -392,6 +453,8 @@
 <p>然后就是写博客，并将.md博客文件放至_posts文件夹，然后添加修改到本地仓库</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git add .</div><div class="line">git commit -m "写了一篇博客"</div><div class="line">git push origin hexo_source</div></pre></td></tr></table></figure>
 <p>至此，已经完成了博客的撰写并修改了远端仓库的博客源文件，然后使用<code>hexo g</code>和<code>hexo d</code>更新博客就OK啦！</p>
+<h2 id="新机器安装npm失败解决方案"><a href="#新机器安装npm失败解决方案" class="headerlink" title="新机器安装npm失败解决方案"></a>新机器安装npm失败解决方案</h2><p>由于众所周知的原因，好多东西无法安装，可以添加第三方源来解决</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 添加淘宝源</span></div><div class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</div><div class="line"><span class="meta">#</span><span class="bash"> nrm类似包管理器</span></div><div class="line">cnpm install nrm -g</div><div class="line">nrm ls</div><div class="line"><span class="meta">#</span><span class="bash"> 使用淘宝</span></div><div class="line">nrm use taobao</div><div class="line">npm install -g hexo-cli</div></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="http://devtian.me/2015/03/17/blog-sync-solution/" target="_blank" rel="external">关于博客同步的解决办法</a></li>
 <li><a href="https://segmentfault.com/a/1190000003076028" target="_blank" rel="external">使用Git Submodule管理子模块</a></li>
@@ -441,9 +504,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/备忘/" rel="tag"># 备忘</a>
-          
             <a href="/tags/hexo/" rel="tag"># hexo</a>
+          
+            <a href="/tags/备忘/" rel="tag"># 备忘</a>
           
         </div>
       
@@ -565,7 +628,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -683,7 +746,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前提"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备份过程"><span class="nav-number">2.</span> <span class="nav-text">备份过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过-git-submodule-来同步第三方主题"><span class="nav-number">3.</span> <span class="nav-text">通过 git submodule 来同步第三方主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新机器同步"><span class="nav-number">4.</span> <span class="nav-text">新机器同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前提"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备份过程"><span class="nav-number">2.</span> <span class="nav-text">备份过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过-git-submodule-来同步第三方主题"><span class="nav-number">3.</span> <span class="nav-text">通过 git submodule 来同步第三方主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新机器同步"><span class="nav-number">4.</span> <span class="nav-text">新机器同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新机器安装npm失败解决方案"><span class="nav-number">5.</span> <span class="nav-text">新机器安装npm失败解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -870,8 +933,128 @@
 
 
 
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
 
   
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("QttC3P4LGflMxbppLnNEY62a-gzGzoHsz", "joh41qpX9cxG63me5aR8vKXx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 
