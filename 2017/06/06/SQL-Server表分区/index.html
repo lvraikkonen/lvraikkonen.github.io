@@ -1,0 +1,1118 @@
+﻿<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="SQL Server,Database," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="分区表是把数据按某种标准划分成区域存储在不同的文件组中，使用分区可以快速而有效地管理和访问数据子集，从而使大型表或索引更易于管理。合理的使用分区会很大程度上提高数据库的性能。 使用表分区最主要场景是用于:  存档，比如将销售记录中1年前的数据分到一个专门存档的服务器中 便于管理，比如把一个大表分成若干个小表，则备份和恢复的时候不再需要备份整个表，可以单独备份分区 提高可用性，当一个分区跪了以后，只">
+<meta name="keywords" content="SQL Server,Database">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL Server表分区">
+<meta property="og:url" content="https://lvraikkonen.github.io/2017/06/06/SQL-Server表分区/index.html">
+<meta property="og:site_name" content="Claus&#39;s Tech Blog">
+<meta property="og:description" content="分区表是把数据按某种标准划分成区域存储在不同的文件组中，使用分区可以快速而有效地管理和访问数据子集，从而使大型表或索引更易于管理。合理的使用分区会很大程度上提高数据库的性能。 使用表分区最主要场景是用于:  存档，比如将销售记录中1年前的数据分到一个专门存档的服务器中 便于管理，比如把一个大表分成若干个小表，则备份和恢复的时候不再需要备份整个表，可以单独备份分区 提高可用性，当一个分区跪了以后，只">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/borderValue.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/rowCount.png">
+<meta property="og:updated_time" content="2017-06-06T09:55:09.898Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SQL Server表分区">
+<meta name="twitter:description" content="分区表是把数据按某种标准划分成区域存储在不同的文件组中，使用分区可以快速而有效地管理和访问数据子集，从而使大型表或索引更易于管理。合理的使用分区会很大程度上提高数据库的性能。 使用表分区最主要场景是用于:  存档，比如将销售记录中1年前的数据分到一个专门存档的服务器中 便于管理，比如把一个大表分成若干个小表，则备份和恢复的时候不再需要备份整个表，可以单独备份分区 提高可用性，当一个分区跪了以后，只">
+<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/borderValue.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'JWQGEFMRGT',
+      apiKey: '7c12daa85b9bf759fcde9b547d3a9349',
+      indexName: 'lvraikkonen_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lvraikkonen.github.io/2017/06/06/SQL-Server表分区/"/>
+
+
+
+
+
+  <title>SQL Server表分区 | Claus's Tech Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Claus's Tech Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">leave me alone i know what to do</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/06/SQL-Server表分区/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SQL Server表分区</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-06T17:53:27+08:00">
+                2017-06-06
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-06T17:55:09+08:00">
+                2017-06-06
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/06/SQL-Server表分区/" class="leancloud_visitors" data-flag-title="SQL Server表分区">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,381 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>分区表是把数据按某种标准划分成区域存储在不同的文件组中，使用分区可以快速而有效地管理和访问数据子集，从而使大型表或索引更易于管理。合理的使用分区会很大程度上提高数据库的性能。</p>
+<p>使用表分区最主要场景是用于:</p>
+<ul>
+<li>存档，比如将销售记录中1年前的数据分到一个专门存档的服务器中</li>
+<li>便于管理，比如把一个大表分成若干个小表，则备份和恢复的时候不再需要备份整个表，可以单独备份分区</li>
+<li>提高可用性，当一个分区跪了以后，只有一个分区不可用，其它分区不受影响</li>
+<li>提高性能，这个往往是大多数人分区的目的，把一个表分布到不同的硬盘或其他存储介质中，会大大提升查询的速度.</li>
+</ul>
+<p>创建分区需要如下个步骤：</p>
+<ol>
+<li>创建文件组</li>
+<li>创建分区函数</li>
+<li>创建分区方案</li>
+<li>创建或者修改使用分区方案的表</li>
+</ol>
+<a id="more"></a>
+<p>举一个按照时间分区的案例：</p>
+<p>确定分区键列的类型(DATETIME)以及分区的边界值:</p>
+<ul>
+<li>2010-01-01</li>
+<li>2012-01-01</li>
+<li>2014-01-01</li>
+</ul>
+<p>N个边界值确定 N+1 个分区</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/borderValue.png" alt="BorderValue"></p>
+<h2 id="创建文件组"><a href="#创建文件组" class="headerlink" title="创建文件组"></a>创建文件组</h2><p>T-SQL语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">alter database &lt;数据库名&gt; add filegroup &lt;文件组名&gt;</div></pre></td></tr></table></figure>
+<p>下面创建4个分区文件组</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">USE</span> AdventureWorks2012;  </div><div class="line">GO  </div><div class="line"></div><div class="line"><span class="comment">-- Adds four new filegroups to the AdventureWorks2012 database  </span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> AdventureWorks2012  </div><div class="line"><span class="keyword">ADD</span> FILEGROUP test1fg;  </div><div class="line">GO  </div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> AdventureWorks2012  </div><div class="line"><span class="keyword">ADD</span> FILEGROUP test2fg;  </div><div class="line">GO  </div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> AdventureWorks2012  </div><div class="line"><span class="keyword">ADD</span> FILEGROUP test3fg;  </div><div class="line">GO  </div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> AdventureWorks2012  </div><div class="line"><span class="keyword">ADD</span> FILEGROUP test4fg;   </div><div class="line"></div><div class="line"><span class="comment">-- Adds one file for each filegroup.  </span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> AdventureWorks2012   </div><div class="line"><span class="keyword">ADD</span> <span class="keyword">FILE</span>   </div><div class="line">(  </div><div class="line">    <span class="keyword">NAME</span> = test1dat1,  </div><div class="line">    FILENAME = <span class="string">'E:\DB\t1dat1.ndf'</span>,  </div><div class="line">    <span class="keyword">SIZE</span> = <span class="number">5</span>MB,  </div><div class="line">    <span class="keyword">MAXSIZE</span> = <span class="number">100</span>MB,  </div><div class="line">    FILEGROWTH = <span class="number">5</span>MB  </div><div class="line">)  </div><div class="line"><span class="keyword">TO</span> FILEGROUP test1fg;  </div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> AdventureWorks2012   </div><div class="line"><span class="keyword">ADD</span> <span class="keyword">FILE</span>   </div><div class="line">(  </div><div class="line">    <span class="keyword">NAME</span> = test2dat2,  </div><div class="line">    FILENAME = <span class="string">'E:\DB\t2dat2.ndf'</span>,  </div><div class="line">    <span class="keyword">SIZE</span> = <span class="number">5</span>MB,  </div><div class="line">    <span class="keyword">MAXSIZE</span> = <span class="number">100</span>MB,  </div><div class="line">    FILEGROWTH = <span class="number">5</span>MB  </div><div class="line">)  </div><div class="line"><span class="keyword">TO</span> FILEGROUP test2fg;  </div><div class="line">GO  </div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> AdventureWorks2012   </div><div class="line"><span class="keyword">ADD</span> <span class="keyword">FILE</span>   </div><div class="line">(  </div><div class="line">    <span class="keyword">NAME</span> = test3dat3,  </div><div class="line">    FILENAME = <span class="string">'E:\DB\t3dat3.ndf'</span>,  </div><div class="line">    <span class="keyword">SIZE</span> = <span class="number">5</span>MB,  </div><div class="line">    <span class="keyword">MAXSIZE</span> = <span class="number">100</span>MB,  </div><div class="line">    FILEGROWTH = <span class="number">5</span>MB  </div><div class="line">)  </div><div class="line"><span class="keyword">TO</span> FILEGROUP test3fg;  </div><div class="line">GO  </div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> AdventureWorks2012   </div><div class="line"><span class="keyword">ADD</span> <span class="keyword">FILE</span>   </div><div class="line">(  </div><div class="line">    <span class="keyword">NAME</span> = test4dat4,  </div><div class="line">    FILENAME = <span class="string">'E:\DB\t4dat4.ndf'</span>,  </div><div class="line">    <span class="keyword">SIZE</span> = <span class="number">5</span>MB,  </div><div class="line">    <span class="keyword">MAXSIZE</span> = <span class="number">100</span>MB,  </div><div class="line">    FILEGROWTH = <span class="number">5</span>MB  </div><div class="line">)  </div><div class="line"><span class="keyword">TO</span> FILEGROUP test4fg;  </div><div class="line">GO</div></pre></td></tr></table></figure>
+<p>执行上面的脚本，可以创建4个文件组</p>
+<h2 id="创建分区函数"><a href="#创建分区函数" class="headerlink" title="创建分区函数"></a>创建分区函数</h2><p>指定分依据区列（依据列唯一），分区数据范围规则，分区数量，然后将数据映射到一组分区上。</p>
+<p>创建语法： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">create partition function 分区函数名(&lt;分区列类型&gt;) as range [left/right] </div><div class="line">for values (每个分区的边界值,....)</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- Creates a partition function called myRangePF1 that will partition a table into four partitions  </span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PARTITION</span> <span class="keyword">FUNCTION</span> myRangePF1 (datetime)  </div><div class="line">    <span class="keyword">AS</span> <span class="keyword">RANGE</span> <span class="keyword">LEFT</span> <span class="keyword">FOR</span> <span class="keyword">VALUES</span> (<span class="string">'2010-01-01'</span>,<span class="string">'2012-01-01'</span>,<span class="string">'2014-01-01'</span>) ;  </div><div class="line">GO</div></pre></td></tr></table></figure>
+<p>左边界/右边界：就是把临界值划分给上一个分区还是下一个分区。一个小于号，一个小于等于号。</p>
+<blockquote>
+<p>注意：只有没有应用到分区方案中的分区函数才能被删除。</p>
+</blockquote>
+<h2 id="创建分区方案"><a href="#创建分区方案" class="headerlink" title="创建分区方案"></a>创建分区方案</h2><p>指定分区对应的文件组。</p>
+<p>创建语法： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-- 创建分区方案语法</div><div class="line">create partition scheme &lt;分区方案名称&gt; as partition &lt;分区函数名称&gt; [all]to (文件组名称,....)</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- Creates a partition scheme called myRangePS1 that applies myRangePF1 to the four filegroups created above  </span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PARTITION</span> SCHEME myRangePS1  </div><div class="line">    <span class="keyword">AS</span> <span class="keyword">PARTITION</span> myRangePF1  </div><div class="line">    <span class="keyword">TO</span> (test1fg, test2fg, test3fg, test4fg) ;  </div><div class="line">GO</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：只有没有分区表，或索引使用该分区方案是，才能对其删除。</p>
+</blockquote>
+<h2 id="创建使用分区方案的表"><a href="#创建使用分区方案的表" class="headerlink" title="创建使用分区方案的表"></a>创建使用分区方案的表</h2><p>创建语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">--创建分区表语法</div><div class="line">create table &lt;表名&gt; (</div><div class="line">  &lt;列定义&gt;</div><div class="line">)on&lt;分区方案名&gt;(分区列名)</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- Creates a partitioned table called PartitionTable that uses myRangePS1 to partition col1  </span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> [dbo].[Data_partitioned](  </div><div class="line">    [<span class="keyword">Id</span>] <span class="built_in">bigint</span>  <span class="keyword">NOT</span> <span class="literal">NULL</span>,  </div><div class="line">    [<span class="keyword">Name</span>] [<span class="built_in">varchar</span>](<span class="number">10</span>)  <span class="literal">NULL</span>,  </div><div class="line">    [CreateDate] [datetime] <span class="keyword">NOT</span> <span class="literal">NULL</span></div><div class="line">)  <span class="keyword">ON</span> [myRangePS1] (CreateDate);   </div><div class="line"><span class="comment">-- 这里使用[myRangePS1]架构，根据CreateDate列进行分区</span></div></pre></td></tr></table></figure>
+<p>插入一些测试数据，看看是不是按照给定的分区方案将数据分区了</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 查看使用情况   </span></div><div class="line"><span class="keyword">SELECT</span> *, $PARTITION.myRangePF1([CreateDate])  <span class="keyword">as</span> groupName</div><div class="line"><span class="keyword">FROM</span> dbo.Data_partitioned</div></pre></td></tr></table></figure>
+<p><strong>在创建分区表后，需要创建聚集分区索引</strong></p>
+<p>根据订单表Orders 查询时经常使用OrderDate 范围条件来查询的特点，我们最好在Orders.OrderDate 列上建立聚集索引（clustered index）。为了便于进行分区切换（partition swtich)。<br>大多数情况下，建议在分区表上建立分区索引。</p>
+<h2 id="查询分区表信息"><a href="#查询分区表信息" class="headerlink" title="查询分区表信息"></a>查询分区表信息</h2><h3 id="查看分区依据列的指定值所在的分区"><a href="#查看分区依据列的指定值所在的分区" class="headerlink" title="查看分区依据列的指定值所在的分区"></a>查看分区依据列的指定值所在的分区</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 查询分区依据列为'2013-01-01'的数据在哪个分区上</span></div><div class="line"><span class="keyword">SELECT</span> $partition.myRangePF1(<span class="string">'2013-01-01'</span>)  </div><div class="line"><span class="comment">-- 返回值是3，表示此值存在第2个分区</span></div></pre></td></tr></table></figure>
+<h3 id="查询每个非空分区存在的行数"><a href="#查询每个非空分区存在的行数" class="headerlink" title="查询每个非空分区存在的行数"></a>查询每个非空分区存在的行数</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 查看分区表中，每个非空分区存在的行数</span></div><div class="line"><span class="keyword">SELECT</span> $partition.myRangePF1(CreateDate) <span class="keyword">as</span> partitionNum</div><div class="line">     , <span class="keyword">count</span>(*) <span class="keyword">as</span> recordCount</div><div class="line"><span class="keyword">FROM</span> dbo.Data_partitioned</div><div class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> $partition.myRangePF1(CreateDate)</div></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/rowCount.png" alt="partitionRowCount"></p>
+<h2 id="分区的拆分合并以及数据移动"><a href="#分区的拆分合并以及数据移动" class="headerlink" title="分区的拆分合并以及数据移动"></a>分区的拆分合并以及数据移动</h2><h3 id="拆分分区"><a href="#拆分分区" class="headerlink" title="拆分分区"></a>拆分分区</h3><p>在分区函数中新增一个边界值，即可将一个分区变为2个。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--分区拆分</span></div><div class="line"><span class="keyword">alter</span> <span class="keyword">partition</span> <span class="keyword">function</span> myRangePF1()</div><div class="line"><span class="keyword">split</span> <span class="keyword">range</span>(<span class="string">'2011-01-01'</span>)  <span class="comment">--将第二个分区拆为2个分区</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：如果分区函数已经指定了分区方案，则分区数需要和分区方案中指定的文件组个数保持对应一致。</p>
+</blockquote>
+<h3 id="合并分区"><a href="#合并分区" class="headerlink" title="合并分区"></a>合并分区</h3><p>与拆分分区相反，去除一个边界值即可。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--合并分区</span></div><div class="line"><span class="keyword">alter</span> <span class="keyword">partition</span> <span class="keyword">function</span> myRangePF1()</div><div class="line"><span class="keyword">merge</span> <span class="keyword">range</span>(<span class="string">'2011-01-01'</span>)  <span class="comment">--将第二第三分区合并</span></div></pre></td></tr></table></figure>
+<h3 id="分区数据移动"><a href="#分区数据移动" class="headerlink" title="分区数据移动"></a>分区数据移动</h3><p>可以使用 <code>ALTER TABLE ....... SWITCH</code> 语句快速有效地移动数据子集：</p>
+<ul>
+<li>将某个表中的数据移动到另一个表中；</li>
+<li>将某个表作为分区添加到现存的已分区表中；</li>
+<li>将分区从一个已分区表切换到另一个已分区表；</li>
+<li>删除分区以形成单个表。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/WeChatImage_20170527190034.jpg" alt="Shuo Lv WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SQL-Server/" rel="tag"># SQL Server</a>
+          
+            <a href="/tags/Database/" rel="tag"># Database</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/06/T-SQL查询语句执行顺序/" rel="next" title="T-SQL查询语句执行顺序">
+                <i class="fa fa-chevron-left"></i> T-SQL查询语句执行顺序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODkwOC81NDc3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Shuo Lv" />
+          <p class="site-author-name" itemprop="name">Shuo Lv</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lvraikkonen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/1246109477/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/lu-shuo-53/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-quora"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.linkedin.com/in/shuo-lv-58881823/" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/shuo.lv" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://webdemo.myscript.com/views/math.html" title="在线数学公式编辑器" target="_blank">在线数学公式编辑器</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建文件组"><span class="nav-number">1.</span> <span class="nav-text">创建文件组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建分区函数"><span class="nav-number">2.</span> <span class="nav-text">创建分区函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建分区方案"><span class="nav-number">3.</span> <span class="nav-text">创建分区方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建使用分区方案的表"><span class="nav-number">4.</span> <span class="nav-text">创建使用分区方案的表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询分区表信息"><span class="nav-number">5.</span> <span class="nav-text">查询分区表信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看分区依据列的指定值所在的分区"><span class="nav-number">5.1.</span> <span class="nav-text">查看分区依据列的指定值所在的分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询每个非空分区存在的行数"><span class="nav-number">5.2.</span> <span class="nav-text">查询每个非空分区存在的行数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分区的拆分合并以及数据移动"><span class="nav-number">6.</span> <span class="nav-text">分区的拆分合并以及数据移动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拆分分区"><span class="nav-number">6.1.</span> <span class="nav-text">拆分分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#合并分区"><span class="nav-number">6.2.</span> <span class="nav-text">合并分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分区数据移动"><span class="nav-number">6.3.</span> <span class="nav-text">分区数据移动</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shuo Lv</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("QttC3P4LGflMxbppLnNEY62a-gzGzoHsz", "joh41qpX9cxG63me5aR8vKXx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- 背景动画 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
