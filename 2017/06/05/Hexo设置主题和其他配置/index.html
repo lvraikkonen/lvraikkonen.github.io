@@ -108,7 +108,7 @@
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/configApp.png">
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/leancloudGetAPIKey.png">
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/leanCloudbackend_data.png">
-<meta property="og:updated_time" content="2017-06-05T09:26:09.524Z">
+<meta property="og:updated_time" content="2017-06-06T06:08:39.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo设置主题和其他配置">
 <meta name="twitter:description" content="博客的主题很多，我选择一个非常流行的主题 NexT，作为我博客的主题，这个主题简约，并且文档和维护都很好。 下面记录一下我的Hexo站点的配置，以及NexT主题的配置，以备日后查找 站点配置博客根目录下的_config.yml 文件是站点的配置文件。 为了能够使Hexo部署到GitHub上，需要安装一个插件： 1npm install hexo-deployer-git --save 设置站点配置">
@@ -359,8 +359,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-06-05T17:26:09+08:00">
-                2017-06-05
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-06T14:08:39+08:00">
+                2017-06-06
               </time>
             
           </span>
@@ -400,7 +400,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,499 字
+                  1,525 字
                 </span>
               
 
@@ -484,6 +484,10 @@
 <p><img src="http://7xkfga.com1.z0.glb.clouddn.com/hexo_algolia_version.png" alt="package.json"></p>
 <p>当配置完成，在站点根目录下执行hexo algolia 来更新Index</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo algolia</div></pre></td></tr></table></figure>
+<p><em>注意：</em></p>
+<blockquote>
+<p>如果发现没有上传数据，这时候可以先 <code>hexo clean</code> 然后再 <code>hexo algolia</code> _</p>
+</blockquote>
 <p>在 <code>主题配置文件</code>中，找到Algolia Search 配置部分：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Algolia Search</span></div><div class="line"><span class="attr">algolia_search:</span></div><div class="line"><span class="attr">  enable:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  hits:</span></div><div class="line"><span class="attr">    per_page:</span> <span class="number">10</span></div><div class="line"><span class="attr">  labels:</span></div><div class="line"><span class="attr">    input_placeholder:</span> <span class="string">Search</span> <span class="string">for</span> <span class="string">Posts</span></div><div class="line"><span class="attr">    hits_empty:</span> <span class="string">"We didn't find any results for the search: $&#123;query&#125;"</span></div><div class="line"><span class="attr">    hits_stats:</span> <span class="string">"$&#123;hits&#125; results found in $&#123;time&#125; ms"</span></div></pre></td></tr></table></figure>
 <p>将 <code>enable</code> 改为true 即可，根据需要你可以调整labels 中的文本。</p>
@@ -576,8 +580,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/02/SQL-Server索引/" rel="next" title="SQL Server索引">
-                <i class="fa fa-chevron-left"></i> SQL Server索引
+              <a href="/2017/05/31/Markdown-Cheatsheet/" rel="next" title="Markdown Cheatsheet">
+                <i class="fa fa-chevron-left"></i> Markdown Cheatsheet
               </a>
             
           </div>
@@ -585,6 +589,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/06/T-SQL查询语句执行顺序/" rel="prev" title="T-SQL查询语句执行顺序">
+                T-SQL查询语句执行顺序 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -681,7 +689,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -703,7 +711,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
