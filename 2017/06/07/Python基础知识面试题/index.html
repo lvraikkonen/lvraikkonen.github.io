@@ -1,0 +1,1091 @@
+﻿<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="面试," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Question 1如下代码的输出是什么 1234567891011def extendList(val, list=[]):    list.append(val)    return listlist1 = extendList(10)list2 = extendList(123,[])list3 = extendList(&apos;a&apos;)print &quot;list1 = %s&quot; % list1prin">
+<meta name="keywords" content="面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python基础知识面试题">
+<meta property="og:url" content="https://lvraikkonen.github.io/2017/06/07/Python基础知识面试题/index.html">
+<meta property="og:site_name" content="Claus&#39;s Tech Blog">
+<meta property="og:description" content="Question 1如下代码的输出是什么 1234567891011def extendList(val, list=[]):    list.append(val)    return listlist1 = extendList(10)list2 = extendList(123,[])list3 = extendList(&apos;a&apos;)print &quot;list1 = %s&quot; % list1prin">
+<meta property="og:updated_time" content="2017-06-07T07:58:19.184Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python基础知识面试题">
+<meta name="twitter:description" content="Question 1如下代码的输出是什么 1234567891011def extendList(val, list=[]):    list.append(val)    return listlist1 = extendList(10)list2 = extendList(123,[])list3 = extendList(&apos;a&apos;)print &quot;list1 = %s&quot; % list1prin">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'JWQGEFMRGT',
+      apiKey: '7c12daa85b9bf759fcde9b547d3a9349',
+      indexName: 'lvraikkonen_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lvraikkonen.github.io/2017/06/07/Python基础知识面试题/"/>
+
+
+
+
+
+  <title>Python基础知识面试题 | Claus's Tech Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Claus's Tech Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">leave me alone i know what to do</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/07/Python基础知识面试题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python基础知识面试题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T15:19:42+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-07T15:58:19+08:00">
+                2017-06-07
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/Python基础知识面试题/" class="leancloud_visitors" data-flag-title="Python基础知识面试题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,914 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h2 id="Question-1"><a href="#Question-1" class="headerlink" title="Question 1"></a>Question 1</h2><p>如下代码的输出是什么</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">extendList</span><span class="params">(val, list=[])</span>:</span></div><div class="line">    list.append(val)</div><div class="line">    <span class="keyword">return</span> list</div><div class="line"></div><div class="line">list1 = extendList(<span class="number">10</span>)</div><div class="line">list2 = extendList(<span class="number">123</span>,[])</div><div class="line">list3 = extendList(<span class="string">'a'</span>)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"list1 = %s"</span> % list1</div><div class="line"><span class="keyword">print</span> <span class="string">"list2 = %s"</span> % list2</div><div class="line"><span class="keyword">print</span> <span class="string">"list3 = %s"</span> % list3</div></pre></td></tr></table></figure>
+<h3 id="答案："><a href="#答案：" class="headerlink" title="答案："></a>答案：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">list1 = [10, &apos;a&apos;]</div><div class="line">list2 = [123]</div><div class="line">list3 = [10, &apos;a&apos;]</div></pre></td></tr></table></figure>
+<!-- more -->
+<h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><p>The new default list is created only once when the function is defined, and that same list is then used subsequently whenever extendList is invoked without a list argument being specified. This is because expressions in default arguments are calculated when the function is defined, not when it’s called.</p>
+<p>list1 and list3 are therefore operating on the same default list, whereas list2 is operating on a separate list that it created (by passing its own empty list as the value for the list parameter).</p>
+<p>The definition of the extendList function could be modified as follows, though, to always begin a new list when no list argument is specified, which is more likely to have been the desired behavior:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">extendList</span><span class="params">(val, list=None)</span>:</span></div><div class="line">    <span class="keyword">if</span> list <span class="keyword">is</span> <span class="keyword">None</span>: </div><div class="line">        list = []</div><div class="line">    list.append(val)</div><div class="line">    <span class="keyword">return</span> list</div><div class="line"></div><div class="line"><span class="comment"># list1 = [10]</span></div><div class="line"><span class="comment"># list2 = [123]</span></div><div class="line"><span class="comment"># list3 = ['a']</span></div></pre></td></tr></table></figure>
+<h2 id="Python的函数参数传递"><a href="#Python的函数参数传递" class="headerlink" title="Python的函数参数传递"></a>Python的函数参数传递</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">a = <span class="number">1</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(a)</span>:</span></div><div class="line">    a = <span class="number">2</span></div><div class="line">fun(a)</div><div class="line"><span class="keyword">print</span> a  <span class="comment"># 1</span></div><div class="line"></div><div class="line">a = []</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(a)</span>:</span></div><div class="line">    a.append(<span class="number">1</span>)</div><div class="line">fun(a)</div><div class="line"><span class="keyword">print</span> a  <span class="comment"># [1]</span></div></pre></td></tr></table></figure>
+<p>类型是属于对象的，而不是变量。而对象有两种,“可更改”（mutable）与“不可更改”（immutable）对象。在python中，strings, tuples, 和numbers是不可更改的对象，而list,dict等则是可以修改的对象。当一个引用传递给函数的时候,函数自动复制一份引用,这个函数里的引用和外边的引用没有半毛关系了.所以第一个例子里函数把引用指向了一个不可变对象,当函数返回的时候,外面的引用没半毛感觉.而第二个例子就不一样了,函数内的引用指向的是可变对象,对它的操作就和定位了指针地址一样,在内存里进行修改。</p>
+<h2 id="Question-2"><a href="#Question-2" class="headerlink" title="Question 2"></a>Question 2</h2><p>下面代码输出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">multipliers</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> [<span class="keyword">lambda</span> x : i * x <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>)]</div><div class="line">    </div><div class="line"><span class="keyword">print</span> [m(<span class="number">2</span>) <span class="keyword">for</span> m <span class="keyword">in</span> multipliers()]</div></pre></td></tr></table></figure>
+<p>The output of the above code will be <figure class="highlight plain"><figcaption><span>6, 6, 6]``` (not ```[0, 2, 4, 6]```).</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">The reason for this is that Python’s closures are late binding. This means that the values of variables used in closures are looked up at the time the inner function is called. So as a result, when any of the functions returned by multipliers() are called, the value of i is looked up in the surrounding scope at that time. By then, regardless of which of the returned functions is called, the for loop has completed and i is left with its final value of 3. Therefore, every returned function multiplies the value it is passed by 3, so since a value of 2 is passed in the above code, they all return a value of 6 (i.e., 3 x 2).</div><div class="line"></div><div class="line">(Incidentally, as pointed out in The Hitchhiker’s Guide to Python, there is a somewhat widespread misconception that this has something to do with lambdas, which is not the case. Functions created with a lambda expression are in no way special and the same behavior is exhibited by functions created using an ordinary def.)</div><div class="line"></div><div class="line">Below are a few examples of ways to circumvent this issue.</div><div class="line"></div><div class="line">One solution would be use a Python generator as follows:</div><div class="line"></div><div class="line">``` python</div><div class="line">def multipliers():</div><div class="line">    for i in range(4):</div><div class="line">        yield lambda x : i * x</div></pre></td></tr></table></figure></p>
+<p>Another solution is to create a closure that binds immediately to its arguments by using a default argument. For example:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">multipliers</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> [<span class="keyword">lambda</span> x, i=i : i * x <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>)]</div></pre></td></tr></table></figure>
+<p>Or alternatively, you can use the <figure class="highlight plain"><figcaption><span>function:</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">``` python</div><div class="line">from functools import partial</div><div class="line">from operator import mul</div><div class="line"></div><div class="line">def multipliers():</div><div class="line">    return [partial(mul, i) for i in range(4)]</div></pre></td></tr></table></figure></p>
+<h2 id="迭代器和生成器"><a href="#迭代器和生成器" class="headerlink" title="迭代器和生成器"></a>迭代器和生成器</h2><h2 id="Question-3"><a href="#Question-3" class="headerlink" title="Question 3"></a>Question 3</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span><span class="params">(object)</span>:</span></div><div class="line">    x = <span class="number">1</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child1</span><span class="params">(Parent)</span>:</span></div><div class="line">    <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child2</span><span class="params">(Parent)</span>:</span></div><div class="line">    <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> Parent.x, Child1.x, Child2.x</div><div class="line">Child1.x = <span class="number">2</span></div><div class="line"><span class="keyword">print</span> Parent.x, Child1.x, Child2.x</div><div class="line">Parent.x = <span class="number">3</span></div><div class="line"><span class="keyword">print</span> Parent.x, Child1.x, Child2.x</div><div class="line"></div><div class="line"><span class="comment"># 1, 1, 1</span></div><div class="line"><span class="comment"># 2, 1, 2</span></div><div class="line"><span class="comment"># 3, 2, 3</span></div></pre></td></tr></table></figure>
+<h3 id="解释-1"><a href="#解释-1" class="headerlink" title="解释"></a>解释</h3><p>in Python, class variables are internally handled as dictionaries. If a variable name is not found in the dictionary of the current class, the class hierarchy (i.e., its parent classes) are searched until the referenced variable name is found (if the referenced variable name is not found in the class itself or anywhere in its hierarchy, an AttributeError occurs).</p>
+<p>Therefore, setting x = 1 in the Parent class makes the class variable x (with a value of 1) referenceable in that class and any of its children. That’s why the first print statement outputs 1 1 1.</p>
+<p>Subsequently, <strong>if any of its child classes overrides that value (for example, when we execute the statement Child1.x = 2), then the value is changed in that child only</strong>. That’s why the second print statement outputs 1 2 1.</p>
+<p>Finally, <strong>if the value is then changed in the Parent (for example, when we execute the statement Parent.x = 3), that change is reflected also by any children that have not yet overridden the value</strong> (which in this case would be Child2). That’s why the third print statement outputs 3 2 3.</p>
+<h2 id="Question-4"><a href="#Question-4" class="headerlink" title="Question 4"></a>Question 4</h2><p>在 Python2 中下面代码输出是什么</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">div1</span><span class="params">(x,y)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"%s/%s = %s"</span> % (x, y, x/y)</div><div class="line">    </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">div2</span><span class="params">(x,y)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"%s//%s = %s"</span> % (x, y, x//y)</div><div class="line"></div><div class="line">div1(<span class="number">5</span>,<span class="number">2</span>)</div><div class="line">div1(<span class="number">5.</span>,<span class="number">2</span>)</div><div class="line">div2(<span class="number">5</span>,<span class="number">2</span>)</div><div class="line">div2(<span class="number">5.</span>,<span class="number">2.</span>)</div><div class="line"></div><div class="line"><span class="comment"># 5/2 = 2</span></div><div class="line"><span class="comment"># 5.0/2 = 2.5</span></div><div class="line"><span class="comment"># 5//2 = 2</span></div><div class="line"><span class="comment"># 5.0//2.0 = 2.0</span></div></pre></td></tr></table></figure>
+<p>By default, Python 2 automatically performs integer arithmetic if both operands are integers. As a result, 5/2 yields 2, while 5./2 yields 2.5.</p>
+<p>Note that you can override this behavior in Python 2 by adding the following import:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> division</div></pre></td></tr></table></figure>
+<p>Also note that the “double-slash” (//) operator will always perform integer division, regardless of the operand types. That’s why 5.0//2.0 yields 2.0 even in Python 2.</p>
+<p>Python 3, however, does not have this behavior; i.e., it does not perform integer arithmetic if both operands are integers. Therefore, in Python 3, the output will be as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">5/2 = 2.5</div><div class="line">5.0/2 = 2.5</div><div class="line">5//2 = 2</div><div class="line">5.0//2.0 = 2.0</div></pre></td></tr></table></figure>
+<h2 id="Question-5"><a href="#Question-5" class="headerlink" title="Question 5"></a>Question 5</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">list = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>]</div><div class="line"><span class="keyword">print</span> list[<span class="number">10</span>:]</div><div class="line"></div><div class="line"><span class="comment"># []</span></div></pre></td></tr></table></figure>
+<p>输出为空list, 不会报<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">As one would expect, attempting to access a member of a list using an index that exceeds the number of members (e.g., attempting to access list[10] in the list above) results in an IndexError. However, attempting to access a slice of a list at a starting index that exceeds the number of members in the list will not result in an IndexError and will simply return an empty list.</div><div class="line"></div><div class="line">What makes this a particularly nasty gotcha is that it can lead to bugs that are really hard to track down since no error is raised at runtime.</div><div class="line"></div><div class="line">## Question 6</div><div class="line"></div><div class="line">``` python</div><div class="line">list = [ [] ] * 5</div><div class="line">list  # output?</div><div class="line">list[0].append(10)</div><div class="line">list  # output?</div><div class="line">list[1].append(20)</div><div class="line">list  # output?</div><div class="line">list.append(30)</div><div class="line">list  # output?</div></pre></td></tr></table></figure></p>
+<h3 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[[], [], [], [], []]</div><div class="line">[[10], [10], [10], [10], [10]]</div><div class="line">[[10, 20], [10, 20], [10, 20], [10, 20], [10, 20]]</div><div class="line">[[10, 20], [10, 20], [10, 20], [10, 20], [10, 20], 30]</div></pre></td></tr></table></figure>
+<p>list = [ [ ] ] * 5 simply creates a list of 5 lists.</p>
+<p>However, the key thing to understand here is that the <strong>statement list = [ [ ] ] * 5 does NOT create a list containing 5 distinct lists; rather, it creates a a list of 5 references to the same list</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">print</span> id(list[<span class="number">0</span>]) == id(list[<span class="number">1</span>])</div><div class="line"><span class="comment"># True</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><figcaption><span>appends 10 to the first list. But since all 5 lists refer to the same list, the output is: [[10], [10], [10], [10], [10]].</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Similarly, ```list[1].append(20)``` appends 20 to the second list. But again, since all 5 lists refer to the same list, the output is now: [[10, 20], [10, 20], [10, 20], [10, 20], [10, 20]].</div><div class="line"></div><div class="line">In contrast, ```list.append(30)``` is appending an entirely new element to the “outer” list, which therefore yields the output: [[10, 20], [10, 20], [10, 20], [10, 20], [10, 20], 30].</div><div class="line"></div><div class="line"></div><div class="line">## Question 7</div><div class="line"></div><div class="line">Given a list of N numbers, use a single list comprehension to produce a new list that only contains those values that are:</div><div class="line"></div><div class="line">1. even numbers, and</div><div class="line">2. from elements in the original list that had even indices</div><div class="line"></div><div class="line">### 答案</div><div class="line"></div><div class="line">``` python</div><div class="line">#        0   1   2   3    4    5    6    7    8</div><div class="line">list = [ 1 , 3 , 5 , 8 , 10 , 13 , 18 , 36 , 78 ]</div><div class="line"></div><div class="line">print [x for x in list[::2] if x%2==0]</div><div class="line"># [10, 18, 78]</div></pre></td></tr></table></figure>
+<h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight plain"><figcaption><span>and ```**kwargs```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">当你不确定你的函数里将要传递多少参数时你可以用*args.例如,它可以传递任意数量的参数:</div><div class="line"></div><div class="line">``` python</div><div class="line">def print_everything(*args):</div><div class="line">    for count, thing in enumerate(args):</div><div class="line">        print &apos;&#123;0&#125;. &#123;1&#125;&apos;.format(count, thing)</div><div class="line"></div><div class="line">print_everything(&apos;apple&apos;, &apos;banana&apos;, &apos;cabbage&apos;)</div><div class="line"># 0. apple</div><div class="line"># 1. banana</div><div class="line"># 2. cabbage</div></pre></td></tr></table></figure></h2><p>相似的,**kwargs允许你使用没有事先定义的参数名:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">table_things</span><span class="params">(**kwargs)</span>:</span></div><div class="line">    <span class="keyword">for</span> name, value <span class="keyword">in</span> kwargs.items():</div><div class="line">        <span class="keyword">print</span> <span class="string">'&#123;0&#125; = &#123;1&#125;'</span>.format(name, value)</div><div class="line"></div><div class="line">table_things(apple = <span class="string">'fruit'</span>, cabbage = <span class="string">'vegetable'</span>)</div><div class="line"><span class="comment"># cabbage = vegetable</span></div><div class="line"><span class="comment"># apple = fruit</span></div></pre></td></tr></table></figure>
+<p>你也可以混着用.命名参数首先获得参数值然后所有的其他参数都传递给<em>args和*</em>kwargs.命名参数在列表的最前端.例如:</p>
+<p>def table_things(titlestring, <strong>kwargs)<br>*args和</strong>kwargs可以同时在函数的定义中,但是<em>args必须在*</em>kwargs前面.</p>
+<p>当调用函数时你也可以用<em>和*</em>语法.例如:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_three_things</span><span class="params">(a, b, c)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'a = &#123;0&#125;, b = &#123;1&#125;, c = &#123;2&#125;'</span>.format(a,b,c)</div><div class="line"></div><div class="line">mylist = [<span class="string">'aardvark'</span>, <span class="string">'baboon'</span>, <span class="string">'cat'</span>]</div><div class="line">print_three_things(*mylist)</div><div class="line"></div><div class="line">a = aardvark, b = baboon, c = cat</div></pre></td></tr></table></figure>
+<h2 id="Python里的拷贝"><a href="#Python里的拷贝" class="headerlink" title="Python里的拷贝"></a>Python里的拷贝</h2><p>引用和copy(),deepcopy()的区别</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> copy</div><div class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="string">'a'</span>, <span class="string">'b'</span>]]  <span class="comment">#原始对象</span></div><div class="line"></div><div class="line">b = a  <span class="comment">#赋值，传对象的引用</span></div><div class="line">c = copy.copy(a)  <span class="comment">#对象拷贝，浅拷贝</span></div><div class="line">d = copy.deepcopy(a)  <span class="comment">#对象拷贝，深拷贝</span></div><div class="line"></div><div class="line">a.append(<span class="number">5</span>)  <span class="comment">#修改对象a</span></div><div class="line">a[<span class="number">4</span>].append(<span class="string">'c'</span>)  <span class="comment">#修改对象a中的['a', 'b']数组对象</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">'a = '</span>, a</div><div class="line"><span class="keyword">print</span> <span class="string">'b = '</span>, b</div><div class="line"><span class="keyword">print</span> <span class="string">'c = '</span>, c</div><div class="line"><span class="keyword">print</span> <span class="string">'d = '</span>, d</div><div class="line"></div><div class="line"><span class="comment"># 输出结果：</span></div><div class="line"><span class="comment"># a =  [1, 2, 3, 4, ['a', 'b', 'c'], 5]</span></div><div class="line"><span class="comment"># b =  [1, 2, 3, 4, ['a', 'b', 'c'], 5]</span></div><div class="line"><span class="comment"># c =  [1, 2, 3, 4, ['a', 'b', 'c']]</span></div><div class="line"><span class="comment"># d =  [1, 2, 3, 4, ['a', 'b']]</span></div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/WeChatImage_20170527190034.jpg" alt="Shuo Lv WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/搜索和排序之搜索/" rel="next" title="搜索和排序之搜索">
+                <i class="fa fa-chevron-left"></i> 搜索和排序之搜索
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/07/搜索和排序之排序/" rel="prev" title="搜索和排序之排序">
+                搜索和排序之排序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODkwOC81NDc3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Shuo Lv" />
+          <p class="site-author-name" itemprop="name">Shuo Lv</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lvraikkonen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/1246109477/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/lu-shuo-53/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-quora"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.linkedin.com/in/shuo-lv-58881823/" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/shuo.lv" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://webdemo.myscript.com/views/math.html" title="在线数学公式编辑器" target="_blank">在线数学公式编辑器</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Question-1"><span class="nav-number">1.</span> <span class="nav-text">Question 1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#答案："><span class="nav-number">1.1.</span> <span class="nav-text">答案：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释"><span class="nav-number">1.2.</span> <span class="nav-text">解释</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python的函数参数传递"><span class="nav-number">2.</span> <span class="nav-text">Python的函数参数传递</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Question-2"><span class="nav-number">3.</span> <span class="nav-text">Question 2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代器和生成器"><span class="nav-number">4.</span> <span class="nav-text">迭代器和生成器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Question-3"><span class="nav-number">5.</span> <span class="nav-text">Question 3</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-1"><span class="nav-number">5.1.</span> <span class="nav-text">解释</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Question-4"><span class="nav-number">6.</span> <span class="nav-text">Question 4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Question-5"><span class="nav-number">7.</span> <span class="nav-text">Question 5</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#答案"><span class="nav-number">7.1.</span> <span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">8.</span> <span class="nav-text">and ```**kwargs```123456789101112当你不确定你的函数里将要传递多少参数时你可以用*args.例如,它可以传递任意数量的参数:``` pythondef print_everything(*args):    for count, thing in enumerate(args):        print '{0}. {1}'.format(count, thing)print_everything('apple', 'banana', 'cabbage')# 0. apple# 1. banana# 2. cabbage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python里的拷贝"><span class="nav-number">9.</span> <span class="nav-text">Python里的拷贝</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shuo Lv</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("QttC3P4LGflMxbppLnNEY62a-gzGzoHsz", "joh41qpX9cxG63me5aR8vKXx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- 背景动画 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
