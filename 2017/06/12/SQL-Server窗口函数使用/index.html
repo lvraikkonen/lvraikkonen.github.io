@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="d3.js,visualization," />
+  <meta name="keywords" content="SQL,SQL Server," />
 
 
 
@@ -93,19 +93,19 @@
 
 
 
-<meta name="description" content="D3的全称是（Data-Driven Documents），是一个Javascript的函数库，主要用途是用HTML和SVG展现数据。下面简单回顾一下我从0出发把csv文件画在HTML页面上的过程。 0. 引入d3.js库引入js库可以直接引用网站上host的js库，也可以下载到本地folder下引入 1&amp;lt;script src=&quot;http://d3js.org/d3.v3.min.js&quot; c">
-<meta name="keywords" content="d3.js,visualization">
+<meta name="description" content="什么是窗口函数 Windows Function窗口函数属于集合函数，作用在行集上，下面这段关于窗口函数的介绍来自 PostgreSQL intro windows function  A window function performs a calculation across a set of table rows that are somehow related to the current">
+<meta name="keywords" content="SQL,SQL Server">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用d3.js绘图">
-<meta property="og:url" content="https://lvraikkonen.github.io/2015/11/28/使用d3.js绘图流水账/index.html">
+<meta property="og:title" content="SQL Server窗口函数使用">
+<meta property="og:url" content="https://lvraikkonen.github.io/2017/06/12/SQL-Server窗口函数使用/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
-<meta property="og:description" content="D3的全称是（Data-Driven Documents），是一个Javascript的函数库，主要用途是用HTML和SVG展现数据。下面简单回顾一下我从0出发把csv文件画在HTML页面上的过程。 0. 引入d3.js库引入js库可以直接引用网站上host的js库，也可以下载到本地folder下引入 1&amp;lt;script src=&quot;http://d3js.org/d3.v3.min.js&quot; c">
-<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/d3_line_chart.JPG">
-<meta property="og:updated_time" content="2017-05-31T03:02:18.976Z">
+<meta property="og:description" content="什么是窗口函数 Windows Function窗口函数属于集合函数，作用在行集上，下面这段关于窗口函数的介绍来自 PostgreSQL intro windows function  A window function performs a calculation across a set of table rows that are somehow related to the current">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/executionCompare1.png">
+<meta property="og:updated_time" content="2017-06-12T07:43:28.811Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用d3.js绘图">
-<meta name="twitter:description" content="D3的全称是（Data-Driven Documents），是一个Javascript的函数库，主要用途是用HTML和SVG展现数据。下面简单回顾一下我从0出发把csv文件画在HTML页面上的过程。 0. 引入d3.js库引入js库可以直接引用网站上host的js库，也可以下载到本地folder下引入 1&amp;lt;script src=&quot;http://d3js.org/d3.v3.min.js&quot; c">
-<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/d3_line_chart.JPG">
+<meta name="twitter:title" content="SQL Server窗口函数使用">
+<meta name="twitter:description" content="什么是窗口函数 Windows Function窗口函数属于集合函数，作用在行集上，下面这段关于窗口函数的介绍来自 PostgreSQL intro windows function  A window function performs a calculation across a set of table rows that are somehow related to the current">
+<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/executionCompare1.png">
 
 
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="https://lvraikkonen.github.io/2015/11/28/使用d3.js绘图流水账/"/>
+  <link rel="canonical" href="https://lvraikkonen.github.io/2017/06/12/SQL-Server窗口函数使用/"/>
 
 
 
 
 
-  <title>使用d3.js绘图 | Claus's Tech Blog</title>
+  <title>SQL Server窗口函数使用 | Claus's Tech Blog</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -307,7 +307,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/11/28/使用d3.js绘图流水账/">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/12/SQL-Server窗口函数使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shuo Lv">
@@ -324,7 +324,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">使用d3.js绘图</h1>
+          <h1 class="post-title" itemprop="name headline">SQL Server窗口函数使用</h1>
         
 
         <div class="post-meta">
@@ -336,8 +336,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-28T10:55:16+08:00">
-                2015-11-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-12T15:43:28+08:00">
+                2017-06-12
               </time>
             
 
@@ -352,8 +352,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-05-31T11:02:18+08:00">
-                2017-05-31
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-12T15:43:28+08:00">
+                2017-06-12
               </time>
             
           </span>
@@ -366,7 +366,7 @@
 
           
           
-             <span id="/2015/11/28/使用d3.js绘图流水账/" class="leancloud_visitors" data-flag-title="使用d3.js绘图">
+             <span id="/2017/06/12/SQL-Server窗口函数使用/" class="leancloud_visitors" data-flag-title="SQL Server窗口函数使用">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -393,7 +393,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,228 字
+                  1,306 字
                 </span>
               
 
@@ -415,58 +415,57 @@
       
 
       
-        <p>D3的全称是（Data-Driven Documents），是一个Javascript的函数库，主要用途是用HTML和SVG展现数据。下面简单回顾一下我从0出发把csv文件画在HTML页面上的过程。</p>
-<h2 id="0-引入d3-js库"><a href="#0-引入d3-js库" class="headerlink" title="0. 引入d3.js库"></a>0. 引入d3.js库</h2><p>引入js库可以直接引用网站上host的js库，也可以下载到本地folder下引入</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://d3js.org/d3.v3.min.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+        <h2 id="什么是窗口函数-Windows-Function"><a href="#什么是窗口函数-Windows-Function" class="headerlink" title="什么是窗口函数 Windows Function"></a>什么是窗口函数 Windows Function</h2><p>窗口函数属于集合函数，作用在行集上，下面这段关于窗口函数的介绍来自 <a href="https://www.postgresql.org/docs/9.1/static/tutorial-window.html" target="_blank" rel="external">PostgreSQL intro windows function</a></p>
+<blockquote>
+<p>A window function performs a calculation across a set of table rows that are somehow related to the current row. This is comparable to the type of calculation that can be done with an aggregate function. But unlike regular aggregate functions, use of a window function does not cause rows to become grouped into a single output row — the rows retain their separate identities. Behind the scenes, the window function is able to access more than just the current row of the query result.</p>
+</blockquote>
+<p>窗口函数在SQL:2003标准中被添加，并在SQL:2008标准中被细化。传统的关系型数据库：Oracle、Sybase和DB2都已经支持窗口函数，像开源的PostgreSQL里面也已经有了对窗口函数的完整的实现。SQL Server 2005开始对窗口函数有了最初的支持，从SQL Server 2012开始，窗口函数也被SQL Server完全支持。</p>
 <a id="more"></a>
-<h2 id="1-创建SCG画布"><a href="#1-创建SCG画布" class="headerlink" title="1. 创建SCG画布"></a>1. 创建SCG画布</h2><p>在 SVG 画布的预定义元素里，有六种基本图形：</p>
+<h2 id="SQL-Server窗口函数"><a href="#SQL-Server窗口函数" class="headerlink" title="SQL Server窗口函数"></a>SQL Server窗口函数</h2><p>窗口函数的应用非常广泛，像分页、去重、分组的基础上返回 Top N 的行、计算 Running Totals、Gaps and islands、百分率, Hierarchy 排序、Pivoting 等等。</p>
+<p>窗口函数是整个SQL语句最后被执行的部分，这意味着窗口函数是在SQL查询的结果集上进行的，因此不会受到Group By， Having，Where子句的影响</p>
+<p>SQL Server 窗口函数主要用来处理由 OVER 子句定义的行集, 主要用来分析和处理</p>
 <ul>
-<li>矩形</li>
-<li>圆形</li>
-<li>椭圆</li>
-<li>线段</li>
-<li>折线</li>
-<li>多边形</li>
+<li>Running totals</li>
+<li>Moving averages</li>
+<li>Gaps and islands</li>
 </ul>
-<p>另外，还有一种比较特殊，也是功能最强的元素：</p>
+<p>在标准的SQL中，Window Function 的OVER语句中有三个非常重要的元素:</p>
 <ul>
-<li>路径</li>
+<li>Partitioning</li>
+<li>Ordering</li>
+<li>Framing</li>
 </ul>
-<p>画布中的所有图形，都是由以上七种元素组成。在绘制数据图表的时候，都是操作这几种图形元素。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> margin = &#123;<span class="attr">top</span>: <span class="number">20</span>, <span class="attr">right</span>: <span class="number">20</span>, <span class="attr">bottom</span>: <span class="number">30</span>, <span class="attr">left</span>: <span class="number">50</span>&#125;,</div><div class="line">    width = <span class="number">960</span> - margin.left - margin.right,</div><div class="line">    height = <span class="number">500</span> - margin.top - margin.bottom;</div><div class="line"></div><div class="line"><span class="keyword">var</span> svg = d3.select(<span class="string">"body"</span>).append(<span class="string">"svg"</span>)</div><div class="line">            .attr(<span class="string">"width"</span>, width + margin.left + margin.right)</div><div class="line">            .attr(<span class="string">"height"</span>, height + margin.top + margin.bottom)</div><div class="line">            .append(<span class="string">"g"</span>)</div><div class="line">            .attr(<span class="string">"transform"</span>, <span class="string">"translate("</span> + margin.left + <span class="string">","</span> + margin.top + <span class="string">")"</span>);</div></pre></td></tr></table></figure>
-<p>上面代码的意思是，选取HTML代码中的body元素，再后面添加svg画布元素，然后设置宽度高度等属性，svg的g元素类似于div，在这里作为一组元素的容器，后面加入的元素都放在g里面，g可以设置统一的css，里面的子元素会继承可继承css属性。margin和position对g的定位不起作用，只能使用translate通过位移来定位。</p>
-<h2 id="2-定义比例尺"><a href="#2-定义比例尺" class="headerlink" title="2. 定义比例尺"></a>2. 定义比例尺</h2><p>对于画布或者图形的长度，不可能全部写死，需要通过数据的大小关系来动态确定，参考地图的比例尺。d3.js中，比例尺需要定义定义域和值域两个属性</p>
-<p>有线性比例尺 <code>d3.scale.linear()</code> 和序数比例尺 <code>d3.scale.ordinal()</code> ，线性比例尺针对连续的定义域和值域，序数比例尺针对离散的。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xScale = d3.time.scale().range([<span class="number">0</span>, width]);</div><div class="line"><span class="keyword">var</span> yScale = d3.scale.linear().range([height, <span class="number">0</span>]);</div></pre></td></tr></table></figure>
-<p>这里先定义比例尺的值域，由于定义域需要根据数据来确定，所以写到了后面读取数据的部分。</p>
-<h2 id="3-定义坐标轴"><a href="#3-定义坐标轴" class="headerlink" title="3. 定义坐标轴"></a>3. 定义坐标轴</h2><p>d3.js中的坐标轴由 <code>d3.svg.axis()</code> 来实现，svg的坐标原点是左上角，向右为正，向下为正。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xAxis = d3.svg.axis()</div><div class="line">                  .scale(xScale)</div><div class="line">                  .orient(<span class="string">"bottom"</span>);</div><div class="line"><span class="keyword">var</span> yAxis = d3.svg.axis()</div><div class="line">                  .scale(yScale)</div><div class="line">                  .orient(<span class="string">"left"</span>);</div></pre></td></tr></table></figure>
-<p>x轴是日期，这里使用d3.time在时间和字符串之间做转换。y轴使用普通的线性缩放坐标轴。</p>
-<h2 id="4-读取数据与绑定数据"><a href="#4-读取数据与绑定数据" class="headerlink" title="4. 读取数据与绑定数据"></a>4. 读取数据与绑定数据</h2><p>d3.js 中自带了读取csv、json等文件的方法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">d3.json(<span class="string">"data.json"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">error, json</span>)</span>&#123;</div><div class="line">  <span class="comment">// process data</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>d3.js 中是通过以下两个函数来绑定数据的：</p>
-<ul>
-<li>datum()：绑定一个数据到选择集上</li>
-<li>data()：绑定一个数组到选择集上，数组的各项值分别与选择集的各元素绑定</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> data = json;</div><div class="line"><span class="comment">// format date field to date</span></div><div class="line">data.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123;</div><div class="line">  d.date = <span class="keyword">new</span> <span class="built_in">Date</span>(d.date);</div><div class="line">  d.close = d.close;</div><div class="line">&#125;);</div><div class="line">xScale.domain(d3.extent(data, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123; <span class="keyword">return</span> d.date;&#125;));</div><div class="line">yScale.domain(d3.extent(data, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123; <span class="keyword">return</span> d.close;&#125;));</div></pre></td></tr></table></figure>
-<p>在这里，data数据是一个列表对象，需要对列表中每一条数据的字段数据类型进行定义，之后需要做的是上面提到的定义x轴y轴的比例尺的定义域的定义。</p>
-<h2 id="5-画线"><a href="#5-画线" class="headerlink" title="5. 画线"></a>5. 画线</h2><p>图形的主题是一条线，需要添加 <code>path</code> 元素，path的属性决定了线的路径，下面方法定义线的路径属性。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> line = d3.svg.line()</div><div class="line">             .x(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> xScale(d.date); &#125;)</div><div class="line">             .y(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> yScale(d.close); &#125;);</div><div class="line">svg.append(<span class="string">"path"</span>)</div><div class="line">   .datum(data)</div><div class="line">   .attr(<span class="string">"class"</span>, <span class="string">"line"</span>)</div><div class="line">   .attr(<span class="string">"d"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123; <span class="keyword">return</span> line(d);&#125;);</div></pre></td></tr></table></figure>
-<h2 id="6-添加坐标轴"><a href="#6-添加坐标轴" class="headerlink" title="6. 添加坐标轴"></a>6. 添加坐标轴</h2><p><code>call()</code> 函数，其参数是前面定义的坐标轴 <code>axis</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// add axis</span></div><div class="line">svg.append(<span class="string">"g"</span>)</div><div class="line">   .attr(<span class="string">"class"</span>, <span class="string">"x axis"</span>)</div><div class="line">   .attr(<span class="string">"transform"</span>, <span class="string">"translate(0,"</span> + height + <span class="string">")"</span>)</div><div class="line">   .call(xAxis);</div><div class="line">svg.append(<span class="string">"g"</span>)</div><div class="line">   .attr(<span class="string">"class"</span>, <span class="string">"y axis"</span>)</div><div class="line">   .call(yAxis)</div><div class="line">   .append(<span class="string">"text"</span>)</div><div class="line">   .attr(<span class="string">"transform"</span>, <span class="string">"rotate(-90)"</span>)</div><div class="line">   .attr(<span class="string">"y"</span>, <span class="number">6</span>)</div><div class="line">   .attr(<span class="string">"dy"</span>, <span class="string">".71em"</span>)</div><div class="line">   .style(<span class="string">"text-anchor"</span>, <span class="string">"end"</span>)</div><div class="line">   .text(<span class="string">"Price ($)"</span>);</div></pre></td></tr></table></figure>
-<h2 id="7-生成图表"><a href="#7-生成图表" class="headerlink" title="7. 生成图表"></a>7. 生成图表</h2><p>上面的js脚本写好了之后，理论上就可以生成折线图了。不过在本地调试中，发现报错：文件没有找到。这个是因为由于安全考虑，浏览器不允许js脚本访问本地文件，解决方法有两个：</p>
-<ol>
-<li>在本地开启一个web service</li>
-<li>修改浏览器属性，允许访问本地文件</li>
-</ol>
-<p>由于以后是要在网站上展示数据，所以我是用Flask在后台开启一个web服务，把d3所需要的数据生成出来</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</div><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> render_template</div><div class="line"><span class="keyword">import</span> json</div><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"></div><div class="line">app = Flask(__name__)</div><div class="line"></div><div class="line">data_path = <span class="string">'./sampleData'</span></div><div class="line"></div><div class="line"><span class="meta">@app.route("/")</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> render_template(<span class="string">"line_chart.html"</span>)</div><div class="line"></div><div class="line"><span class="meta">@app.route('/data')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_data</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">with</span> open(data_path + <span class="string">'/line_chart.tsv'</span>) <span class="keyword">as</span> data_file:</div><div class="line">        sample_data = pd.read_csv(data_file, sep=<span class="string">'\t'</span>)</div><div class="line">    <span class="keyword">return</span> sample_data.to_json(orient=<span class="string">'records'</span>)</div></pre></td></tr></table></figure>
-<p>这样，在本地运行Flask，就可以展现出折线图了。这大约就是d3.js数据可视化的基本过程。</p>
-<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/d3_line_chart.JPG" alt="linechart"></p>
-<p>版权声明：<br></p>
-<p><hr><br>除非注明，本博文章均为原创，转载请以链接形式标明本文地址。<br></p>
-
+<p>这三种元素的作用可以限制窗口集中的行，如果没有指定任何元素，那么窗口中包含的就是查询结果集中所有的行。</p>
+<p>窗口函数的语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">-- Syntax for SQL Server, Azure SQL Database, and Azure SQL Data Warehouse  </div><div class="line"></div><div class="line">OVER (   </div><div class="line">       [ &lt;PARTITION BY clause&gt; ]  </div><div class="line">       [ &lt;ORDER BY clause&gt; ]   </div><div class="line">       [ &lt;ROW or RANGE clause&gt; ]  </div><div class="line">      )</div></pre></td></tr></table></figure>
+<h3 id="Partition"><a href="#Partition" class="headerlink" title="Partition"></a>Partition</h3><blockquote>
+<p>Divides the query result set into partitions. The window function is applied to each partition separately and computation restarts for each partition.</p>
+</blockquote>
+<p>通过PARTITION BY 得到的窗口集是基于当前查询结果的当前行的一个集,，比如说 PARTITION BY CustomerID，当前行的 CustomerID = 1，那么对于当前行的这个 Window 集就是在当前查询结果之上再加上 CustomerID = 1 的一个查询结果。</p>
+<h3 id="Order"><a href="#Order" class="headerlink" title="Order"></a>Order</h3><blockquote>
+<p>Defines the logical order of the rows within each partition of the result set. That is, it specifies the logical order in which the window function calculation is performed.</p>
+</blockquote>
+<p>Order By子句对于诸如Row_Number()，Rank()，Lead()，LAG()等函数是必须的，因为如果数据无序，这些函数的结果就没有任何意义</p>
+<h3 id="ROW-RANGE"><a href="#ROW-RANGE" class="headerlink" title="ROW / RANGE"></a>ROW / RANGE</h3><blockquote>
+<p>Further limits the rows within the partition by specifying start and end points within the partition. This is done by specifying a range of rows with respect to the current row either by logical association or physical association. Physical association is achieved by using the ROWS clause.</p>
+</blockquote>
+<h2 id="简单的例子"><a href="#简单的例子" class="headerlink" title="简单的例子"></a>简单的例子</h2><p>下面用一个简单的例子表示传统的聚合函数和窗口函数的区别</p>
+<p>有一个需求：将AdventureWorks示例数据库中的Employee表按照性别进行聚合，希望得到的结果是：”登录名，性别，该性别所有员工的总数”</p>
+<p>那么传统的写法是用子查询获得按照性别进行聚合的值，然后再关联</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span>  [LoginID]</div><div class="line">      , [Gender]</div><div class="line">      , (<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> [AdventureWorks2012].[HumanResources].[Employee] a <span class="keyword">WHERE</span> a.Gender=b.Gender) <span class="keyword">AS</span> GenderTotal</div><div class="line"><span class="keyword">FROM</span> [AdventureWorks2012].[HumanResources].[Employee] b</div></pre></td></tr></table></figure>
+<p>如果使用窗口函数完成这个功能，代码如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> [LoginID]</div><div class="line">     , [Gender]</div><div class="line">     , <span class="keyword">COUNT</span>(*) <span class="keyword">OVER</span>(<span class="keyword">PARTITION</span> <span class="keyword">BY</span> Gender) <span class="keyword">AS</span> GenderTotal</div><div class="line"><span class="keyword">FROM</span> [AdventureWorks2012].[HumanResources].[Employee]</div></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/executionCompare1.png" alt="ExecutionPlanCompare"></p>
+<h2 id="窗口函数与-Group-子查询语句的比较"><a href="#窗口函数与-Group-子查询语句的比较" class="headerlink" title="窗口函数与 Group, 子查询语句的比较"></a>窗口函数与 Group, 子查询语句的比较</h2><p>对于Group来说，SELECT语句中的列必须是Group子句中出现的列或者是聚合列，那么如果需要同时在 SELECT 语句中查询其它的非 Group 或者非聚合列, 那么就需要额外的子查询。</p>
+<p>一个和上面例子很相似的情景，比如要查询每个客户的每个订单的值，以及这个订单于这个订单客户的所有订单总和比，以及这个订单与这个客户所有订单平均值的差。</p>
+<p>一个SELECT语句肯定是搞不定的，如下面代码：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">WITH Aggregates AS</div><div class="line">(</div><div class="line">   <span class="keyword">SELECT</span> custid</div><div class="line">        , <span class="keyword">SUM</span>(val) <span class="keyword">AS</span> sumval</div><div class="line">        , <span class="keyword">AVG</span>(val) <span class="keyword">AS</span> avgval</div><div class="line">   <span class="keyword">FROM</span> Sales.OrderValues</div><div class="line">   <span class="keyword">GROUP</span> <span class="keyword">BY</span> custid</div><div class="line">)</div><div class="line"><span class="keyword">SELECT</span> O.orderid</div><div class="line">     , O.custid</div><div class="line">     , O.val</div><div class="line">     , <span class="keyword">CAST</span>(<span class="number">100.</span> * O.val / A.sumval <span class="keyword">AS</span> <span class="built_in">NUMERIC</span>(<span class="number">5</span>, <span class="number">2</span>)) <span class="keyword">AS</span> pctcust</div><div class="line">     , O.val - A.avgval <span class="keyword">AS</span> diffcust</div><div class="line"><span class="keyword">FROM</span> Sales.OrderValues <span class="keyword">AS</span> O</div><div class="line"><span class="keyword">JOIN</span> Aggregates <span class="keyword">AS</span> A</div><div class="line"><span class="keyword">ON</span> O.custid = A.custid;</div></pre></td></tr></table></figure>
+<p>因为没有办法在一个Group查询中同时显示 Detail和汇总的信息</p>
+<p>如果这时再加一个比 - 单个订单与总订单额/平均额比，这时汇总的级别又不相同了， 需要单独再汇总一次</p>
+<p>额~ 又要添加一层子查询聚合</p>
+<p>如果提出更多的聚合和比较，查询语句会越来越复杂，并且查询优化器也不能确定每次是否都访问的是同一个数据集，因此需要分别访问数据集，造成性能下降。</p>
+<p>通过使用窗口函数可以很容易解决这些问题，因为可以为每一种聚合定义一个窗口上下文。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> orderid</div><div class="line">     , custid</div><div class="line">     , val</div><div class="line">     , <span class="keyword">CAST</span>(<span class="number">100.</span>* val/ <span class="keyword">SUM</span>(val) <span class="keyword">OVER</span>(<span class="keyword">PARTITION</span> <span class="keyword">BY</span> custid) <span class="keyword">AS</span> <span class="built_in">NUMERIC</span>(<span class="number">5</span>,<span class="number">2</span>)) <span class="keyword">AS</span> pctcut</div><div class="line">     , val - <span class="keyword">AVG</span>(val) <span class="keyword">OVER</span>(<span class="keyword">PARTITION</span> <span class="keyword">BY</span> custid) <span class="keyword">AS</span> diffcust</div><div class="line">     , <span class="keyword">CAST</span>(<span class="number">100.</span>* val/ <span class="keyword">SUM</span>(val) <span class="keyword">OVER</span>() <span class="keyword">AS</span> <span class="built_in">NUMERIC</span>(<span class="number">5</span>,<span class="number">2</span>)) <span class="keyword">AS</span> pctall</div><div class="line">     , val - <span class="keyword">AVG</span>(val) <span class="keyword">OVER</span>() <span class="keyword">AS</span> diffall</div><div class="line"><span class="keyword">FROM</span> Sales.OrderValues</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -511,9 +510,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/d3-js/" rel="tag"># d3.js</a>
+            <a href="/tags/SQL/" rel="tag"># SQL</a>
           
-            <a href="/tags/visualization/" rel="tag"># visualization</a>
+            <a href="/tags/SQL-Server/" rel="tag"># SQL Server</a>
           
         </div>
       
@@ -526,8 +525,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/11/27/2015-11-27-understanding-tf-idf/" rel="next" title="Understanding TF-IDF">
-                <i class="fa fa-chevron-left"></i> Understanding TF-IDF
+              <a href="/2017/06/08/Anaconda解决python包管理与环境管理/" rel="next" title="Anaconda解决python包管理与环境管理">
+                <i class="fa fa-chevron-left"></i> Anaconda解决python包管理与环境管理
               </a>
             
           </div>
@@ -535,10 +534,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/31/备份Hexo源文件至GitHub/" rel="prev" title="备份Hexo源文件至GitHub">
-                备份Hexo源文件至GitHub <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -753,7 +748,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-引入d3-js库"><span class="nav-number">1.</span> <span class="nav-text">0. 引入d3.js库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-创建SCG画布"><span class="nav-number">2.</span> <span class="nav-text">1. 创建SCG画布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-定义比例尺"><span class="nav-number">3.</span> <span class="nav-text">2. 定义比例尺</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-定义坐标轴"><span class="nav-number">4.</span> <span class="nav-text">3. 定义坐标轴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-读取数据与绑定数据"><span class="nav-number">5.</span> <span class="nav-text">4. 读取数据与绑定数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-画线"><span class="nav-number">6.</span> <span class="nav-text">5. 画线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-添加坐标轴"><span class="nav-number">7.</span> <span class="nav-text">6. 添加坐标轴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-生成图表"><span class="nav-number">8.</span> <span class="nav-text">7. 生成图表</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是窗口函数-Windows-Function"><span class="nav-number">1.</span> <span class="nav-text">什么是窗口函数 Windows Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL-Server窗口函数"><span class="nav-number">2.</span> <span class="nav-text">SQL Server窗口函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Partition"><span class="nav-number">2.1.</span> <span class="nav-text">Partition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Order"><span class="nav-number">2.2.</span> <span class="nav-text">Order</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ROW-RANGE"><span class="nav-number">2.3.</span> <span class="nav-text">ROW / RANGE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单的例子"><span class="nav-number">3.</span> <span class="nav-text">简单的例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#窗口函数与-Group-子查询语句的比较"><span class="nav-number">4.</span> <span class="nav-text">窗口函数与 Group, 子查询语句的比较</span></a></li></ol></div>
             
 
           </div>
