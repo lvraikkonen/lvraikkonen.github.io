@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Algorithm,Data Structure,面试," />
 
 
 
@@ -93,13 +93,17 @@
 
 
 
+<meta name="description" content="未完成">
+<meta name="keywords" content="Algorithm,Data Structure,面试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据仓库增量数据处理的几种方法">
-<meta property="og:url" content="https://lvraikkonen.github.io/2017/06/02/数据仓库增量数据处理的几种方法/index.html">
+<meta property="og:title" content="搜索和排序之排序">
+<meta property="og:url" content="https://lvraikkonen.github.io/2017/06/12/搜索和排序之排序/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
-<meta property="og:updated_time" content="2017-06-02T02:45:03.233Z">
+<meta property="og:description" content="未完成">
+<meta property="og:updated_time" content="2017-06-12T09:33:06.609Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据仓库增量数据处理的几种方法">
+<meta name="twitter:title" content="搜索和排序之排序">
+<meta name="twitter:description" content="未完成">
 
 
 
@@ -127,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="https://lvraikkonen.github.io/2017/06/02/数据仓库增量数据处理的几种方法/"/>
+  <link rel="canonical" href="https://lvraikkonen.github.io/2017/06/12/搜索和排序之排序/"/>
 
 
 
 
 
-  <title>数据仓库增量数据处理的几种方法 | Claus's Tech Blog</title>
+  <title>搜索和排序之排序 | Claus's Tech Blog</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -301,7 +305,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/02/数据仓库增量数据处理的几种方法/">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/12/搜索和排序之排序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shuo Lv">
@@ -318,7 +322,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数据仓库增量数据处理的几种方法</h1>
+          <h1 class="post-title" itemprop="name headline">搜索和排序之排序</h1>
         
 
         <div class="post-meta">
@@ -330,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-02T10:30:39+08:00">
-                2017-06-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-12T17:31:43+08:00">
+                2017-06-12
               </time>
             
 
@@ -346,8 +350,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-06-02T10:45:03+08:00">
-                2017-06-02
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-12T17:33:06+08:00">
+                2017-06-12
               </time>
             
           </span>
@@ -360,7 +364,7 @@
 
           
           
-             <span id="/2017/06/02/数据仓库增量数据处理的几种方法/" class="leancloud_visitors" data-flag-title="数据仓库增量数据处理的几种方法">
+             <span id="/2017/06/12/搜索和排序之排序/" class="leancloud_visitors" data-flag-title="搜索和排序之排序">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -387,7 +391,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  0 字
+                  1,591 字
                 </span>
               
 
@@ -409,7 +413,137 @@
       
 
       
-        
+        <p>未完成</p>
+<a id="more"></a>
+<h2 id="Bubble-Sort-冒泡排序"><a href="#Bubble-Sort-冒泡排序" class="headerlink" title="Bubble Sort 冒泡排序"></a>Bubble Sort 冒泡排序</h2><p>冒泡排序的原理非常简单，它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。</p>
+<p>步骤：</p>
+<ol>
+<li>比较相邻的元素。如果第一个比第二个大，就交换他们两个。</li>
+<li>对第0个到第n-1个数据做同样的工作。这时，最大的数就“浮”到了数组最后的位置上。</li>
+<li>针对所有的元素重复以上的步骤，除了最后一个。</li>
+<li>持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<p>针对上述代码还有两种优化方案。</p>
+<h2 id="Selection-Sort-选择排序"><a href="#Selection-Sort-选择排序" class="headerlink" title="Selection Sort 选择排序"></a>Selection Sort 选择排序</h2><p>选择排序无疑是最简单直观的排序。它的工作原理如下。</p>
+<p>步骤：</p>
+<ol>
+<li>在未排序序列中找到最小（大）元素，存放到排序序列的起始位置。</li>
+<li>再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。</li>
+<li>以此类推，直到所有元素均排序完毕。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<h2 id="Insertion-Sort-插入排序"><a href="#Insertion-Sort-插入排序" class="headerlink" title="Insertion Sort 插入排序"></a>Insertion Sort 插入排序</h2><p>插入排序的工作原理是，对于每个未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。</p>
+<p>步骤：</p>
+<ol>
+<li>从第一个元素开始，该元素可以认为已经被排序</li>
+<li>取出下一个元素，在已经排序的元素序列中从后向前扫描</li>
+<li>如果被扫描的元素（已排序）大于新元素，将该元素后移一位</li>
+<li>重复步骤3，直到找到已排序的元素小于或者等于新元素的位置</li>
+<li>将新元素插入到该位置后</li>
+<li>重复步骤2~5</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<h2 id="Shell-Sort-希尔排序"><a href="#Shell-Sort-希尔排序" class="headerlink" title="Shell Sort 希尔排序"></a>Shell Sort 希尔排序</h2><p>希尔排序，也称递减增量排序算法，实质是分组插入排序。由 Donald Shell 于1959年提出。希尔排序是非稳定排序算法。</p>
+<p>希尔排序的基本思想是：将数组列在一个表中并对列分别进行插入排序，重复这过程，不过每次用更长的列（步长更长了，列数更少了）来进行。最后整个表就只有一列了。将数组转换至表是为了更好地理解这算法，算法本身还是使用数组进行排序。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<h2 id="Merge-Sort-归并排序"><a href="#Merge-Sort-归并排序" class="headerlink" title="Merge Sort 归并排序"></a>Merge Sort 归并排序</h2><p>归并排序是采用分治法的一个非常典型的应用。归并排序的思想就是先递归分解数组，再合并数组。</p>
+<p>先考虑合并两个有序数组，基本思路是比较两个数组的最前面的数，谁小就先取谁，取了后相应的指针就往后移一位。然后再比较，直至一个数组为空，最后把另一个数组的剩余部分复制过来即可。</p>
+<p>再考虑递归分解，基本思路是将数组分解成left和right，如果这两个数组内部数据是有序的，那么就可以用上面合并数组的方法将这两个数组合并排序。如何让这两个数组内部是有序的？可以再二分，直至分解出的小组只含有一个元素时为止，此时认为该小组内部已有序。然后合并排序相邻二个小组即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<h2 id="Quick-Sort-快速排序"><a href="#Quick-Sort-快速排序" class="headerlink" title="Quick Sort 快速排序"></a>Quick Sort 快速排序</h2><p>快速排序通常明显比同为Ο(n log n)的其他算法更快，因此常被采用，而且快排采用了分治法的思想，所以在很多笔试面试中能经常看到快排的影子。可见掌握快排的重要性。</p>
+<p>步骤：</p>
+<ol>
+<li>从数列中挑出一个元素作为基准数。</li>
+<li>分区过程，将比基准数大的放到右边，小于或等于它的数都放到左边。</li>
+<li>再对左右区间递归执行第二步，直至各区间只有一个数。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<h2 id="Heap-Sort-堆排序"><a href="#Heap-Sort-堆排序" class="headerlink" title="Heap Sort 堆排序"></a>Heap Sort 堆排序</h2><p>堆排序在 top K 问题中使用比较频繁。堆排序是采用二叉堆的数据结构来实现的，虽然实质上还是一维数组。二叉堆是一个近似完全二叉树 。</p>
+<h3 id="二叉堆"><a href="#二叉堆" class="headerlink" title="二叉堆"></a>二叉堆</h3><p>二叉堆具有以下性质：</p>
+<ul>
+<li>父节点的键值总是大于或等于（小于或等于）任何一个子节点的键值。</li>
+<li>每个节点的左右子树都是一个二叉堆（都是最大堆或最小堆）。</li>
+</ul>
+<p>步骤：</p>
+<ol>
+<li>构造最大堆（Build_Max_Heap）：若数组下标范围为0~n，考虑到单独一个元素是大根堆，则从下标n/2开始的元素均为大根堆。于是只要从n/2-1开始，向前依次构造大根堆，这样就能保证，构造到某个节点时，它的左右子树都已经是大根堆。</li>
+<li>堆排序（HeapSort）：由于堆是用数组模拟的。得到一个大根堆后，数组内部并不是有序的。因此需要将堆化数组有序化。思想是移除根节点，并做最大堆调整的递归运算。第一次将heap[0]与heap[n-1]交换，再对heap[0…n-2]做最大堆调整。第二次将heap[0]与heap[n-2]交换，再对heap[0…n-3]做最大堆调整。重复该操作直至heap[0]和heap[1]交换。由于每次都是将最大的数并入到后面的有序区间，故操作完后整个数组就是有序的了。</li>
+<li>最大堆调整（Max_Heapify）：该方法是提供给上述两个过程调用的。目的是将堆的末端子节点作调整，使得子节点永远小于父节点。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<h2 id="Bucket-Sort-桶排序"><a href="#Bucket-Sort-桶排序" class="headerlink" title="Bucket Sort 桶排序"></a>Bucket Sort 桶排序</h2><h2 id="Counting-Sort-计数排序"><a href="#Counting-Sort-计数排序" class="headerlink" title="Counting Sort 计数排序"></a>Counting Sort 计数排序</h2><p>##</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><table>
+<thead>
+<tr>
+<th>排序方法</th>
+<th>平均情况</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>辅助空间</th>
+<th>稳定性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>冒泡排序</td>
+<td>O(n2)</td>
+<td>O(n)</td>
+<td>O(n2)</td>
+<td>O(1)</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>选择排序</td>
+<td>O(n2)</td>
+<td>O(n2)</td>
+<td>O(n2)</td>
+<td>O(1)</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>插入排序</td>
+<td>O(n2)</td>
+<td>O(n)</td>
+<td>O(n2)</td>
+<td>O(1)</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>希尔排序</td>
+<td>O(nlogn)~O(n2)</td>
+<td>O(n1.3)</td>
+<td>O(n2)</td>
+<td>O(1)</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>堆排序</td>
+<td>O(nlogn)</td>
+<td>O(nlogn)</td>
+<td>O(nlogn)</td>
+<td>O(1)</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>归并排序</td>
+<td>O(nlogn)</td>
+<td>O(nlogn)</td>
+<td>O(nlogn)</td>
+<td>O(n)</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>快速排序</td>
+<td>O(nlogn)</td>
+<td>O(nlogn)</td>
+<td>O(n2)</td>
+<td>O(logn)~O(n)</td>
+<td>不稳定</td>
+</tr>
+</tbody>
+</table>
+
       
     </div>
 
@@ -452,6 +586,16 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+            <a href="/tags/Data-Structure/" rel="tag"># Data Structure</a>
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
 
       
       
@@ -461,8 +605,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/02/看懂SQL-Server执行计划/" rel="next" title="看懂SQL Server执行计划">
-                <i class="fa fa-chevron-left"></i> 看懂SQL Server执行计划
+              <a href="/2017/06/12/Python基础知识面试题/" rel="next" title="(转)Python基础知识面试题">
+                <i class="fa fa-chevron-left"></i> (转)Python基础知识面试题
               </a>
             
           </div>
@@ -471,8 +615,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/02/SQL-Server索引/" rel="prev" title="SQL Server索引">
-                SQL Server索引 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/12/搜索和排序之搜索/" rel="prev" title="搜索和排序之搜索">
+                搜索和排序之搜索 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -545,8 +689,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpg"
@@ -583,7 +736,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -669,6 +822,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Bubble-Sort-冒泡排序"><span class="nav-number">1.</span> <span class="nav-text">Bubble Sort 冒泡排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Selection-Sort-选择排序"><span class="nav-number">2.</span> <span class="nav-text">Selection Sort 选择排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Insertion-Sort-插入排序"><span class="nav-number">3.</span> <span class="nav-text">Insertion Sort 插入排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shell-Sort-希尔排序"><span class="nav-number">4.</span> <span class="nav-text">Shell Sort 希尔排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Merge-Sort-归并排序"><span class="nav-number">5.</span> <span class="nav-text">Merge Sort 归并排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Sort-快速排序"><span class="nav-number">6.</span> <span class="nav-text">Quick Sort 快速排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Heap-Sort-堆排序"><span class="nav-number">7.</span> <span class="nav-text">Heap Sort 堆排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉堆"><span class="nav-number">7.1.</span> <span class="nav-text">二叉堆</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bucket-Sort-桶排序"><span class="nav-number">8.</span> <span class="nav-text">Bucket Sort 桶排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Counting-Sort-计数排序"><span class="nav-number">9.</span> <span class="nav-text">Counting Sort 计数排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">10.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
