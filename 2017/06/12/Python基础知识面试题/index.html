@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="Question 1如下代码的输出是什么 1234567891011def extendList(val, list=[]):    list.append(val)    return listlist1 = extendList(10)list2 = extendList(123,[])list3 = extendList(&apos;a&apos;)print &quot;list1 = %s&quot; % list1prin">
+<meta name="description" content="下面总结了一下常见的、易错的Python面试题 Question 1如下代码的输出是什么 1234567891011def extendList(val, list=[]):    list.append(val)    return listlist1 = extendList(10)list2 = extendList(123,[])list3 = extendList(&apos;a&apos;)print &quot;">
 <meta name="keywords" content="面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(转)Python基础知识面试题">
 <meta property="og:url" content="https://lvraikkonen.github.io/2017/06/12/Python基础知识面试题/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
-<meta property="og:description" content="Question 1如下代码的输出是什么 1234567891011def extendList(val, list=[]):    list.append(val)    return listlist1 = extendList(10)list2 = extendList(123,[])list3 = extendList(&apos;a&apos;)print &quot;list1 = %s&quot; % list1prin">
-<meta property="og:updated_time" content="2017-06-13T08:24:16.220Z">
+<meta property="og:description" content="下面总结了一下常见的、易错的Python面试题 Question 1如下代码的输出是什么 1234567891011def extendList(val, list=[]):    list.append(val)    return listlist1 = extendList(10)list2 = extendList(123,[])list3 = extendList(&apos;a&apos;)print &quot;">
+<meta property="og:updated_time" content="2017-06-16T07:51:38.381Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="(转)Python基础知识面试题">
-<meta name="twitter:description" content="Question 1如下代码的输出是什么 1234567891011def extendList(val, list=[]):    list.append(val)    return listlist1 = extendList(10)list2 = extendList(123,[])list3 = extendList(&apos;a&apos;)print &quot;list1 = %s&quot; % list1prin">
+<meta name="twitter:description" content="下面总结了一下常见的、易错的Python面试题 Question 1如下代码的输出是什么 1234567891011def extendList(val, list=[]):    list.append(val)    return listlist1 = extendList(10)list2 = extendList(123,[])list3 = extendList(&apos;a&apos;)print &quot;">
 
 
 
@@ -350,8 +350,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-06-13T16:24:16+08:00">
-                2017-06-13
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-16T15:51:38+08:00">
+                2017-06-16
               </time>
             
           </span>
@@ -391,7 +391,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,926 字
+                  1,943 字
                 </span>
               
 
@@ -413,9 +413,10 @@
       
 
       
-        <a id="more"></a>
+        <p>下面总结了一下常见的、易错的Python面试题</p>
 <h2 id="Question-1"><a href="#Question-1" class="headerlink" title="Question 1"></a>Question 1</h2><p>如下代码的输出是什么</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">extendList</span><span class="params">(val, list=[])</span>:</span></div><div class="line">    list.append(val)</div><div class="line">    <span class="keyword">return</span> list</div><div class="line"></div><div class="line">list1 = extendList(<span class="number">10</span>)</div><div class="line">list2 = extendList(<span class="number">123</span>,[])</div><div class="line">list3 = extendList(<span class="string">'a'</span>)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"list1 = %s"</span> % list1</div><div class="line"><span class="keyword">print</span> <span class="string">"list2 = %s"</span> % list2</div><div class="line"><span class="keyword">print</span> <span class="string">"list3 = %s"</span> % list3</div></pre></td></tr></table></figure>
+<a id="more"></a>
 <h3 id="答案："><a href="#答案：" class="headerlink" title="答案："></a>答案：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">list1 = [10, &apos;a&apos;]</div><div class="line">list2 = [123]</div><div class="line">list3 = [10, &apos;a&apos;]</div></pre></td></tr></table></figure>
 <!-- more -->
 <h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><p>The new default list is created only once when the function is defined, and that same list is then used subsequently whenever extendList is invoked without a list argument being specified. This is because expressions in default arguments are calculated when the function is defined, not when it’s called.</p>
@@ -665,7 +666,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

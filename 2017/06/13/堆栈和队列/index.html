@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="栈 (Stack)是一种后进先出(last in first off，LIFO)的数据结构 队列(Queue)则是一种先进先出 (fisrt in first out，FIFO)的结构  栈12345678910111213141516171819202122232425262728class Stack:    def __init__(self):        self.items = []">
+<meta name="description" content="栈 (Stack)是一种后进先出(last in first off，LIFO)的数据结构 队列(Queue)则是一种先进先出 (fisrt in first out，FIFO)的结构">
 <meta name="keywords" content="Algorithm,Data Structure,面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="堆栈和队列">
 <meta property="og:url" content="https://lvraikkonen.github.io/2017/06/13/堆栈和队列/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
-<meta property="og:description" content="栈 (Stack)是一种后进先出(last in first off，LIFO)的数据结构 队列(Queue)则是一种先进先出 (fisrt in first out，FIFO)的结构  栈12345678910111213141516171819202122232425262728class Stack:    def __init__(self):        self.items = []">
+<meta property="og:description" content="栈 (Stack)是一种后进先出(last in first off，LIFO)的数据结构 队列(Queue)则是一种先进先出 (fisrt in first out，FIFO)的结构">
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/stack_queue.png">
-<meta property="og:updated_time" content="2017-06-16T02:00:28.964Z">
+<meta property="og:updated_time" content="2017-06-16T03:53:34.278Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="堆栈和队列">
-<meta name="twitter:description" content="栈 (Stack)是一种后进先出(last in first off，LIFO)的数据结构 队列(Queue)则是一种先进先出 (fisrt in first out，FIFO)的结构  栈12345678910111213141516171819202122232425262728class Stack:    def __init__(self):        self.items = []">
+<meta name="twitter:description" content="栈 (Stack)是一种后进先出(last in first off，LIFO)的数据结构 队列(Queue)则是一种先进先出 (fisrt in first out，FIFO)的结构">
 <meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/stack_queue.png">
 
 
@@ -352,7 +352,7 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-06-16T10:00:28+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-16T11:53:34+08:00">
                 2017-06-16
               </time>
             
@@ -418,6 +418,7 @@
         <p>栈 (Stack)是一种后进先出(last in first off，LIFO)的数据结构</p>
 <p>队列(Queue)则是一种先进先出 (fisrt in first out，FIFO)的结构</p>
 <p><img src="http://7xkfga.com1.z0.glb.clouddn.com/stack_queue.png" alt="Stack_Queue"></p>
+<a id="more"></a>
 <h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Stack</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self.items = []</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_empty</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">not</span> self.items</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, item)</span>:</span></div><div class="line">        <span class="string">"""adds a new item to the top of the stack"""</span></div><div class="line">        self.items.append(item)</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        removes the top item from the stack,</div><div class="line">        popping an empty stack (list) will result in an error</div><div class="line">        """</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.is_empty():</div><div class="line">            <span class="keyword">return</span> self.items.pop()</div><div class="line">        <span class="keyword">return</span> <span class="string">"Pop from empty stack"</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">peek</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">"""returns the top item from the stack but does not remove it"""</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.is_empty():</div><div class="line">            <span class="keyword">return</span> self.items[len(self.items) - <span class="number">1</span>]</div><div class="line">        <span class="keyword">return</span> <span class="string">"Stack is Empty"</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">size</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> len(self.items)</div></pre></td></tr></table></figure>
 <h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2>
       
@@ -608,7 +609,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
