@@ -302,6 +302,391 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/22/SQL-Server-Slide-Window-partition/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/22/SQL-Server-Slide-Window-partition/" itemprop="url">SQL Server Slide Window partition</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-22T11:06:12+08:00">
+                2017-06-22
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-22T15:07:43+08:00">
+                2017-06-22
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/22/SQL-Server-Slide-Window-partition/" class="leancloud_visitors" data-flag-title="SQL Server Slide Window partition">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,821 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://lvraikkonen.github.io/2017/06/06/SQL-Server%E8%A1%A8%E5%88%86%E5%8C%BA/">上篇文章</a>详细介绍了表分区的概念和如何创建分区表。</p>
+<p>一个分区表创建好之后，随着数据量的逐渐增长，历史数据越来越不受待见：查询和更新频率越来越低，那么把这些历史数据进行归档就十分必要了。如果使用常规的SELECT、INSERT、DELETE进行历史数据归档的话，会出现以下的一系列问题：</p>
+<ul>
+<li><p>DELETE效率太低</p>
+<p>由于DELETE单个语句是一个事务性的语句，要么全部成功，要么全部失败。那么可想如果删除的是亿级别的数据，那么日志增长,IO负荷非常的大。</p>
+</li>
+<li><p>迁移过程表会被锁住，这样可能会出现死锁，一旦迁移失败，又会造成更大的IO问题。</p>
+</li>
+</ul>
+<p>这时候，在SQL Server中分区表有一个非常实用的语句 <code>ALTER TABLE …SWITCH</code>，这个DDL可以快速的将同文件组的表的某个分区迅速的转移到另外的表。这个是利用数据的位置偏移量的指针的转移到新表的方法来实现的。这种方案转移数据非常快。</p>
+<h2 id="滑动窗口-Sliding-Window"><a href="#滑动窗口-Sliding-Window" class="headerlink" title="滑动窗口 Sliding Window"></a>滑动窗口 Sliding Window</h2><p>滑动窗口是为了在一个分区表上维持固定分区的方法，当新数据来的时候，创建新的数据分区、老的分区被移出分区表被删除或者被归档。由于滑动窗口操作在SQL Server中是元数据操作，所以速度会非常快。</p>
+<p>下面以AdventureWorks数据库中表FactResellerSales出发，从0开始将该表进行分区，并且以滑动窗口的方式进行动态分区的维护并归档历史数据。</p>
+<h2 id="Table-Partition实践"><a href="#Table-Partition实践" class="headerlink" title="Table Partition实践"></a>Table Partition实践</h2><h3 id="创建测试数据库"><a href="#创建测试数据库" class="headerlink" title="创建测试数据库"></a>创建测试数据库</h3><p>这个测试数据库有两个文件组，PRIMARY文件组在E盘，SECONDARY文件组在D盘，用于归档数据用。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> [PartitionDB]</div><div class="line">CONTAINMENT = <span class="keyword">NONE</span></div><div class="line"><span class="keyword">ON</span>  PRIMARY</div><div class="line">(<span class="keyword">NAME</span> = N<span class="string">'PartitionDB'</span>, FILENAME = N<span class="string">'E:\SQLServerData\PartitionDB.mdf'</span>, <span class="keyword">SIZE</span> = <span class="number">10240</span>KB, FILEGROWTH = <span class="number">1024</span>KB ),</div><div class="line">FILEGROUP [SECONDARY]</div><div class="line">(<span class="keyword">NAME</span> = N<span class="string">'PartitionDBArchive'</span>, FILENAME = N<span class="string">'D:\SQLServerData\PartitionDBArchive.ndf'</span>, <span class="keyword">SIZE</span> = <span class="number">4096</span>KB, FILEGROWTH = <span class="number">1024</span>KB )</div><div class="line"><span class="keyword">LOG</span> <span class="keyword">ON</span></div><div class="line">(<span class="keyword">NAME</span> = N<span class="string">'PartitionDB_log'</span>, FILENAME = N<span class="string">'E:\SQLServerData\PartitionDB_log.ldf'</span>, <span class="keyword">SIZE</span> = <span class="number">1024</span>KB, FILEGROWTH = <span class="number">10</span>%)</div><div class="line"><span class="keyword">GO</span></div><div class="line"></div><div class="line"><span class="keyword">USE</span> [PartitionDB]</div><div class="line"><span class="keyword">GO</span></div><div class="line"><span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> <span class="keyword">name</span> <span class="keyword">FROM</span> sys.filegroups</div><div class="line">                <span class="keyword">WHERE</span> is_default=<span class="number">1</span> <span class="keyword">AND</span> <span class="keyword">name</span> = N<span class="string">'PRIMARY'</span>)</div><div class="line">    <span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> [PartitionDB] <span class="keyword">MODIFY</span> FILEGROUP [PRIMARY] <span class="keyword">DEFAULT</span></div><div class="line"><span class="keyword">GO</span></div></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/DBFileGroups.png" alt="DatabaseFileGroups"></p>
+<h3 id="创建测试数据表"><a href="#创建测试数据表" class="headerlink" title="创建测试数据表"></a>创建测试数据表</h3><p>以AdventureWorks的FactResellerSales表为例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">Select</span> * <span class="keyword">INTO</span> FactResellerSales</div><div class="line"><span class="keyword">FROM</span> [AdventureWorksDW2014].[dbo].[FactResellerSales]</div></pre></td></tr></table></figure>
+<p>在测试表数据导入之后，查看一下当前的表分区情况</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> o.name objectname,i.name indexname, partition_id, partition_number, [<span class="keyword">rows</span>]</div><div class="line"><span class="keyword">FROM</span> sys.partitions p</div><div class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> sys.objects o <span class="keyword">ON</span> o.object_id=p.object_id</div><div class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> sys.indexes i <span class="keyword">ON</span> i.object_id=p.object_id <span class="keyword">and</span> p.index_id=i.index_id</div><div class="line"><span class="keyword">WHERE</span> o.name <span class="keyword">LIKE</span> <span class="string">'%FactResellerSales%'</span></div></pre></td></tr></table></figure>
+<p>如下图：</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/startPartitionStatus.png" alt="startPartition"></p>
+<p>可以看见，现在这个表有一个默认的分区，并且全部数据都在这个分区里面。</p>
+<h3 id="在现有表上创建分区"><a href="#在现有表上创建分区" class="headerlink" title="在现有表上创建分区"></a>在现有表上创建分区</h3><p>现在要在这个表上创建两个分区，根据OrderDate字段分为两个分区，一个小于2016-01-01，另外分区的数据大于等于这个时间(2016-01-01的数据分配到右面的分区)。按照上面文章写的步骤创建分区</p>
+<p>步骤1： 创建分区函数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PARTITION</span> <span class="keyword">FUNCTION</span> [myPartitionRange] (DATETIME)</div><div class="line">    <span class="keyword">AS</span> <span class="keyword">RANGE</span> <span class="keyword">RIGHT</span> <span class="keyword">FOR</span> <span class="keyword">VALUES</span> (<span class="string">'2016-01-01'</span>)</div><div class="line"><span class="keyword">GO</span></div></pre></td></tr></table></figure>
+<p>步骤2：创建分区方案</p>
+<p>在上面的两个文件组(PRIMARY, SECONDARY)上创建分区方案</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PARTITION</span> SCHEME myPartitionScheme</div><div class="line">    <span class="keyword">AS</span> <span class="keyword">PARTITION</span> [myPartitionRange]</div><div class="line">    <span class="keyword">TO</span> ([SECONDARY],[PRIMARY])</div></pre></td></tr></table></figure>
+<p>步骤3：在表上创建聚集索引并将分区方案作用在该字段上</p>
+<p>这里由于要根据字段 <code>OrderDate</code> 进行分区并归档，所以在该字段上创建聚集索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> CLUSTERED <span class="keyword">INDEX</span> IX_FactResellerSales_OrderDate</div><div class="line">  <span class="keyword">ON</span> FactResellerSales (OrderDate)</div><div class="line">  <span class="keyword">WITH</span> (STATISTICS_NORECOMPUTE = <span class="keyword">OFF</span>, IGNORE_DUP_KEY = <span class="keyword">OFF</span>,</div><div class="line">         ALLOW_ROW_LOCKS = <span class="keyword">ON</span>, ALLOW_PAGE_LOCKS = <span class="keyword">ON</span>)</div><div class="line">  <span class="keyword">ON</span> myPartitionScheme(OrderDate) <span class="comment">-- AssignPartitionScheme</span></div></pre></td></tr></table></figure>
+<p>在创建好索引并应用分区方案后，再查看一下现在的表分区状态</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> o.name objectname,i.name indexname, partition_id, partition_number, [<span class="keyword">rows</span>]</div><div class="line"><span class="keyword">FROM</span> sys.partitions p</div><div class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> sys.objects o <span class="keyword">ON</span> o.object_id=p.object_id</div><div class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> sys.indexes i <span class="keyword">ON</span> i.object_id=p.object_id <span class="keyword">and</span> p.index_id=i.index_id</div><div class="line"><span class="keyword">WHERE</span> o.name <span class="keyword">LIKE</span> <span class="string">'%FactResellerSales%'</span></div></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/newPartitionStatus.png" alt="newPartitionStatus"></p>
+<p>可以看见，现在有两个分区：1、2，其中全部数据都在第一个分区里面，一共有60855条，也就是说60855条销售数据的OrderDate &lt; ‘2016-01-01’</p>
+<h3 id="测试新数据"><a href="#测试新数据" class="headerlink" title="测试新数据"></a>测试新数据</h3><p>现在分区已经创建好，向这个表插入三条新的2016-01-01之后的数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> dbo.FactResellerSales</div><div class="line">(ProductKey, OrderDateKey, DueDateKey, ShipDateKey, ResellerKey, EmployeeKey, PromotionKey, CurrencyKey ,SalesTerritoryKey</div><div class="line"> , SalesOrderNumber, SalesOrderLineNumber, RevisionNumber, OrderQuantity, UnitPrice, ExtendedAmount, UnitPriceDiscountPct, DiscountAmount</div><div class="line"> , ProductStandardCost, TotalProductCost, SalesAmount, TaxAmt, Freight, CarrierTrackingNumber, CustomerPONumber, OrderDate, DueDate, ShipDate)</div><div class="line"><span class="keyword">VALUES</span></div><div class="line">(<span class="number">592</span>, <span class="number">20160101</span>, <span class="number">20160101</span>, <span class="number">20160101</span>, <span class="number">490</span>, <span class="number">281</span>, <span class="number">16</span>, <span class="number">100</span>, <span class="number">4</span>, <span class="string">'SO71952'</span>, <span class="number">42</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">20</span>, <span class="number">60</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="number">60</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">'9490-4552-81'</span>, <span class="string">'PO9715163911'</span>, <span class="string">'2016-01-01 00:00:00.000'</span>,  </div><div class="line"><span class="string">'2016-01-01 00:00:00.000'</span>, <span class="string">'2016-01-01 00:00:00.000'</span>)</div><div class="line">, (<span class="number">592</span>, <span class="number">20160101</span>, <span class="number">20160101</span>, <span class="number">20160101</span>, <span class="number">490</span>, <span class="number">281</span>, <span class="number">16</span>, <span class="number">100</span>, <span class="number">4</span>, <span class="string">'SO71952'</span>, <span class="number">42</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">20</span>, <span class="number">60</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="number">60</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">'9490-4552-81'</span>, <span class="string">'PO9715163911'</span>, <span class="string">'2016-01-02 00:00:00.000'</span>,  </div><div class="line"><span class="string">'2016-01-02 00:00:00.000'</span>, <span class="string">'2016-01-02 00:00:00.000'</span>)</div><div class="line">, (<span class="number">592</span>, <span class="number">20160101</span>, <span class="number">20160101</span>, <span class="number">20160101</span>, <span class="number">490</span>, <span class="number">281</span>, <span class="number">16</span>, <span class="number">100</span>, <span class="number">4</span>, <span class="string">'SO71952'</span>, <span class="number">42</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">20</span>, <span class="number">60</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="number">60</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">'9490-4552-81'</span>, <span class="string">'PO9715163911'</span>, <span class="string">'2016-01-03 00:00:00.000'</span>,  </div><div class="line"><span class="string">'2016-01-03 00:00:00.000'</span>, <span class="string">'2016-01-03 00:00:00.000'</span>)</div></pre></td></tr></table></figure>
+<p>在观察一下分区的情况，发现新插入的3条数据都在第二个分区里面</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/newPartitionData.png" alt="newPartitionData"></p>
+<h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><p>假设销售数据到了2017年，现在的任务就是把现有的两个分区合并，2016年以及以前的数据放到老的分区里面(D盘上面的那个文件组中)，2017年的数据插入到新的分区里面。</p>
+<p>在split partition之前，必须使用alter partition scheme 指定一个NEXT USED FileGroup。如果Partiton Scheme没有指定 next used filegroup，那么alter partition function split range command 执行失败</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">DECLARE</span> @CurrentYear DATETIME=<span class="string">'2017-01-01'</span></div><div class="line"><span class="keyword">DECLARE</span> @PrevMax DATETIME=(<span class="keyword">SELECT</span> <span class="keyword">CONVERT</span>(DATETIME,<span class="keyword">Value</span>) <span class="keyword">FROM</span> sys.partition_functions f</div><div class="line">                           <span class="keyword">INNER</span> <span class="keyword">JOIN</span> sys.partition_range_values r   </div><div class="line">                           <span class="keyword">ON</span> f.function_id = r.function_id</div><div class="line">                           <span class="keyword">WHERE</span> f.name = <span class="string">'myPartitionRange'</span>)</div><div class="line"><span class="keyword">IF</span> @PrevMax&lt;@CurrentYear</div><div class="line"><span class="keyword">BEGIN</span> TRY</div><div class="line"><span class="keyword">BEGIN</span> TRAN</div><div class="line"><span class="comment">-- Merge Old Partitions</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">PARTITION</span> <span class="keyword">FUNCTION</span> myPartitionRange()</div><div class="line"><span class="keyword">MERGE</span> <span class="keyword">RANGE</span> (@PrevMax)</div><div class="line"></div><div class="line"><span class="comment">-- Assign NEXT USED filegroup</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">PARTITION</span> SCHEME myPartitionScheme</div><div class="line"><span class="keyword">NEXT</span> USED [PRIMARY]</div><div class="line"></div><div class="line"><span class="comment">-- Split partition</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">PARTITION</span> <span class="keyword">FUNCTION</span> myPartitionRange()</div><div class="line"><span class="keyword">SPLIT</span> <span class="keyword">RANGE</span> (@CurrentYear)</div><div class="line"></div><div class="line"><span class="keyword">COMMIT</span> TRAN</div><div class="line">PRINT <span class="string">'COMITIINGGGGGG'</span></div><div class="line"><span class="keyword">END</span> TRY</div><div class="line"></div><div class="line"><span class="keyword">BEGIN</span> CATCH</div><div class="line"><span class="keyword">IF</span> @@TRANCOUNT&gt;<span class="number">0</span></div><div class="line"><span class="keyword">ROLLBACK</span> TRAN</div><div class="line"><span class="keyword">END</span> CATCH</div></pre></td></tr></table></figure>
+<p>执行完上面的步骤后，你会发现，2016年的那3条数据也被合并到第一个分区里面了，新的分区2数据为空，留给2017年</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/mergePartitionData.png" alt="mergePartition"></p>
+<p>再插入3条2017年的数据试验一下</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> dbo.FactResellerSales</div><div class="line">(ProductKey, OrderDateKey, DueDateKey, ShipDateKey, ResellerKey, EmployeeKey, PromotionKey, CurrencyKey, SalesTerritoryKey,</div><div class="line">SalesOrderNumber, SalesOrderLineNumber, RevisionNumber, OrderQuantity, UnitPrice, ExtendedAmount, UnitPriceDiscountPct, DiscountAmount</div><div class="line">, ProductStandardCost, TotalProductCost, SalesAmount, TaxAmt, Freight, CarrierTrackingNumber, CustomerPONumber, OrderDate, DueDate, ShipDate)</div><div class="line"><span class="keyword">VALUES</span></div><div class="line">(<span class="number">592</span>, <span class="number">20170101</span>, <span class="number">20170101</span>, <span class="number">20170101</span>, <span class="number">490</span>, <span class="number">281</span>, <span class="number">16</span>, <span class="number">100</span>, <span class="number">4</span>, <span class="string">'SO71952'</span>, <span class="number">42</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">20</span>, <span class="number">60</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="number">60</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">'9490-4552-81'</span>, <span class="string">'PO9715163911'</span>, <span class="string">'2017-01-01 00:00:00.000'</span>,  </div><div class="line"><span class="string">'2017-01-01 00:00:00.000'</span>, <span class="string">'2017-01-01 00:00:00.000'</span>)</div><div class="line">, (<span class="number">592</span>, <span class="number">20170102</span>, <span class="number">20170102</span>, <span class="number">20170102</span>, <span class="number">490</span>, <span class="number">281</span>, <span class="number">16</span>, <span class="number">100</span>, <span class="number">4</span>, <span class="string">'SO71952'</span>, <span class="number">42</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">20</span>, <span class="number">60</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="number">60</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">'9490-4552-81'</span>, <span class="string">'PO9715163911'</span>, <span class="string">'2017-01-02 00:00:00.000'</span>,  </div><div class="line"><span class="string">'2017-01-02 00:00:00.000'</span>, <span class="string">'2017-01-02 00:00:00.000'</span>)</div><div class="line">, (<span class="number">592</span>, <span class="number">20170103</span>, <span class="number">20170103</span>, <span class="number">20170103</span>, <span class="number">490</span>, <span class="number">281</span>, <span class="number">16</span>, <span class="number">100</span>, <span class="number">4</span>, <span class="string">'SO71952'</span>, <span class="number">42</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">20</span>, <span class="number">60</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="number">60</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="string">'9490-4552-81'</span>, <span class="string">'PO9715163911'</span>, <span class="string">'2017-01-03 00:00:00.000'</span>,  </div><div class="line"><span class="string">'2017-01-03 00:00:00.000'</span>, <span class="string">'2017-01-03 00:00:00.000'</span>)</div></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/2017PartitionData.png" alt="2017PartitionData"></p>
+<p>现在，2016年以及更久之前的数据保存在分区1中，文件组存储在D盘上，而2017年最新的数据在分区2中，存储在E盘上，这样，就把新老数据在存储上分开，利用更好存储设备的性能查询和更新操作等。而对于查询或者操作这个表的用户来说，逻辑上这还是一张表。</p>
+<p>当然，还有另外一种方式进行老数据的归档操作，那就是两张物理表，一张仅存储最新数据，另一张存储归档数据</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/21/SQL-Server表分区/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/21/SQL-Server表分区/" itemprop="url">SQL Server表分区</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-21T17:53:27+08:00">
+                2017-06-21
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-22T15:09:56+08:00">
+                2017-06-22
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/21/SQL-Server表分区/" class="leancloud_visitors" data-flag-title="SQL Server表分区">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,478 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>某种特定业务下，部分业务数据可能只保留比较短的时间，例如每日的流量日志数据，可能每天亿级别的数据增长，随着数据量的逐渐增长，你会发现数据库能性能越来越慢，查询速度会明显变慢，而这时要想提高数据库的查询速度，你肯定会想到索引这种方式，但是随着索引的引入，数据的插入和更新也会变慢，因为在数据插入的时候，索引也是需要重建的。那怎么办呢？ (其实我觉得这种应用场景更好的解决方法是用流式处理的方式)</p>
+<p>一个最简单的解决方法就是把一个大表拆分成多个小表，这个就叫做表分区，表分区有两种：</p>
+<ul>
+<li>水平分区 (行级)</li>
+<li>垂直分区 (列级)</li>
+</ul>
+<p>下面主要说的是水平分区。</p>
+<p>表分区有以下优点：</p>
+<ol>
+<li>改善查询性能：对分区对象的查询可以仅搜索自己关心的分区，提高检索速度。</li>
+<li>增强可用性：如果表的某个分区出现故障，表在其他分区的数据仍然可用；</li>
+<li>维护方便：如果表的某个分区出现故障，需要修复数据，只修复该分区即可；</li>
+<li>均衡I/O：可以把不同的分区映射到磁盘以平衡I/O，改善整个系统性能。</li>
+</ol>
+<p>分区表是把数据按某种标准划分成区域存储在不同的文件组中，使用分区可以快速而有效地管理和访问数据子集，从而使大型表或索引更易于管理。合理的使用分区会很大程度上提高数据库的性能。</p>
+<p>创建分区需要如下个步骤：</p>
+<ol>
+<li>创建文件组</li>
+<li>创建分区函数</li>
+<li>创建分区方案</li>
+<li>创建或者修改使用分区方案的表</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/21/SQL-Server表分区/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/13/堆栈和队列/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -820,328 +1205,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/12/搜索和排序之排序/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/12/搜索和排序之排序/" itemprop="url">搜索和排序之排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-12T17:31:43+08:00">
-                2017-06-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2017-06-12T17:33:06+08:00">
-                2017-06-12
-              </time>
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/06/12/搜索和排序之排序/" class="leancloud_visitors" data-flag-title="搜索和排序之排序">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                  <span class="post-meta-divider">|</span>
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  1,591 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>未完成</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/12/搜索和排序之排序/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/12/Python基础知识面试题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/12/Python基础知识面试题/" itemprop="url">(转)Python基础知识面试题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-12T17:27:09+08:00">
-                2017-06-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2017-06-16T15:51:38+08:00">
-                2017-06-16
-              </time>
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/06/12/Python基础知识面试题/" class="leancloud_visitors" data-flag-title="(转)Python基础知识面试题">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                  <span class="post-meta-divider">|</span>
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  1,943 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>下面总结了一下常见的、易错的Python面试题</p>
-<h2 id="Question-1"><a href="#Question-1" class="headerlink" title="Question 1"></a>Question 1</h2><p>如下代码的输出是什么</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">extendList</span><span class="params">(val, list=[])</span>:</span></div><div class="line">    list.append(val)</div><div class="line">    <span class="keyword">return</span> list</div><div class="line"></div><div class="line">list1 = extendList(<span class="number">10</span>)</div><div class="line">list2 = extendList(<span class="number">123</span>,[])</div><div class="line">list3 = extendList(<span class="string">'a'</span>)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"list1 = %s"</span> % list1</div><div class="line"><span class="keyword">print</span> <span class="string">"list2 = %s"</span> % list2</div><div class="line"><span class="keyword">print</span> <span class="string">"list3 = %s"</span> % list3</div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/12/Python基础知识面试题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1191,7 +1254,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
