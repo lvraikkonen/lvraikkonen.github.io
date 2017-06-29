@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Cheat Sheet,Markdown,备忘," />
+  <meta name="keywords" content="MongoDB," />
 
 
 
@@ -93,20 +93,23 @@
 
 
 
-<meta name="description" content="开始写博客后，Markdown成为一种常用的文档格式，Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然，里面的语法记下来，为了以后查询方便。 文本样式1234*斜体*或_斜体_**粗体*****加粗斜体***~~删除线~~  斜体 或 斜体 粗体 加粗斜体 删除线  This text will be italic  This will also be italic">
-<meta name="keywords" content="Cheat Sheet,Markdown,备忘">
+<meta name="description" content="上面那篇MongoDB Documentation关于查询优化的案例，数据只有10条，看不出来性能有多少提升，这篇再尝试一个例子。">
+<meta name="keywords" content="MongoDB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Markdown Cheatsheet">
-<meta property="og:url" content="https://lvraikkonen.github.io/2017/05/31/Markdown-Cheatsheet/index.html">
+<meta property="og:title" content="MongoDB索引操作">
+<meta property="og:url" content="https://lvraikkonen.github.io/2017/06/29/MongoDB索引操作/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
-<meta property="og:description" content="开始写博客后，Markdown成为一种常用的文档格式，Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然，里面的语法记下来，为了以后查询方便。 文本样式1234*斜体*或_斜体_**粗体*****加粗斜体***~~删除线~~  斜体 或 斜体 粗体 加粗斜体 删除线  This text will be italic  This will also be italic">
-<meta property="og:image" content="https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png">
-<meta property="og:image" content="https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png">
-<meta property="og:updated_time" content="2017-06-08T07:45:08.848Z">
+<meta property="og:description" content="上面那篇MongoDB Documentation关于查询优化的案例，数据只有10条，看不出来性能有多少提升，这篇再尝试一个例子。">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/prepareData.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/initialExecutionStatus.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/indexScan.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/allIndexes.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/winingPlan.png">
+<meta property="og:updated_time" content="2017-06-29T07:24:28.222Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Markdown Cheatsheet">
-<meta name="twitter:description" content="开始写博客后，Markdown成为一种常用的文档格式，Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然，里面的语法记下来，为了以后查询方便。 文本样式1234*斜体*或_斜体_**粗体*****加粗斜体***~~删除线~~  斜体 或 斜体 粗体 加粗斜体 删除线  This text will be italic  This will also be italic">
-<meta name="twitter:image" content="https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png">
+<meta name="twitter:title" content="MongoDB索引操作">
+<meta name="twitter:description" content="上面那篇MongoDB Documentation关于查询优化的案例，数据只有10条，看不出来性能有多少提升，这篇再尝试一个例子。">
+<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/prepareData.png">
 
 
 
@@ -134,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="https://lvraikkonen.github.io/2017/05/31/Markdown-Cheatsheet/"/>
+  <link rel="canonical" href="https://lvraikkonen.github.io/2017/06/29/MongoDB索引操作/"/>
 
 
 
 
 
-  <title>Markdown Cheatsheet | Claus's Tech Blog</title>
+  <title>MongoDB索引操作 | Claus's Tech Blog</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -308,7 +311,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/05/31/Markdown-Cheatsheet/">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/29/MongoDB索引操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shuo Lv">
@@ -325,7 +328,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Markdown Cheatsheet</h1>
+          <h1 class="post-title" itemprop="name headline">MongoDB索引操作</h1>
         
 
         <div class="post-meta">
@@ -337,8 +340,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-31T11:38:38+08:00">
-                2017-05-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-29T15:19:20+08:00">
+                2017-06-29
               </time>
             
 
@@ -353,8 +356,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-06-08T15:45:08+08:00">
-                2017-06-08
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-29T15:24:28+08:00">
+                2017-06-29
               </time>
             
           </span>
@@ -367,7 +370,7 @@
 
           
           
-             <span id="/2017/05/31/Markdown-Cheatsheet/" class="leancloud_visitors" data-flag-title="Markdown Cheatsheet">
+             <span id="/2017/06/29/MongoDB索引操作/" class="leancloud_visitors" data-flag-title="MongoDB索引操作">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -394,7 +397,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,202 字
+                  649 字
                 </span>
               
 
@@ -416,130 +419,31 @@
       
 
       
-        <p>开始写博客后，Markdown成为一种常用的文档格式，Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然，里面的语法记下来，为了以后查询方便。</p>
-<h2 id="文本样式"><a href="#文本样式" class="headerlink" title="文本样式"></a>文本样式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">*斜体*或_斜体_</div><div class="line">**粗体**</div><div class="line">***加粗斜体***</div><div class="line">~~删除线~~</div></pre></td></tr></table></figure>
-<ul>
-<li><em>斜体</em> 或 <em>斜体</em></li>
-<li><strong>粗体</strong></li>
-<li><strong><em>加粗斜体</em></strong></li>
-<li><p><del>删除线</del></p>
-</li>
-<li><p><em>This text will be italic</em></p>
-</li>
-<li><em>This will also be italic</em></li>
-<li><strong>This text will be bold</strong></li>
-<li><strong>This will also be bold</strong></li>
-<li><em>You <strong>can</strong> combine them</em></li>
-</ul>
+        <p>上面那篇MongoDB Documentation关于查询优化的案例，数据只有10条，看不出来性能有多少提升，这篇再尝试一个例子。</p>
 <a id="more"></a>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>使用大于号 <code>&gt;</code> 表示引用内容：</p>
-<p>As Grace Hopper said:</p>
-<blockquote>
-<p>I’ve always been more interested<br>in the future than in the past.</p>
-</blockquote>
-<h2 id="分级标题"><a href="#分级标题" class="headerlink" title="分级标题"></a>分级标题</h2><p>第一种写法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">这是一个一级标题</div><div class="line">============================</div><div class="line">这是一个二级标题</div><div class="line">--------------------------------------------------</div></pre></td></tr></table></figure>
-<p>第二种写法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># 一级标题</div><div class="line">## 二级标题</div><div class="line">### 三级标题</div><div class="line">#### 四级标题</div><div class="line">##### 五级标题</div><div class="line">###### 六级标题</div></pre></td></tr></table></figure>
-<h2 id="超链接"><a href="#超链接" class="headerlink" title="超链接"></a>超链接</h2><p>Markdown 支持两种形式的链接语法： 行内式和参考式两种形式，行内式一般使用较多。</p>
-<h3 id="行内式"><a href="#行内式" class="headerlink" title="行内式"></a>行内式</h3><p>语法说明：</p>
-<p>[]里写链接文字，()里写链接地址, ()中的”“中可以为链接指定title属性，title属性可加可不加。title属性的效果是鼠标悬停在链接上会出现指定的 title文字。<a href="链接地址 “链接标题”">链接文字</a>’这样的形式。链接地址与链接标题前有一个空格。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">欢迎来到[我的博客](https://lvraikkonen.github.io/)</div><div class="line">欢迎来到[我的博客](https://lvraikkonen.github.io/ &quot;博客名&quot;)</div></pre></td></tr></table></figure>
-<ul>
-<li>欢迎来到<a href="https://lvraikkonen.github.io/">我的博客</a></li>
-<li>欢迎来到<a href="https://lvraikkonen.github.io/" title="博客名">我的博客</a></li>
-</ul>
-<h3 id="参考式"><a href="#参考式" class="headerlink" title="参考式"></a>参考式</h3><p>参考式超链接一般用在学术论文上面，或者另一种情况，如果某一个链接在文章中多处使用，那么使用引用 的方式创建链接将非常好，它可以让你对链接进行统一的管理。</p>
-<p>语法说明：<br>参考式链接分为两部分，文中的写法 [链接文字][链接标记]，在文本的任意位置添加[链接标记]:链接地址 “链接标题”，链接地址与链接标题前有一个空格。</p>
-<p>如果链接文字本身可以做为链接标记，你也可以写成[链接文字][]<br>[链接文字]：链接地址的形式，见代码的最后一行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">我经常去的几个网站[Google][1]、[Leanote][2]以及[自己的博客][3]</div><div class="line">[Leanote 笔记][2]是一个不错的[网站][]。</div><div class="line">[1]:http://www.google.com &quot;Google&quot;</div><div class="line">[2]:http://www.leanote.com &quot;Leanote&quot;</div><div class="line">[3]:https://lvraikkonen.github.io &quot;lvraikkonen&quot;</div><div class="line">[网站]:https://lvraikkonen.github.io</div></pre></td></tr></table></figure>
-<p>我经常去的几个网站<a href="http://www.google.com" title="Google" target="_blank" rel="external">Google</a>、<a href="http://www.leanote.com" title="Leanote" target="_blank" rel="external">Leanote</a></p>
-<p>以及<a href="https://lvraikkonen.github.io" title="lvraikkonen">自己的博客</a>，<a href="http://www.leanote.com" title="Leanote" target="_blank" rel="external">Leanote 笔记</a>是一个不错的<a href="https://lvraikkonen.github.io">网站</a>。</p>
-<h3 id="自动链接"><a href="#自动链接" class="headerlink" title="自动链接"></a>自动链接</h3><p>语法说明：<br>Markdown 支持以比较简短的自动链接形式来处理网址和电子邮件信箱，只要是用&lt;&gt;包起来， Markdown 就会自动把它转成链接。一般网址的链接文字就和链接地址一样，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;http://example.com/&gt;</div><div class="line">&lt;address@example.com&gt;</div></pre></td></tr></table></figure>
-<p>显示效果：</p>
-<ul>
-<li><a href="http://example.com/" target="_blank" rel="external">http://example.com/</a></li>
-<li><a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x61;&#x64;&#100;&#x72;&#101;&#115;&#x73;&#64;&#101;&#120;&#97;&#x6d;&#112;&#x6c;&#101;&#x2e;&#99;&#x6f;&#x6d;">&#x61;&#x64;&#100;&#x72;&#101;&#115;&#x73;&#64;&#101;&#120;&#97;&#x6d;&#112;&#x6c;&#101;&#x2e;&#99;&#x6f;&#x6d;</a></li>
-</ul>
-<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>无序列表使用星号 <code>*</code>、加号 <code>+</code>或是减号 <code>-</code> 作为列表标记</p>
-<ul>
-<li>Red</li>
-<li>Green</li>
-<li>Blue</li>
-</ul>
-<p>有序列表则使用数字接着一个英文句点：</p>
-<ol>
-<li>Bird</li>
-<li>McHale</li>
-<li>Parish</li>
-</ol>
-<p>列表项目可以包含多个段落，每个项目下的段落都必须缩进 4 个空格或是 1 个制表符：</p>
-<ol>
-<li><p>This is a list item with two paragraphs. Lorem ipsum dolor<br>sit amet, consectetuer adipiscing elit. Aliquam hendrerit<br>mi posuere lectus.</p>
-<p>Vestibulum enim wisi, viverra nec, fringilla in, laoreet<br>vitae, risus. Donec sit amet nisl. Aliquam semper ipsum<br>sit amet velit.</p>
-</li>
-<li><p>Suspendisse id sem consectetuer libero luctus adipiscing.</p>
-</li>
-</ol>
-<p>如果要在列表项目内放进引用，那 <code>&gt;</code> 就需要缩进：</p>
-<ul>
-<li><p>A list item with a blockquote:</p>
-<blockquote>
-<p>This is a blockquote<br>inside a list item.</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h2><p>和链接很相似的语法来标记图片，同样也允许两种样式： 行内式和参考式</p>
-<h3 id="行内式-1"><a href="#行内式-1" class="headerlink" title="行内式"></a>行内式</h3><ul>
-<li>一个惊叹号 !</li>
-<li>接着一个方括号，里面放上图片的替代文字</li>
-<li>接着一个普通括号，里面放上图片的网址，最后还可以用引号包住并加上 选择性的 ‘title’ 文字</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">![Alt text](/path/to/img.jpg)</div><div class="line"></div><div class="line">![Alt text](/path/to/img.jpg &quot;Optional title&quot;)</div></pre></td></tr></table></figure>
-<p>Inline-style:<br><img src="https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png" alt="alt text" title="Logo Title Text 1"></p>
-<h3 id="参考式-1"><a href="#参考式-1" class="headerlink" title="参考式"></a>参考式</h3><p>id是图片参考的名称，图片参考的定义方式则和链接参考一样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">![Alt text][id]</div><div class="line">[id]: url/to/image  &quot;Optional title attribute&quot;</div></pre></td></tr></table></figure></p>
-<p>Reference-style:<br><img src="https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png" alt="alt text" title="Logo Title Text 2"></p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>如果要标记一小段行内代码，你可以用反引号把它包起来 <code>code</code></p>
-<p>也可以使用三个反引号包裹一段代码，并指定一种语言</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> s = <span class="string">"JavaScript syntax highlighting"</span>;</div><div class="line">alert(s);</div></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">s = <span class="string">"Python syntax highlighting"</span></div><div class="line"><span class="keyword">print</span> s</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">No language indicated, so no syntax highlighting.</div><div class="line">But let&apos;s throw in a &lt;b&gt;tag&lt;/b&gt;.</div></pre></td></tr></table></figure>
-<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><table>
-<thead>
-<tr>
-<th>Tables</th>
-<th style="text-align:center">Are</th>
-<th style="text-align:right">Cool</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>col 3 is</td>
-<td style="text-align:center">right-aligned</td>
-<td style="text-align:right">$1600</td>
-</tr>
-<tr>
-<td>col 2 is</td>
-<td style="text-align:center">centered</td>
-<td style="text-align:right">$12</td>
-</tr>
-<tr>
-<td>zebra stripes</td>
-<td style="text-align:center">are neat</td>
-<td style="text-align:right">$1</td>
-</tr>
-</tbody>
-</table>
-<p>以下是Github支持的markdown语法：</p>
-<h2 id="To-Do-list"><a href="#To-Do-list" class="headerlink" title="To-Do list"></a>To-Do list</h2><p>TASK LISTS</p>
-<ul>
-<li>[x] this is a complete item</li>
-<li>[ ] this is an incomplete item</li>
-<li>[x] @mentions, #refs, <a href="">links</a>, <strong>formatting</strong>, and <del>tags</del> supported</li>
-<li>[x] list syntax required (any unordered or ordered list supported)</li>
-</ul>
-<h2 id="EMOJI"><a href="#EMOJI" class="headerlink" title="EMOJI"></a>EMOJI</h2><p>GitHub supports emoji!<br>:+1: :sparkles: :camel: :tada:<br>:rocket: :metal: :octocat:</p>
+<h2 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h2><p>首先先插入1千万条测试数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">use test</div><div class="line"></div><div class="line">for(var i = 0; i &lt; 10000000; i++)&#123;</div><div class="line">    var rand = parseInt(i * Math.random());</div><div class="line">    db.person.insert(&#123;name: "hxc"+i, age: i&#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/prepareData.png" alt="prepareData"></p>
+<p>数据插入需要好久，这个在以后也是个需要优化的地方。</p>
+<h2 id="使用-explain函数分析查询性能"><a href="#使用-explain函数分析查询性能" class="headerlink" title="使用 explain函数分析查询性能"></a>使用 explain函数分析查询性能</h2><p>现在在person这个collection上面没有创建任何索引，这里使用MongoDB提供的 explain工具分析一下一个查询的性能</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.person.find(&#123; name: "hxc"+10000&#125;).explain()</div></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/initialExecutionStatus.png" alt="initialPerformance"></p>
+<p>上面查询使用的是COLLSCAN，就是表扫描，totalDocsExamined为全部1千万，nReturn为1，最终返回一个文档， executionTimeMillisEstimate为4637，预计耗时4637毫秒。</p>
+<h2 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h2><p>试一试在name字段上创建一个索引呢？</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">db.person.ensureIndex(&#123; name: 1&#125;)</div><div class="line">db.person.find(&#123; name: "hxc"+10000&#125;).explain()</div></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/indexScan.png" alt="executionStatusAfterIndex"></p>
+<p>再来看看查询的性能，这回使用的是IDXSCAN，mongodb在后台使用B树结构来存放索引，这里使用的索引名字是name_1，只浏览了一个文档就返回这一个文档，executionTimeMillisEstimate预计耗时0毫秒。</p>
+<p>note: 在创建索引的时候，会占用一个写锁，如果数据量很大的话，会产生很多问题，所以建议用background方式为大表创建索引。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.person.ensureIndex(&#123; name: 1&#125;, &#123;background: 1&#125;)</div></pre></td></tr></table></figure>
+<h2 id="创建组和索引"><a href="#创建组和索引" class="headerlink" title="创建组和索引"></a>创建组和索引</h2><p>有时候查询不是单条件的，可能是多条件，这时候可以创建组合索引来加速查询</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">db.person.ensureIndex(&#123; name: 1, birthday: 1&#125;)</div><div class="line">db.person.ensureIndex(&#123; birthday: 1, name: 1&#125;)</div><div class="line"></div><div class="line">db.person.getIndexes()</div></pre></td></tr></table></figure>
+<p>下面就是创建好的所有索引</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/allIndexes.png" alt="showIndexes"></p>
+<p>其中第一个索引是在创建collection的时候系统自动创建的一个唯一性索引，key值为 <code>_id</code>。 最后两个是刚才所创建的组合索引，这两个组和索引使用的字段虽然是一样的，但是这是两个完全不同的索引</p>
+<p>下面分析一下下面的查询使用的到底是哪个索引</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.person.find(&#123; birthday: "1989-05-01", name: "mary"&#125;).explain()</div></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/winingPlan.png" alt="chooseIndex"></p>
+<p>可以看出，最终优化器选择了使用name_1_birthday_1这个索引。查询优化器会使用我们建立的这些索引来创建查询方案，优化器会从中选择最优的执行查询，同时也可以看到被优化器拒绝的查询计划。当然如果非要用自己指定的查询方案，这也是可以的，在mongodb中给我们提供了<code>hint</code>方法让我们可以暴力执行。</p>
 
       
     </div>
@@ -585,11 +489,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Cheat-Sheet/" rel="tag"># Cheat Sheet</a>
-          
-            <a href="/tags/Markdown/" rel="tag"># Markdown</a>
-          
-            <a href="/tags/备忘/" rel="tag"># 备忘</a>
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
           
         </div>
       
@@ -602,8 +502,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/27/设计短链接TinyURL/" rel="next" title="设计短链接TinyURL">
-                <i class="fa fa-chevron-left"></i> 设计短链接TinyURL
+              <a href="/2017/06/29/MongoDB-分析查询计划/" rel="next" title="MongoDB 分析查询计划">
+                <i class="fa fa-chevron-left"></i> MongoDB 分析查询计划
               </a>
             
           </div>
@@ -611,10 +511,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/02/看懂SQL-Server执行计划/" rel="prev" title="看懂SQL Server执行计划">
-                看懂SQL Server执行计划 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -829,7 +725,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文本样式"><span class="nav-number">1.</span> <span class="nav-text">文本样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">2.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分级标题"><span class="nav-number">3.</span> <span class="nav-text">分级标题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超链接"><span class="nav-number">4.</span> <span class="nav-text">超链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#行内式"><span class="nav-number">4.1.</span> <span class="nav-text">行内式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考式"><span class="nav-number">4.2.</span> <span class="nav-text">参考式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动链接"><span class="nav-number">4.3.</span> <span class="nav-text">自动链接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列表"><span class="nav-number">5.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像"><span class="nav-number">6.</span> <span class="nav-text">图像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#行内式-1"><span class="nav-number">6.1.</span> <span class="nav-text">行内式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考式-1"><span class="nav-number">6.2.</span> <span class="nav-text">参考式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">7.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表格"><span class="nav-number">8.</span> <span class="nav-text">表格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#To-Do-list"><span class="nav-number">9.</span> <span class="nav-text">To-Do list</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EMOJI"><span class="nav-number">10.</span> <span class="nav-text">EMOJI</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备数据"><span class="nav-number">1.</span> <span class="nav-text">准备数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-explain函数分析查询性能"><span class="nav-number">2.</span> <span class="nav-text">使用 explain函数分析查询性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建索引"><span class="nav-number">3.</span> <span class="nav-text">创建索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建组和索引"><span class="nav-number">4.</span> <span class="nav-text">创建组和索引</span></a></li></ol></div>
             
 
           </div>
