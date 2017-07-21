@@ -1,0 +1,1135 @@
+﻿<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,装饰器," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="装饰器是Python中的一个高阶概念，装饰器是可调用的对象，其参数是另外一个函数。装饰器可能会处理被装饰的函数然后把它返回，或者将其替换成另外一个函数或者可调用对象。 这么介绍装饰器确实很难懂，还是以例子逐步理解更容易些。 装饰器的强大在于它能够在不修改原有业务逻辑的情况下对代码进行扩展，常见的应用场景有：权限校验、用户认证、日志记录、性能测试、事务处理、缓存等。 下面记录一下我逐步理解装饰器的过">
+<meta name="keywords" content="Python,装饰器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搞懂Python装饰器">
+<meta property="og:url" content="https://lvraikkonen.github.io/2017/07/20/搞懂Python装饰器/index.html">
+<meta property="og:site_name" content="Claus&#39;s Tech Blog">
+<meta property="og:description" content="装饰器是Python中的一个高阶概念，装饰器是可调用的对象，其参数是另外一个函数。装饰器可能会处理被装饰的函数然后把它返回，或者将其替换成另外一个函数或者可调用对象。 这么介绍装饰器确实很难懂，还是以例子逐步理解更容易些。 装饰器的强大在于它能够在不修改原有业务逻辑的情况下对代码进行扩展，常见的应用场景有：权限校验、用户认证、日志记录、性能测试、事务处理、缓存等。 下面记录一下我逐步理解装饰器的过">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/createfunc.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/funcAsParam.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/nestFunc.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/closure.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/avg_func_closure.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/func_ref.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/result.png">
+<meta property="og:updated_time" content="2017-07-21T08:15:51.949Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搞懂Python装饰器">
+<meta name="twitter:description" content="装饰器是Python中的一个高阶概念，装饰器是可调用的对象，其参数是另外一个函数。装饰器可能会处理被装饰的函数然后把它返回，或者将其替换成另外一个函数或者可调用对象。 这么介绍装饰器确实很难懂，还是以例子逐步理解更容易些。 装饰器的强大在于它能够在不修改原有业务逻辑的情况下对代码进行扩展，常见的应用场景有：权限校验、用户认证、日志记录、性能测试、事务处理、缓存等。 下面记录一下我逐步理解装饰器的过">
+<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/createfunc.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'JWQGEFMRGT',
+      apiKey: '7c12daa85b9bf759fcde9b547d3a9349',
+      indexName: 'lvraikkonen_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lvraikkonen.github.io/2017/07/20/搞懂Python装饰器/"/>
+
+
+
+
+
+  <title>搞懂Python装饰器 | Claus's Tech Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Claus's Tech Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">leave me alone i know what to do</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/07/20/搞懂Python装饰器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">搞懂Python装饰器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-20T11:49:07+08:00">
+                2017-07-20
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-07-21T16:15:51+08:00">
+                2017-07-21
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/07/20/搞懂Python装饰器/" class="leancloud_visitors" data-flag-title="搞懂Python装饰器">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,735 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>装饰器是Python中的一个高阶概念，装饰器是可调用的对象，其参数是另外一个函数。装饰器可能会处理被装饰的函数然后把它返回，或者将其替换成另外一个函数或者可调用对象。</p>
+<p>这么介绍装饰器确实很难懂，还是以例子逐步理解更容易些。</p>
+<p>装饰器的强大在于它能够在不修改原有业务逻辑的情况下对代码进行扩展，常见的应用场景有：权限校验、用户认证、日志记录、性能测试、事务处理、缓存等。</p>
+<p>下面记录一下我逐步理解装饰器的过程。</p>
+<a id="more"></a>
+<h2 id="一等函数"><a href="#一等函数" class="headerlink" title="一等函数"></a>一等函数</h2><p>在Python中，函数是一等对象，也就是说函数是满足以下条件的程序实体：</p>
+<ol>
+<li>在运行时创建</li>
+<li>能赋值给变量或者数据结构中的元素</li>
+<li>能作为参数传给函数</li>
+<li>能作为函数的返回结果</li>
+</ol>
+<p>下面先看一个简单函数的定义</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">"Hello world!"</span>)</div></pre></td></tr></table></figure>
+<p>python解释器遇到这段代码的时候，发生了两件事：</p>
+<ol>
+<li>编译代码生成一个函数对象</li>
+<li>将名为”hello”的名字绑定到这个函数对象上</li>
+</ol>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/createfunc.png" alt="createSimpleFunc"></p>
+<p>Python中函数是一等对象，也就是说函数可以像int、string、float对象一样作为参数、或者作为返回值等进行传递。</p>
+<h3 id="函数作为参数"><a href="#函数作为参数" class="headerlink" title="函数作为参数"></a>函数作为参数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(bar)</span>:</span></div><div class="line">    <span class="keyword">return</span> bar + <span class="number">1</span></div><div class="line"></div><div class="line">print(foo)</div><div class="line">print(foo(<span class="number">2</span>))</div><div class="line">print(type(foo))</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">call_foo_with_arg</span><span class="params">(foo, arg)</span>:</span></div><div class="line">    <span class="keyword">return</span> foo(arg)</div><div class="line"></div><div class="line">print(call_foo_with_arg(foo, <span class="number">3</span>))</div></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/funcAsParam.png" alt=""></p>
+<p>函数 <code>call_foo_with_arg</code> 接收两个参数，其中一个是可被调用的函数对象 <code>foo</code></p>
+<h3 id="嵌套函数"><a href="#嵌套函数" class="headerlink" title="嵌套函数"></a>嵌套函数</h3><p>函数也可以定义在另外一个函数中，作为嵌套函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">parent</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">"Printing from the parent() function."</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">first_child</span><span class="params">()</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">"Printing from the first_child() function."</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">second_child</span><span class="params">()</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">"Printing from the second_child() function."</span></div><div class="line"></div><div class="line">    print(first_child())</div><div class="line">    print(second_child())</div></pre></td></tr></table></figure>
+<p><code>first_child</code> 和 <code>second_child</code> 函数是嵌套在 <code>parent</code> 函数中的函数。</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/nestFunc.png" alt="nestedFunction"></p>
+<p>当调用 <code>parent</code> 函数时，内嵌的<code>first_child</code> 和 <code>second_child</code> 函数也被调用，但是如果在 <code>parent</code> 函数中并不是调用<code>first_child</code> 和 <code>second_child</code> 函数， 而是返回这两个函数对象呢？</p>
+<p>下面歪个楼，先介绍一下Python的变量作用域的规则。</p>
+<h2 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h2><p>Python是动态语言，Python的变量名解析机制有时称为LEGB法则，当在函数中使用未认证的变量名时，Python搜索4个作用域：</p>
+<ul>
+<li>local 函数内部作用域</li>
+<li>enclosing 函数内部与内嵌函数之间</li>
+<li>global 全局作用域</li>
+<li>build-in 内置作用域</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f1</span><span class="params">(a)</span>:</span></div><div class="line">    print(a)</div><div class="line">    print(b)</div><div class="line"></div><div class="line">f1(<span class="number">3</span>)</div></pre></td></tr></table></figure>
+<p>这段程序会抛出错误：”NameError: name ‘b’ is not defined”，这是因为在函数体内，Python编译器搜索上面 LEGB 的变量，没有找到。</p>
+<p>再下面一个例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">b = <span class="number">6</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f2</span><span class="params">(a)</span>:</span></div><div class="line">    print(a)</div><div class="line">    print(b)</div><div class="line">    b = <span class="number">9</span></div><div class="line"></div><div class="line">f2(<span class="number">3</span>)</div></pre></td></tr></table></figure>
+<p>在Python中，Python不要求声明变量，但是<strong>假定在函数体中被赋值的变量是局部变量</strong>，所以在这个函数体中，变量b被判断成局部变量，所以在print(b)调用时会抛出 “UnboundLocalError: local variable ‘b’ referenced before assignment” 的错误。</p>
+<p>要想上面的代码运行，就必须手动在函数体内声明变量b为全局变量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">b = <span class="number">6</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f2</span><span class="params">(a)</span>:</span></div><div class="line">    <span class="keyword">global</span> b</div><div class="line">    print(a)</div><div class="line">    print(b)</div><div class="line">    b = <span class="number">9</span></div><div class="line"></div><div class="line">f2(<span class="number">3</span>)</div></pre></td></tr></table></figure>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>有了上面的背景知识，下面就可以介绍闭包了。<strong>闭包是指延伸了作用域的函数</strong>。</p>
+<p>要想理解这个概念还是挺难的，下面还是用例子来说明。</p>
+<p>现在有个avg函数，用于计算不断增长的序列的平均值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_averager</span><span class="params">()</span>:</span></div><div class="line">    series = []</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">averager</span><span class="params">(new_value)</span>:</span></div><div class="line">        series.append(new_value)</div><div class="line">        total = sum(series)</div><div class="line">        <span class="keyword">return</span> total / len(series)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> averager</div><div class="line"></div><div class="line">avg = make_averager()</div><div class="line">avg(<span class="number">10</span>)</div><div class="line">avg(<span class="number">11</span>)</div></pre></td></tr></table></figure>
+<p>调用函数 <code>make_averager</code> 时候，返回一个 <code>averager</code> 函数对象，每次调用 <code>averager</code> 函数，会把参数添加到 <code>series</code> 中，然后计算当前平均值。</p>
+<p><code>series</code> 是 <code>make_averager</code> 函数的局部变量，调用 <code>avg(10)</code> 时， <code>make_averager</code> 函数已经返回，所以本地作用域也就不存在了。但是在 <code>averager</code> 函数中，<code>series</code> 是自由变量</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/closure.png" alt="closure"></p>
+<p>这里的 <code>avg</code> 就是一个闭包，本质上它还是函数，闭包是引用了自由变量(series)的函数(averager)</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/avg_func_closure.png" alt="avg_func"></p>
+<h3 id="nonlocal声明"><a href="#nonlocal声明" class="headerlink" title="nonlocal声明"></a>nonlocal声明</h3><p>刚才的例子稍稍改动一下，使用total和count来计算移动平均值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_averager</span><span class="params">()</span>:</span></div><div class="line">    count = <span class="number">0</span></div><div class="line">    total = <span class="number">0</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">averager</span><span class="params">(new_value)</span>:</span></div><div class="line">        count += <span class="number">1</span></div><div class="line">        total += new_value</div><div class="line">        <span class="keyword">return</span> total / count</div><div class="line"></div><div class="line">    <span class="keyword">return</span> averager</div><div class="line"></div><div class="line">avg = make_averager()</div><div class="line">avg(<span class="number">10</span>)</div></pre></td></tr></table></figure>
+<p>这时候会抛出错误 “UnboundLocalError: local variable ‘count’ referenced before assignment”。这是因为：当count为数字或者任何不可变类型时，在函数体定义中 <code>count = count + 1</code> 实际上是为count赋值，所以count就变成了局部变量。为了避免这个问题，python3引入了 <code>nonlocal</code> 声明，作用是把变量标记成 <strong>自由变量</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_averager</span><span class="params">()</span>:</span></div><div class="line">    count = <span class="number">0</span></div><div class="line">    total = <span class="number">0</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">averager</span><span class="params">(new_value)</span>:</span></div><div class="line">        <span class="keyword">nonlocal</span> count, total</div><div class="line">        count += <span class="number">1</span></div><div class="line">        total += new_value</div><div class="line">        <span class="keyword">return</span> total / count</div><div class="line"></div><div class="line">    <span class="keyword">return</span> averager</div><div class="line"></div><div class="line">avg = make_averager()</div><div class="line">print(avg(<span class="number">10</span>))</div><div class="line">print(avg(<span class="number">11</span>))</div><div class="line">print(avg(<span class="number">12</span>))</div></pre></td></tr></table></figure>
+<h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><p>了解了闭包之后，下面就可以用嵌套函数实现装饰器了。事实上，装饰器就是一种闭包的应用，只不过传递的是函数。</p>
+<p>下面写一个简单的装饰器的例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">makebold</span><span class="params">(fn)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapped</span><span class="params">()</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">'&lt;b&gt;'</span> + fn() + <span class="string">'&lt;/b&gt;'</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> wrapped</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">makeitalic</span><span class="params">(fn)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapped</span><span class="params">()</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">'&lt;i&gt;'</span> + fn() + <span class="string">'&lt;/i&gt;'</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> wrapped</div><div class="line"></div><div class="line"><span class="meta">@makebold</span></div><div class="line"><span class="meta">@makeitalic</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="string">"Hello World"</span></div><div class="line"></div><div class="line">print(hello())</div></pre></td></tr></table></figure>
+<p><code>makeitalic</code> 装饰器将函数 <code>hello</code> 传递给函数 <code>makeitalic</code>，函数 <code>makeitalic</code> 执行完毕后返回被包装后的 hello 函数，而这个过程其实就是通过闭包实现的</p>
+<p>装饰器有一个语法糖@,直接@my_new_decorator就把上面一坨代码轻松化解了，这就是Pythonic的代码，简洁高效，使用语法糖其实等价于下面显式使用闭包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hello_bold = makebold(hello)</div><div class="line">hello_italic = makeitalic(hello)</div></pre></td></tr></table></figure>
+<p>再来一个例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="keyword">import</span> functools</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">clock</span><span class="params">(func)</span>:</span></div><div class="line"></div><div class="line"><span class="meta">    @functools.wraps(func)</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clocked</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">        t0 = time.time()</div><div class="line"></div><div class="line">        <span class="comment"># execute</span></div><div class="line">        result = func(*args, **kwargs)</div><div class="line"></div><div class="line">        elapsed = time.time() - t0</div><div class="line"></div><div class="line">        name = func.__name__</div><div class="line">        arg_lst = []</div><div class="line">        <span class="keyword">if</span> args:</div><div class="line">            arg_lst.append(<span class="string">', '</span>.join(repr(arg) <span class="keyword">for</span> arg <span class="keyword">in</span> args))</div><div class="line">        <span class="keyword">if</span> kwargs:</div><div class="line">            pairs = [<span class="string">'%s=%r'</span> % (k, w) <span class="keyword">for</span> k, w <span class="keyword">in</span> sorted(kwargs.items())]</div><div class="line">            arg_lst.append(<span class="string">', '</span>.join(pairs))</div><div class="line">        arg_str = <span class="string">', '</span>.join(arg_lst)</div><div class="line">        print(<span class="string">'[%0.8fs] %s(%s) -&gt; %r '</span> % (elapsed, name, arg_str, result))</div><div class="line"></div><div class="line">        <span class="keyword">return</span> result</div><div class="line">    <span class="keyword">return</span> clocked</div><div class="line"></div><div class="line"><span class="meta">@clock</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">snooze</span><span class="params">(seconds)</span>:</span></div><div class="line">    time.sleep(seconds)</div><div class="line"></div><div class="line"><span class="meta">@clock</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">factorial</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="number">1</span> <span class="keyword">if</span> n&lt;<span class="number">2</span> <span class="keyword">else</span> n*factorial(n<span class="number">-1</span>)</div></pre></td></tr></table></figure>
+<p><code>snooze</code>和<code>factorial</code>函数会作为func参数传给clock函数，然后clock函数会返回<code>clocked</code>函数。所以现在<code>factorial</code>保留的是<code>clocked</code>函数的引用</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/func_ref.png" alt="func_ref"></p>
+<p>clocked函数做了以下几件事：</p>
+<ol>
+<li>记录初始时间</li>
+<li>调用原来的factorial函数，保存结果</li>
+<li>计算经过的时间</li>
+<li>格式化收集的数据，然后打印出来</li>
+<li>返回第2步保存的结果</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">print(<span class="string">'*'</span>*<span class="number">40</span>, <span class="string">'Calling factorial(6)'</span>)</div><div class="line">print(<span class="string">'6! = '</span>, factorial(<span class="number">6</span>))</div></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/result.png" alt="result"></p>
+<p>装饰器的典型行为就是：<strong>把被装饰的函数体换成新函数，二者接受相同的参数，返回本壮士的函数本该返回的值，同时有额外操作</strong></p>
+<h2 id="参数化装饰器"><a href="#参数化装饰器" class="headerlink" title="参数化装饰器"></a>参数化装饰器</h2><h2 id="装饰器在真实世界的应用"><a href="#装饰器在真实世界的应用" class="headerlink" title="装饰器在真实世界的应用"></a>装饰器在真实世界的应用</h2><p>到这儿，装饰器的一些基本概念就都清楚了。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://segmentfault.com/a/1190000004461404" target="_blank" rel="external">Python 的闭包和装饰器</a></p>
+<p><a href="https://www.amazon.com/Fluent-Python-Concise-Effective-Programming/dp/1491946008/ref=sr_1_1?ie=UTF8&amp;qid=1500368395&amp;sr=8-1&amp;keywords=fluent+python" target="_blank" rel="external">Fluent Python</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/WeChatImage_20170527190034.jpg" alt="Shuo Lv WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/装饰器/" rel="tag"># 装饰器</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/18/Python-dict类型的实现/" rel="next" title="Python dict类型的实现">
+                <i class="fa fa-chevron-left"></i> Python dict类型的实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODkwOC81NDc3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Shuo Lv" />
+          <p class="site-author-name" itemprop="name">Shuo Lv</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lvraikkonen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/1246109477/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/lu-shuo-53/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-quora"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.linkedin.com/in/shuo-lv-58881823/" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/shuo.lv" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://webdemo.myscript.com/views/math.html" title="在线数学公式编辑器" target="_blank">在线数学公式编辑器</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一等函数"><span class="nav-number">1.</span> <span class="nav-text">一等函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数作为参数"><span class="nav-number">1.1.</span> <span class="nav-text">函数作为参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套函数"><span class="nav-number">1.2.</span> <span class="nav-text">嵌套函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量作用域"><span class="nav-number">2.</span> <span class="nav-text">变量作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#闭包"><span class="nav-number">3.</span> <span class="nav-text">闭包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nonlocal声明"><span class="nav-number">3.1.</span> <span class="nav-text">nonlocal声明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装饰器"><span class="nav-number">4.</span> <span class="nav-text">装饰器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数化装饰器"><span class="nav-number">5.</span> <span class="nav-text">参数化装饰器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装饰器在真实世界的应用"><span class="nav-number">6.</span> <span class="nav-text">装饰器在真实世界的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shuo Lv</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("QttC3P4LGflMxbppLnNEY62a-gzGzoHsz", "joh41qpX9cxG63me5aR8vKXx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- 背景动画 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
