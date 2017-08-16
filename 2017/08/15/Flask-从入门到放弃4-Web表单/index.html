@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="d3.js,visualization," />
+  <meta name="keywords" content="Python,Flask," />
 
 
 
@@ -93,19 +93,19 @@
 
 
 
-<meta name="description" content="D3的全称是（Data-Driven Documents），是一个Javascript的函数库，主要用途是用HTML和SVG展现数据。下面简单回顾一下我从0出发把csv文件画在HTML页面上的过程。 0. 引入d3.js库引入js库可以直接引用网站上host的js库，也可以下载到本地folder下引入 1&amp;lt;script src=&quot;http://d3js.org/d3.v3.min.js&quot; c">
-<meta name="keywords" content="d3.js,visualization">
+<meta name="description" content="HTML表单用于搜集不同类型的用户输入，是Web应用和用户交互的一种HTML元素。关于表单的基础知识可以去 W3School HTML 表单 去复习一下。 先歪个楼回顾一下HTTP请求的基础知识  HTTP 方法：GET 对比 POST  Flask中的request对象可以存储来自客户端的所有信息，其中可以通过 request.form 来获得POST请求所提交的表单数据。在处理表单的时候，像构">
+<meta name="keywords" content="Python,Flask">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用d3.js绘图">
-<meta property="og:url" content="https://lvraikkonen.github.io/2015/11/28/使用d3.js绘图流水账/index.html">
+<meta property="og:title" content="Flask 从入门到放弃4: Web表单">
+<meta property="og:url" content="https://lvraikkonen.github.io/2017/08/15/Flask-从入门到放弃4-Web表单/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
-<meta property="og:description" content="D3的全称是（Data-Driven Documents），是一个Javascript的函数库，主要用途是用HTML和SVG展现数据。下面简单回顾一下我从0出发把csv文件画在HTML页面上的过程。 0. 引入d3.js库引入js库可以直接引用网站上host的js库，也可以下载到本地folder下引入 1&amp;lt;script src=&quot;http://d3js.org/d3.v3.min.js&quot; c">
-<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/d3_line_chart.JPG">
-<meta property="og:updated_time" content="2017-05-31T03:02:18.976Z">
+<meta property="og:description" content="HTML表单用于搜集不同类型的用户输入，是Web应用和用户交互的一种HTML元素。关于表单的基础知识可以去 W3School HTML 表单 去复习一下。 先歪个楼回顾一下HTTP请求的基础知识  HTTP 方法：GET 对比 POST  Flask中的request对象可以存储来自客户端的所有信息，其中可以通过 request.form 来获得POST请求所提交的表单数据。在处理表单的时候，像构">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/Flask-wtf_logo.png">
+<meta property="og:updated_time" content="2017-08-16T03:59:30.552Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用d3.js绘图">
-<meta name="twitter:description" content="D3的全称是（Data-Driven Documents），是一个Javascript的函数库，主要用途是用HTML和SVG展现数据。下面简单回顾一下我从0出发把csv文件画在HTML页面上的过程。 0. 引入d3.js库引入js库可以直接引用网站上host的js库，也可以下载到本地folder下引入 1&amp;lt;script src=&quot;http://d3js.org/d3.v3.min.js&quot; c">
-<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/d3_line_chart.JPG">
+<meta name="twitter:title" content="Flask 从入门到放弃4: Web表单">
+<meta name="twitter:description" content="HTML表单用于搜集不同类型的用户输入，是Web应用和用户交互的一种HTML元素。关于表单的基础知识可以去 W3School HTML 表单 去复习一下。 先歪个楼回顾一下HTTP请求的基础知识  HTTP 方法：GET 对比 POST  Flask中的request对象可以存储来自客户端的所有信息，其中可以通过 request.form 来获得POST请求所提交的表单数据。在处理表单的时候，像构">
+<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/Flask-wtf_logo.png">
 
 
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="https://lvraikkonen.github.io/2015/11/28/使用d3.js绘图流水账/"/>
+  <link rel="canonical" href="https://lvraikkonen.github.io/2017/08/15/Flask-从入门到放弃4-Web表单/"/>
 
 
 
 
 
-  <title>使用d3.js绘图 | Claus's Tech Blog</title>
+  <title>Flask 从入门到放弃4: Web表单 | Claus's Tech Blog</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -307,7 +307,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/11/28/使用d3.js绘图流水账/">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/08/15/Flask-从入门到放弃4-Web表单/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shuo Lv">
@@ -324,7 +324,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">使用d3.js绘图</h1>
+          <h1 class="post-title" itemprop="name headline">Flask 从入门到放弃4: Web表单</h1>
         
 
         <div class="post-meta">
@@ -336,8 +336,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-28T10:55:16+08:00">
-                2015-11-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-15T16:08:46+08:00">
+                2017-08-15
               </time>
             
 
@@ -352,13 +352,35 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-05-31T11:02:18+08:00">
-                2017-05-31
+              <time title="更新于" itemprop="dateModified" datetime="2017-08-16T11:59:30+08:00">
+                2017-08-16
               </time>
             
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flask从入门到放弃/" itemprop="url" rel="index">
+                    <span itemprop="name">Flask从入门到放弃</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -366,7 +388,7 @@
 
           
           
-             <span id="/2015/11/28/使用d3.js绘图流水账/" class="leancloud_visitors" data-flag-title="使用d3.js绘图">
+             <span id="/2017/08/15/Flask-从入门到放弃4-Web表单/" class="leancloud_visitors" data-flag-title="Flask 从入门到放弃4: Web表单">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -393,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,228 字
+                  1,133 字
                 </span>
               
 
@@ -415,57 +437,41 @@
       
 
       
-        <p>D3的全称是（Data-Driven Documents），是一个Javascript的函数库，主要用途是用HTML和SVG展现数据。下面简单回顾一下我从0出发把csv文件画在HTML页面上的过程。</p>
-<h2 id="0-引入d3-js库"><a href="#0-引入d3-js库" class="headerlink" title="0. 引入d3.js库"></a>0. 引入d3.js库</h2><p>引入js库可以直接引用网站上host的js库，也可以下载到本地folder下引入</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://d3js.org/d3.v3.min.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+        <p>HTML表单用于搜集不同类型的用户输入，是Web应用和用户交互的一种HTML元素。关于表单的基础知识可以去 <a href="http://www.w3school.com.cn/html/html_forms.asp" target="_blank" rel="external">W3School HTML 表单</a> 去复习一下。</p>
+<p>先歪个楼回顾一下HTTP请求的基础知识</p>
+<blockquote>
+<p><a href="http://www.w3school.com.cn/tags/html_ref_httpmethods.asp" target="_blank" rel="external">HTTP 方法：GET 对比 POST</a></p>
+</blockquote>
+<p>Flask中的request对象可以存储来自客户端的所有信息，其中可以通过 <code>request.form</code> 来获得POST请求所提交的表单数据。在处理表单的时候，像构建表单、表单数据验证是重复并且很繁琐的。可以使用 <a href="https://flask-wtf.readthedocs.io/en/stable/" target="_blank" rel="external">Flask-WTF</a> 来简化相关操作。</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/Flask-wtf_logo.png" alt="Flask-WTF_logo"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(venv) $ pip install flask-wtf</div></pre></td></tr></table></figure>
+<p>Flask-WTF是一个集成了WTForms的Flask扩展，使用它你可以在python文件里创建表单类，然后在HTML使用它提供的函数渲染表单。</p>
 <a id="more"></a>
-<h2 id="1-创建SCG画布"><a href="#1-创建SCG画布" class="headerlink" title="1. 创建SCG画布"></a>1. 创建SCG画布</h2><p>在 SVG 画布的预定义元素里，有六种基本图形：</p>
-<ul>
-<li>矩形</li>
-<li>圆形</li>
-<li>椭圆</li>
-<li>线段</li>
-<li>折线</li>
-<li>多边形</li>
-</ul>
-<p>另外，还有一种比较特殊，也是功能最强的元素：</p>
-<ul>
-<li>路径</li>
-</ul>
-<p>画布中的所有图形，都是由以上七种元素组成。在绘制数据图表的时候，都是操作这几种图形元素。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> margin = &#123;<span class="attr">top</span>: <span class="number">20</span>, <span class="attr">right</span>: <span class="number">20</span>, <span class="attr">bottom</span>: <span class="number">30</span>, <span class="attr">left</span>: <span class="number">50</span>&#125;,</div><div class="line">    width = <span class="number">960</span> - margin.left - margin.right,</div><div class="line">    height = <span class="number">500</span> - margin.top - margin.bottom;</div><div class="line"></div><div class="line"><span class="keyword">var</span> svg = d3.select(<span class="string">"body"</span>).append(<span class="string">"svg"</span>)</div><div class="line">            .attr(<span class="string">"width"</span>, width + margin.left + margin.right)</div><div class="line">            .attr(<span class="string">"height"</span>, height + margin.top + margin.bottom)</div><div class="line">            .append(<span class="string">"g"</span>)</div><div class="line">            .attr(<span class="string">"transform"</span>, <span class="string">"translate("</span> + margin.left + <span class="string">","</span> + margin.top + <span class="string">")"</span>);</div></pre></td></tr></table></figure>
-<p>上面代码的意思是，选取HTML代码中的body元素，再后面添加svg画布元素，然后设置宽度高度等属性，svg的g元素类似于div，在这里作为一组元素的容器，后面加入的元素都放在g里面，g可以设置统一的css，里面的子元素会继承可继承css属性。margin和position对g的定位不起作用，只能使用translate通过位移来定位。</p>
-<h2 id="2-定义比例尺"><a href="#2-定义比例尺" class="headerlink" title="2. 定义比例尺"></a>2. 定义比例尺</h2><p>对于画布或者图形的长度，不可能全部写死，需要通过数据的大小关系来动态确定，参考地图的比例尺。d3.js中，比例尺需要定义定义域和值域两个属性</p>
-<p>有线性比例尺 <code>d3.scale.linear()</code> 和序数比例尺 <code>d3.scale.ordinal()</code> ，线性比例尺针对连续的定义域和值域，序数比例尺针对离散的。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xScale = d3.time.scale().range([<span class="number">0</span>, width]);</div><div class="line"><span class="keyword">var</span> yScale = d3.scale.linear().range([height, <span class="number">0</span>]);</div></pre></td></tr></table></figure>
-<p>这里先定义比例尺的值域，由于定义域需要根据数据来确定，所以写到了后面读取数据的部分。</p>
-<h2 id="3-定义坐标轴"><a href="#3-定义坐标轴" class="headerlink" title="3. 定义坐标轴"></a>3. 定义坐标轴</h2><p>d3.js中的坐标轴由 <code>d3.svg.axis()</code> 来实现，svg的坐标原点是左上角，向右为正，向下为正。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xAxis = d3.svg.axis()</div><div class="line">                  .scale(xScale)</div><div class="line">                  .orient(<span class="string">"bottom"</span>);</div><div class="line"><span class="keyword">var</span> yAxis = d3.svg.axis()</div><div class="line">                  .scale(yScale)</div><div class="line">                  .orient(<span class="string">"left"</span>);</div></pre></td></tr></table></figure>
-<p>x轴是日期，这里使用d3.time在时间和字符串之间做转换。y轴使用普通的线性缩放坐标轴。</p>
-<h2 id="4-读取数据与绑定数据"><a href="#4-读取数据与绑定数据" class="headerlink" title="4. 读取数据与绑定数据"></a>4. 读取数据与绑定数据</h2><p>d3.js 中自带了读取csv、json等文件的方法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">d3.json(<span class="string">"data.json"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">error, json</span>)</span>&#123;</div><div class="line">  <span class="comment">// process data</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>d3.js 中是通过以下两个函数来绑定数据的：</p>
-<ul>
-<li>datum()：绑定一个数据到选择集上</li>
-<li>data()：绑定一个数组到选择集上，数组的各项值分别与选择集的各元素绑定</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> data = json;</div><div class="line"><span class="comment">// format date field to date</span></div><div class="line">data.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123;</div><div class="line">  d.date = <span class="keyword">new</span> <span class="built_in">Date</span>(d.date);</div><div class="line">  d.close = d.close;</div><div class="line">&#125;);</div><div class="line">xScale.domain(d3.extent(data, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123; <span class="keyword">return</span> d.date;&#125;));</div><div class="line">yScale.domain(d3.extent(data, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123; <span class="keyword">return</span> d.close;&#125;));</div></pre></td></tr></table></figure>
-<p>在这里，data数据是一个列表对象，需要对列表中每一条数据的字段数据类型进行定义，之后需要做的是上面提到的定义x轴y轴的比例尺的定义域的定义。</p>
-<h2 id="5-画线"><a href="#5-画线" class="headerlink" title="5. 画线"></a>5. 画线</h2><p>图形的主题是一条线，需要添加 <code>path</code> 元素，path的属性决定了线的路径，下面方法定义线的路径属性。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> line = d3.svg.line()</div><div class="line">             .x(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> xScale(d.date); &#125;)</div><div class="line">             .y(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> yScale(d.close); &#125;);</div><div class="line">svg.append(<span class="string">"path"</span>)</div><div class="line">   .datum(data)</div><div class="line">   .attr(<span class="string">"class"</span>, <span class="string">"line"</span>)</div><div class="line">   .attr(<span class="string">"d"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123; <span class="keyword">return</span> line(d);&#125;);</div></pre></td></tr></table></figure>
-<h2 id="6-添加坐标轴"><a href="#6-添加坐标轴" class="headerlink" title="6. 添加坐标轴"></a>6. 添加坐标轴</h2><p><code>call()</code> 函数，其参数是前面定义的坐标轴 <code>axis</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// add axis</span></div><div class="line">svg.append(<span class="string">"g"</span>)</div><div class="line">   .attr(<span class="string">"class"</span>, <span class="string">"x axis"</span>)</div><div class="line">   .attr(<span class="string">"transform"</span>, <span class="string">"translate(0,"</span> + height + <span class="string">")"</span>)</div><div class="line">   .call(xAxis);</div><div class="line">svg.append(<span class="string">"g"</span>)</div><div class="line">   .attr(<span class="string">"class"</span>, <span class="string">"y axis"</span>)</div><div class="line">   .call(yAxis)</div><div class="line">   .append(<span class="string">"text"</span>)</div><div class="line">   .attr(<span class="string">"transform"</span>, <span class="string">"rotate(-90)"</span>)</div><div class="line">   .attr(<span class="string">"y"</span>, <span class="number">6</span>)</div><div class="line">   .attr(<span class="string">"dy"</span>, <span class="string">".71em"</span>)</div><div class="line">   .style(<span class="string">"text-anchor"</span>, <span class="string">"end"</span>)</div><div class="line">   .text(<span class="string">"Price ($)"</span>);</div></pre></td></tr></table></figure>
-<h2 id="7-生成图表"><a href="#7-生成图表" class="headerlink" title="7. 生成图表"></a>7. 生成图表</h2><p>上面的js脚本写好了之后，理论上就可以生成折线图了。不过在本地调试中，发现报错：文件没有找到。这个是因为由于安全考虑，浏览器不允许js脚本访问本地文件，解决方法有两个：</p>
+<h2 id="创建Flask-WTF表单"><a href="#创建Flask-WTF表单" class="headerlink" title="创建Flask-WTF表单"></a>创建Flask-WTF表单</h2><h3 id="跨站请求伪造保护CSRF"><a href="#跨站请求伪造保护CSRF" class="headerlink" title="跨站请求伪造保护CSRF"></a>跨站请求伪造保护CSRF</h3><p>Flask-WTF默认支持CSRF（跨站请求伪造）保护，只需要在程序中设置一个密钥。Flask-WTF使用这个密钥生成加密令牌，再用令牌验证表单中数据的真伪。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">app = Flask(__name__)</div><div class="line">app.config[<span class="string">'SECRET_KEY'</span>] = <span class="string">'DontTellAnyone'</span></div></pre></td></tr></table></figure>
+<h3 id="表单类"><a href="#表单类" class="headerlink" title="表单类"></a>表单类</h3><p>从Flask-WTF导入FlaskForm类，再从WTForms导入表单字段和验证函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask_wtf <span class="keyword">import</span> FlaskForm</div><div class="line"><span class="keyword">from</span> wtforms <span class="keyword">import</span> StringField, PasswordField, SubmitField</div><div class="line"><span class="keyword">from</span> wtforms.validators <span class="keyword">import</span> DataRequired, Length, Email, AnyOf</div></pre></td></tr></table></figure>
+<p>每个表单都用一个继承自FlaskForm的类表示，每个字段都用一个对象表示，每个对象可以附加多个验证函数。常见的验证函数有Required()，Length()，Email()等。 下面创建自己的表单类：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginForm</span><span class="params">(FlaskForm)</span>:</span></div><div class="line">    email = StringField(<span class="string">u'邮箱'</span>, validators=[DataRequired(message=<span class="string">u'邮箱不能为空'</span>), Length(<span class="number">1</span>, <span class="number">64</span>), Email(message=<span class="string">u'请输入有效的邮箱地址，比如：username@domain.com'</span>)])</div><div class="line">    password = PasswordField(<span class="string">u'密码'</span>, validators=[DataRequired(message=<span class="string">u'密码不能为空'</span>), Length(min=<span class="number">5</span>, max=<span class="number">13</span>), AnyOf([<span class="string">'secret'</span>, <span class="string">'password'</span>])])</div><div class="line">    submit = SubmitField(<span class="string">u'登录'</span>)</div></pre></td></tr></table></figure>
+<p>自定义的表单类里面包含了三个元素：email文本框、password密码框和提交按钮。其中文本框和密码框引入了一些验证函数。</p>
+<h3 id="表单渲染"><a href="#表单渲染" class="headerlink" title="表单渲染"></a>表单渲染</h3><p>在视图函数中引入自定义的表单类的实例，然后在返回模版的时候传入这个实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.route('/login', methods=['GET', 'POST'])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span></div><div class="line">    form = LoginForm()</div><div class="line">    <span class="keyword">if</span> form.validate_on_submit():</div><div class="line">        email = form.email.data</div><div class="line">        password = form.password.data</div><div class="line">        <span class="keyword">print</span> <span class="string">"email: %s password: %s"</span> % (email, password)</div><div class="line">        <span class="keyword">print</span> <span class="string">'Form Successfully Submitted!'</span></div><div class="line">        flash(<span class="string">u'登录成功，欢迎回来！'</span>, <span class="string">'info'</span>)</div><div class="line">    <span class="keyword">return</span> render_template(<span class="string">'wtf.html'</span>, form=form)</div></pre></td></tr></table></figure>
+<p>在模板中使用下面方式渲染模版：(wtf.html)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">"form"</span> <span class="attr">method</span>=<span class="string">"POST"</span>&gt;</span></div><div class="line">    &#123;&#123; form.hidden_tag() &#125;&#125;</div><div class="line">    &#123;&#123; form.email.label &#125;&#125;&#123;&#123; form.email() &#125;&#125;</div><div class="line">    &#123;&#123; form.password.label &#125;&#125;&#123;&#123; form.password() &#125;&#125;</div><div class="line">    &#123;&#123; form.submit() &#125;&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="使用Bootstrap渲染表单"><a href="#使用Bootstrap渲染表单" class="headerlink" title="使用Bootstrap渲染表单"></a>使用Bootstrap渲染表单</h3><p>上篇渲染模版，提到了使用Flask-Bootstrap提供比较美观的模版，现在就用这种方式渲染表单。</p>
+<p>wtf.html模版首先继承bootstrap的基模版，然后再引入bootstrap对wtf支持的文件。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&#123;% extends "bootstrap/base.html" %&#125;</div><div class="line">&#123;% import 'bootstrap/wtf.html' as wtf %&#125;</div><div class="line"></div><div class="line">&#123;% block title %&#125;</div><div class="line">WTForm extends Bootstrap</div><div class="line">&#123;% endblock %&#125;</div><div class="line"></div><div class="line">&#123;% block content %&#125;</div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">"form"</span> <span class="attr">method</span>=<span class="string">"POST"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dl</span>&gt;</span></div><div class="line">        &#123;&#123; form.csrf_token &#125;&#125;</div><div class="line">        &#123;&#123; wtf.form_field(form.email) &#125;&#125;</div><div class="line">        &#123;&#123; wtf.form_field(form.password) &#125;&#125;</div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>Sign in<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dl</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line">&#123;% endblock %&#125;</div></pre></td></tr></table></figure>
+<p>到这里，一个简单的表单就已经创建好了，当用户第一次访问到这个页面的时候，服务器接收到一个GET方法请求，validate_on_submit() 返回False，if分支内的内容会跳过；当用户通过POST方法来提交请求时，validate_on_submit()调用Required()来验证name属性，如验证通过，if内的逻辑会被执行。而模板内容最后会被渲染到页面上。</p>
+<h2 id="处理表单数据"><a href="#处理表单数据" class="headerlink" title="处理表单数据"></a>处理表单数据</h2><h3 id="表单数据验证"><a href="#表单数据验证" class="headerlink" title="表单数据验证"></a>表单数据验证</h3><p>当点击了submit提交按钮的时候，<code>form.validate_on_submit()</code> 方法会判断：</p>
 <ol>
-<li>在本地开启一个web service</li>
-<li>修改浏览器属性，允许访问本地文件</li>
+<li>通过is_submitted()来判断是否提交了表单</li>
+<li>通过WTForms提供的validate()验证方法验证表单数据是否符合规则。</li>
 </ol>
-<p>由于以后是要在网站上展示数据，所以我是用Flask在后台开启一个web服务，把d3所需要的数据生成出来</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</div><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> render_template</div><div class="line"><span class="keyword">import</span> json</div><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"></div><div class="line">app = Flask(__name__)</div><div class="line"></div><div class="line">data_path = <span class="string">'./sampleData'</span></div><div class="line"></div><div class="line"><span class="meta">@app.route("/")</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> render_template(<span class="string">"line_chart.html"</span>)</div><div class="line"></div><div class="line"><span class="meta">@app.route('/data')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_data</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">with</span> open(data_path + <span class="string">'/line_chart.tsv'</span>) <span class="keyword">as</span> data_file:</div><div class="line">        sample_data = pd.read_csv(data_file, sep=<span class="string">'\t'</span>)</div><div class="line">    <span class="keyword">return</span> sample_data.to_json(orient=<span class="string">'records'</span>)</div></pre></td></tr></table></figure>
-<p>这样，在本地运行Flask，就可以展现出折线图了。这大约就是d3.js数据可视化的基本过程。</p>
-<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/d3_line_chart.JPG" alt="linechart"></p>
-<p>版权声明：<br></p>
-<p><hr><br>除非注明，本博文章均为原创，转载请以链接形式标明本文地址。<br></p>
+<p>当然，在自定义的表单类中也可以写自己的验证方法，比如从数据库中查找用户名是否被占用：(<code>class LoginForm</code>)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">validate_username</span><span class="params">(self, field)</span>:</span></div><div class="line">    <span class="keyword">if</span> User.query.filter_by(username=field.data).first():</div><div class="line">        <span class="keyword">raise</span> ValidationError(<span class="string">u'用户名已被注册，换一个吧。'</span>)</div></pre></td></tr></table></figure>
+<p>在表单数据验证通过后，使用 form.<name>.data来访问表单的单个值</name></p>
+<h3 id="存储表单数据"><a href="#存储表单数据" class="headerlink" title="存储表单数据"></a>存储表单数据</h3><p>当接收POST请求的时候，可以从form.<name>.data中获取数据，请求结束后数据就丢失了，这时候可以使用session来存储起来，提供给以后的请求使用，在下面的代码中，就把POST提交之后的</name></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">form = NameForm()</div><div class="line"><span class="keyword">if</span> form.validate_on_submit():</div><div class="line">    old_name = session.get(<span class="string">'name'</span>)</div><div class="line">    <span class="keyword">if</span> old_name <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">and</span> old_name != form.name.data:</div><div class="line">        flash(<span class="string">"Looks like you have changed your name!"</span>)</div><div class="line">    session[<span class="string">'name'</span>] = form.name.data</div><div class="line">    <span class="keyword">return</span> redirect(url_for(<span class="string">'hello_somebody'</span>))</div><div class="line"><span class="keyword">return</span> render_template(<span class="string">'userform_index.html'</span>, form=form, name=session.get(<span class="string">'name'</span>))</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -511,9 +517,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/d3-js/" rel="tag"># d3.js</a>
+            <a href="/tags/Python/" rel="tag"># Python</a>
           
-            <a href="/tags/visualization/" rel="tag"># visualization</a>
+            <a href="/tags/Flask/" rel="tag"># Flask</a>
           
         </div>
       
@@ -526,8 +532,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/11/27/2015-11-27-understanding-tf-idf/" rel="next" title="Understanding TF-IDF">
-                <i class="fa fa-chevron-left"></i> Understanding TF-IDF
+              <a href="/2017/08/14/Flask-从入门到放弃3-渲染模版/" rel="next" title="Flask 从入门到放弃3: 渲染模版">
+                <i class="fa fa-chevron-left"></i> Flask 从入门到放弃3: 渲染模版
               </a>
             
           </div>
@@ -535,10 +541,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/31/备份Hexo源文件至GitHub/" rel="prev" title="备份Hexo源文件至GitHub">
-                备份Hexo源文件至GitHub <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -761,7 +763,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-引入d3-js库"><span class="nav-number">1.</span> <span class="nav-text">0. 引入d3.js库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-创建SCG画布"><span class="nav-number">2.</span> <span class="nav-text">1. 创建SCG画布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-定义比例尺"><span class="nav-number">3.</span> <span class="nav-text">2. 定义比例尺</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-定义坐标轴"><span class="nav-number">4.</span> <span class="nav-text">3. 定义坐标轴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-读取数据与绑定数据"><span class="nav-number">5.</span> <span class="nav-text">4. 读取数据与绑定数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-画线"><span class="nav-number">6.</span> <span class="nav-text">5. 画线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-添加坐标轴"><span class="nav-number">7.</span> <span class="nav-text">6. 添加坐标轴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-生成图表"><span class="nav-number">8.</span> <span class="nav-text">7. 生成图表</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建Flask-WTF表单"><span class="nav-number">1.</span> <span class="nav-text">创建Flask-WTF表单</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#跨站请求伪造保护CSRF"><span class="nav-number">1.1.</span> <span class="nav-text">跨站请求伪造保护CSRF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表单类"><span class="nav-number">1.2.</span> <span class="nav-text">表单类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表单渲染"><span class="nav-number">1.3.</span> <span class="nav-text">表单渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Bootstrap渲染表单"><span class="nav-number">1.4.</span> <span class="nav-text">使用Bootstrap渲染表单</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理表单数据"><span class="nav-number">2.</span> <span class="nav-text">处理表单数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#表单数据验证"><span class="nav-number">2.1.</span> <span class="nav-text">表单数据验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储表单数据"><span class="nav-number">2.2.</span> <span class="nav-text">存储表单数据</span></a></li></ol></li></ol></div>
             
 
           </div>
