@@ -302,6 +302,207 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2016/05/31/备份Hexo源文件至GitHub/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/05/31/备份Hexo源文件至GitHub/" itemprop="url">备份Hexo源文件至GitHub</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-31T10:25:41+08:00">
+                2016-05-31
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-06-05T15:03:56+08:00">
+                2017-06-05
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2016/05/31/备份Hexo源文件至GitHub/" class="leancloud_visitors" data-flag-title="备份Hexo源文件至GitHub">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,060 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文转自：<a href="http://www.leyar.me/backup-your-blog-to-github/" target="_blank" rel="external">http://www.leyar.me/backup-your-blog-to-github/</a></p>
+<p>Hexo是一款基于Node.js的静态博客框架，前一阵俺的笔记本泡水直接退役，但是博客的原文件还在那台死去的机器上，所以备份啊。。。<br>本质上，Hexo是将本地的md文件编译成静态文件上传到github上（或者其他），所以建议是将本地的整个Hexo项目（blog）原件同步提交到github或者其他代码托管的站点。</p>
+<p>下面记录一下备份、以及在另外的电脑上恢复博客的过程，为了以后备查。</p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>已创建有 GitHub 仓库，并且已使用 <code>hexo-deployer-git</code> 部署到 <code>master</code> 分支。（发布博文并托管到Github上）<br>如果不满足请自行 google hexo 部署到 GitHub 的操作方法。</p>
+<h2 id="备份过程"><a href="#备份过程" class="headerlink" title="备份过程"></a>备份过程</h2><p>在Github网站创建一个新仓库(或者使用Github托管博客的仓库，在该仓库下创建一个新的分支)，比如我新建的仓库名为 <code>HEXOSource</code></p>
+<p>在本地hexo根目录中， 初始化git仓库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git init</div></pre></td></tr></table></figure>
+<p>创建并切换到名为 <code>hexo_source</code> 的分支</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b hexo_source</div></pre></td></tr></table></figure>
+<p>创建忽略规则文件 <code>.gitignore</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi .gitignore</div></pre></td></tr></table></figure>
+<p>按需添加如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">.DS_Store</div><div class="line">Thumbs.db</div><div class="line">db.json  </div><div class="line">*.log</div><div class="line">.deploy*/</div><div class="line">node_modules/</div><div class="line">.npmignore</div><div class="line">public/</div></pre></td></tr></table></figure>
+<p>上面最后一行 public 目录，因其已被 hexo 插件同步到 master 分支里，因此不需要再同步，deploy 是 hexo 的 git 配置存放目录，也不需要同步。其他内容可选择忽略也可以选择同步。</p>
+<p>添加内容到仓库并提交到远程仓库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git add .</div><div class="line">git commit -m "first commit"</div><div class="line">git remote add origin git@github.com:lvraikkonen/HEXOSource.git		# 后面仓库目录改成自己新建的。</div><div class="line">git push -u origin hexo_source</div></pre></td></tr></table></figure>
+<p>按照以上的步骤就进行了 hexo 源文件的初次备份。<br>以后每次修改了内容之后，都可通过以下几条命令实现同步。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git add .</div><div class="line">git commit -m "..."	 # 双引号内填写更新内容</div><div class="line">git push origin hexo_source	# 或者 git push</div></pre></td></tr></table></figure>
+<h2 id="通过-git-submodule-来同步第三方主题"><a href="#通过-git-submodule-来同步第三方主题" class="headerlink" title="通过 git submodule 来同步第三方主题"></a>通过 git submodule 来同步第三方主题</h2><p>我们一般会选择第三方主题的仓库直接git clone下来。这是一个非常不好的习惯，正确做法是：Fork该第三方主题仓库，这样就会在自己账号下生成一个同名的仓库，并对应一个url，我们应该git clone自己账号下的url。</p>
+<p>这样做的原因是：我们很有可能在原来主题基础上做一些自定义的小改动，为了保持多终端的同步，我们需要将这些改动提交到远程仓库。而第三方仓库我们是无法直接push的。</p>
+<p>这样就会出现git仓库的嵌套问题，我们通过git submodule来解决这个问题。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git submodule add git@github.com:lvraikkonen/hexo-theme-next.git themes/next</div></pre></td></tr></table></figure>
+<p>我们修改主题后:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git commit -am "refine themes"</div><div class="line">git push origin hexo_source</div></pre></td></tr></table></figure>
+<p>然后就完成了第三方主题的备份</p>
+<p>在其他电脑同步源文件时，需要执行如下命令来同步主题</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git submodule init // 这句很重要</div><div class="line">git submodule update</div></pre></td></tr></table></figure>
+<h2 id="新机器同步"><a href="#新机器同步" class="headerlink" title="新机器同步"></a>新机器同步</h2><p>在一个新机器上写博客，用以下步骤同步至最新状态</p>
+<p>新建博客文件夹 <code>hexo_blog</code></p>
+<p>在该文件夹下初始化git仓库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git init</div></pre></td></tr></table></figure>
+<p>为本地仓库添加远程仓库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git remote add origin git@github.com:lvraikkonen/HEXOSource.git</div></pre></td></tr></table></figure>
+<p>切换至hexo_source分支</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b hexo_source</div></pre></td></tr></table></figure>
+<p>获取<code>hexo_source</code>分支源文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git pull origin hexo_source</div></pre></td></tr></table></figure>
+<p>然后就是写博客，并将.md博客文件放至_posts文件夹，然后添加修改到本地仓库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git add .</div><div class="line">git commit -m "写了一篇博客"</div><div class="line">git push origin hexo_source</div></pre></td></tr></table></figure>
+<p>至此，已经完成了博客的撰写并修改了远端仓库的博客源文件，然后使用<code>hexo g</code>和<code>hexo d</code>更新博客就OK啦！</p>
+<h2 id="新机器安装npm失败解决方案"><a href="#新机器安装npm失败解决方案" class="headerlink" title="新机器安装npm失败解决方案"></a>新机器安装npm失败解决方案</h2><p>由于众所周知的原因，好多东西无法安装，可以添加第三方源来解决</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 添加淘宝源</span></div><div class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</div><div class="line"><span class="meta">#</span><span class="bash"> nrm类似包管理器</span></div><div class="line">cnpm install nrm -g</div><div class="line">nrm ls</div><div class="line"><span class="meta">#</span><span class="bash"> 使用淘宝</span></div><div class="line">nrm use taobao</div><div class="line">npm install -g hexo-cli</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://devtian.me/2015/03/17/blog-sync-solution/" target="_blank" rel="external">关于博客同步的解决办法</a></li>
+<li><a href="https://segmentfault.com/a/1190000003076028" target="_blank" rel="external">使用Git Submodule管理子模块</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/11/28/使用d3.js绘图流水账/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -997,184 +1198,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2015/09/18/2015-09-18-about-regularization/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/09/18/2015-09-18-about-regularization/" itemprop="url">About Regularization</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-18T13:26:10+08:00">
-                2015-09-18
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2016-09-20T10:06:59+08:00">
-                2016-09-20
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2015/09/18/2015-09-18-about-regularization/" class="leancloud_visitors" data-flag-title="About Regularization">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                  <span class="post-meta-divider">|</span>
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  8 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>正则化防止过拟合</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1224,7 +1247,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
