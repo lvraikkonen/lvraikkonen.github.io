@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="SQL," />
+  <meta name="keywords" content="Python,Flask," />
 
 
 
@@ -93,19 +93,20 @@
 
 
 
-<meta name="description" content="数据库查询语句可以说是基础中的基础，查询语句是后面查询性能优化的基础，但是很多人并不能很准确的说出数据库查询的逻辑流程。 SQL 语句中元素逻辑查询处理，指的是标准SQL定义的如何处理查询和返回最终结果的概念性路径。和其他的语言代码执行顺序不同，SQL 查询不是按照代码顺序来进行逻辑查询。下面这段SQL 查询 12345678SELECT empid     , YEAR(orderdate) A">
-<meta name="keywords" content="SQL">
+<meta name="description" content="来自狗书第七章：大型程序的结构   项目结构下图显示多文件的Flask程序的基本结构">
+<meta name="keywords" content="Python,Flask">
 <meta property="og:type" content="article">
-<meta property="og:title" content="T-SQL查询语句执行顺序">
-<meta property="og:url" content="https://lvraikkonen.github.io/2017/06/06/T-SQL查询语句执行顺序/index.html">
+<meta property="og:title" content="Flask 从入门到放弃6: 网站结构最佳实践">
+<meta property="og:url" content="https://lvraikkonen.github.io/2017/08/28/Flask-从入门到放弃6-网站结构最佳实践/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
-<meta property="og:description" content="数据库查询语句可以说是基础中的基础，查询语句是后面查询性能优化的基础，但是很多人并不能很准确的说出数据库查询的逻辑流程。 SQL 语句中元素逻辑查询处理，指的是标准SQL定义的如何处理查询和返回最终结果的概念性路径。和其他的语言代码执行顺序不同，SQL 查询不是按照代码顺序来进行逻辑查询。下面这段SQL 查询 12345678SELECT empid     , YEAR(orderdate) A">
-<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/208801.jfif">
-<meta property="og:updated_time" content="2017-06-06T05:37:37.724Z">
+<meta property="og:description" content="来自狗书第七章：大型程序的结构   项目结构下图显示多文件的Flask程序的基本结构">
+<meta property="og:image" content="https://covers.oreillystatic.com/images/0636920031116/lrg.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/structure.png">
+<meta property="og:updated_time" content="2017-08-28T09:51:07.801Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="T-SQL查询语句执行顺序">
-<meta name="twitter:description" content="数据库查询语句可以说是基础中的基础，查询语句是后面查询性能优化的基础，但是很多人并不能很准确的说出数据库查询的逻辑流程。 SQL 语句中元素逻辑查询处理，指的是标准SQL定义的如何处理查询和返回最终结果的概念性路径。和其他的语言代码执行顺序不同，SQL 查询不是按照代码顺序来进行逻辑查询。下面这段SQL 查询 12345678SELECT empid     , YEAR(orderdate) A">
-<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/208801.jfif">
+<meta name="twitter:title" content="Flask 从入门到放弃6: 网站结构最佳实践">
+<meta name="twitter:description" content="来自狗书第七章：大型程序的结构   项目结构下图显示多文件的Flask程序的基本结构">
+<meta name="twitter:image" content="https://covers.oreillystatic.com/images/0636920031116/lrg.jpg">
 
 
 
@@ -133,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="https://lvraikkonen.github.io/2017/06/06/T-SQL查询语句执行顺序/"/>
+  <link rel="canonical" href="https://lvraikkonen.github.io/2017/08/28/Flask-从入门到放弃6-网站结构最佳实践/"/>
 
 
 
 
 
-  <title>T-SQL查询语句执行顺序 | Claus's Tech Blog</title>
+  <title>Flask 从入门到放弃6: 网站结构最佳实践 | Claus's Tech Blog</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -307,7 +308,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/06/T-SQL查询语句执行顺序/">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/08/28/Flask-从入门到放弃6-网站结构最佳实践/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shuo Lv">
@@ -324,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">T-SQL查询语句执行顺序</h1>
+          <h1 class="post-title" itemprop="name headline">Flask 从入门到放弃6: 网站结构最佳实践</h1>
         
 
         <div class="post-meta">
@@ -336,8 +337,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-06T10:43:35+08:00">
-                2017-06-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-28T17:50:39+08:00">
+                2017-08-28
               </time>
             
 
@@ -352,13 +353,35 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-06-06T13:37:37+08:00">
-                2017-06-06
+              <time title="更新于" itemprop="dateModified" datetime="2017-08-28T17:51:07+08:00">
+                2017-08-28
               </time>
             
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flask从入门到放弃/" itemprop="url" rel="index">
+                    <span itemprop="name">Flask从入门到放弃</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -366,7 +389,7 @@
 
           
           
-             <span id="/2017/06/06/T-SQL查询语句执行顺序/" class="leancloud_visitors" data-flag-title="T-SQL查询语句执行顺序">
+             <span id="/2017/08/28/Flask-从入门到放弃6-网站结构最佳实践/" class="leancloud_visitors" data-flag-title="Flask 从入门到放弃6: 网站结构最佳实践">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -393,7 +416,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  975 字
+                  985 字
                 </span>
               
 
@@ -415,40 +438,44 @@
       
 
       
-        <p>数据库查询语句可以说是基础中的基础，查询语句是后面查询性能优化的基础，但是很多人并不能很准确的说出数据库查询的逻辑流程。</p>
-<h2 id="SQL-语句中元素"><a href="#SQL-语句中元素" class="headerlink" title="SQL 语句中元素"></a>SQL 语句中元素</h2><p>逻辑查询处理，指的是标准SQL定义的如何处理查询和返回最终结果的概念性路径。和其他的语言代码执行顺序不同，SQL 查询不是按照代码顺序来进行逻辑查询。下面这段SQL 查询</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> empid</div><div class="line">     , <span class="keyword">YEAR</span>(orderdate) <span class="keyword">AS</span> OrderYear</div><div class="line">     , <span class="keyword">COUNT</span>(*) <span class="keyword">AS</span> NumOrders</div><div class="line"><span class="keyword">FROM</span> Sales.Orders</div><div class="line"><span class="keyword">WHERE</span> custid = <span class="number">71</span></div><div class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> empid, <span class="keyword">YEAR</span>(orderdate)</div><div class="line"><span class="keyword">HAVING</span> <span class="keyword">COUNT</span>(*) &gt; <span class="number">1</span></div><div class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> empid, OrderYear</div></pre></td></tr></table></figure>
-<p>这段SQL 语句其实是按照下面的顺序进行的逻辑处理：</p>
-<ol>
-<li><strong>FROM</strong></li>
-<li><strong>WHERE</strong></li>
-<li><strong>GROUP BY</strong></li>
-<li><strong>HAVING</strong></li>
-<li><strong>SELECT</strong></li>
-<li><strong>ORDER BY</strong></li>
-</ol>
+        <p>来自<a href="https://item.jd.com/11594082.html" target="_blank" rel="external">狗书</a>第七章：大型程序的结构</p>
+<p> <img src="https://covers.oreillystatic.com/images/0636920031116/lrg.jpg" alt="Flask Web Development"></p>
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>下图显示多文件的Flask程序的基本结构</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/structure.png" alt="FlaskProjectTree"></p>
 <a id="more"></a>
-<p><code>FROM</code> 子句指定要查询的表名称和进行多表运算的表运算符(JOIN)； <code>WHERE</code> 子句可以指定一个谓词或者逻辑表达式来筛选由 <code>FROM</code>阶段返回的行； <code>GROUP BY</code>阶段允许用户把前面阶段返回的行排列到组中； <code>HAVING</code> 子句可以指定一个谓词来筛选前面GROUP出的组，而不是筛选单个行； <code>SELECT</code> 子句用户指定要返回到查询结果表中属性(列)； <code>ORDER BY</code> 子句允许对输出行进行排序。</p>
-<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p>这里引用 <a href="http://tsql.solidq.com/" target="_blank" rel="external">Itzik Ben-Gan</a> 的流程图</p>
-<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/208801.jfif" alt="SQLLogicFlowchart"></p>
-<h2 id="分步分析"><a href="#分步分析" class="headerlink" title="分步分析"></a>分步分析</h2><h3 id="FROM-子句"><a href="#FROM-子句" class="headerlink" title="FROM 子句"></a>FROM 子句</h3><p>FROM阶段标识出查询的来源表，并处理表运算符。在涉及到联接运算的查询中（各种join），主要有以下几个步骤：</p>
-<ol>
-<li>求笛卡尔积。不论是什么类型的联接运算，首先都是执行交叉连接（cross join），求笛卡儿积，生成虚拟表VT1-J1。</li>
-<li>ON筛选器。这个阶段对上个步骤生成的VT1-J1进行筛选，根据ON子句中出现的谓词进行筛选，让谓词取值为true的行通过了考验，插入到VT1-J2。</li>
-<li>添加外部行。如果指定了outer join，还需要将VT1-J2中没有找到匹配的行，作为外部行添加到VT1-J2中，生成VT1-J3。</li>
-</ol>
-<p>经过以上步骤，FROM阶段就完成了。概括地讲，FROM阶段就是进行预处理的，根据提供的运算符对语句中提到的各个表进行处理（除了join，还有apply，pivot，unpivot）</p>
-<h3 id="WHERE-子句"><a href="#WHERE-子句" class="headerlink" title="WHERE 子句"></a>WHERE 子句</h3><p>WHERE阶段是根据<where_predicate>中条件对VT1中的行进行筛选，让条件成立的行才会插入到VT2中。</where_predicate></p>
-<h3 id="GROUP-BY阶段"><a href="#GROUP-BY阶段" class="headerlink" title="GROUP BY阶段"></a>GROUP BY阶段</h3><p>GROUP阶段按照指定的列名列表，将VT2中的行进行分组，生成VT3。最后每个分组只有一行。</p>
-<h3 id="HAVING阶段"><a href="#HAVING阶段" class="headerlink" title="HAVING阶段"></a>HAVING阶段</h3><p>该阶段根据HAVING子句中出现的谓词对VT3的分组进行筛选，并将符合条件的组插入到VT4中。</p>
-<h3 id="SELECT阶段"><a href="#SELECT阶段" class="headerlink" title="SELECT阶段"></a>SELECT阶段</h3><p>这个阶段是投影的过程，处理SELECT子句提到的元素，产生VT5。这个步骤一般按下列顺序进行</p>
-<ol>
-<li>计算SELECT列表中的表达式，生成VT5-1。</li>
-<li>若有DISTINCT，则删除VT5-1中的重复行，生成VT5-2</li>
-<li>若有TOP，则根据ORDER BY子句定义的逻辑顺序，从VT5-2中选择签名指定数量或者百分比的行，生成VT5-3</li>
-</ol>
-<h3 id="ORDER-BY阶段"><a href="#ORDER-BY阶段" class="headerlink" title="ORDER BY阶段"></a>ORDER BY阶段</h3><p>根据ORDER BY子句中指定的列明列表，对VT5-3中的行，进行排序，生成游标VC6.</p>
-<p>当然SQL SERVER在实际的查询过程中，有查询优化器来生成实际的工作计划。以何种顺序来访问表，使用什么方法和索引，应用哪种联接方法，都是由查询优化器来决定的。优化器一般会生成多个工作计划，从中选择开销最小的那个去执行。逻辑查询处理都有非常特定的顺序，但是优化器常常会走捷径。</p>
+<p>这个结构有四个顶层目录：</p>
+<ul>
+<li>Flask应用一般放置在名为<code>app</code>的目录下</li>
+<li><code>migrations</code>目录包含数据库迁移脚本</li>
+<li>单元测试放置在<code>test</code>目录下</li>
+<li><code>venv</code>目录包含Python虚拟环境</li>
+</ul>
+<p>还有一些新的文件：</p>
+<ul>
+<li><code>requirements.txt</code>列出一些依赖包，这样就可以很容易的在不同的计算机上部署一个相同的虚拟环境。</li>
+<li><code>config.py</code>存储了一些配置设置。</li>
+<li><code>manage.py</code>用于启动应用程序和其他应用程序任务。</li>
+</ul>
+<h2 id="配置选项"><a href="#配置选项" class="headerlink" title="配置选项"></a>配置选项</h2><p>在这里配置应用相关的配置，例如Form用到的<code>SECRET_KEY</code>, 数据库配置的<code>SQLALCHEMY_DATABASE_URI</code>等配置信息。也可以在这里配置开发、测试和生产环境所需要的不同配置等。</p>
+<p> <code>config.py</code>文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line">basedir = os.path.abspath(os.path.dirname(__file__))</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Config</span>:</span></div><div class="line">    SECRET_KEY = os.environ.get(<span class="string">'SECRET_KEY'</span>) <span class="keyword">or</span> <span class="string">'hard to guess string'</span></div><div class="line">    SQLALCHEMY_COMMIT_ON_TEARDOWN = <span class="keyword">True</span></div><div class="line">    FLASKY_MAIL_SUBJECT_PREFIX = <span class="string">'[Flasky]'</span></div><div class="line">    FLASKY_MAIL_SENDER = <span class="string">'Flasky Admin &lt;flasky@example.com&gt;'</span></div><div class="line">    FLASKY_ADMIN = os.environ.get(<span class="string">'FLASKY_ADMIN'</span>)</div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_app</span><span class="params">(app)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DevelopmentConfig</span><span class="params">(Config)</span>:</span></div><div class="line">    DEBUG = <span class="keyword">True</span></div><div class="line"></div><div class="line">    MAIL_SERVER = <span class="string">'smtp.googlemail.com'</span></div><div class="line">    MAIL_PORT = <span class="number">587</span></div><div class="line">    MAIL_USE_TLS = <span class="keyword">True</span></div><div class="line">    MAIL_USERNAME = os.environ.get(<span class="string">'MAIL_USERNAME'</span>)</div><div class="line">    MAIL_PASSWORD = os.environ.get(<span class="string">'MAIL_PASSWORD'</span>)</div><div class="line">    SQLALCHEMY_DATABASE_URI = os.environ.get(<span class="string">'DEV_DATABASE_URL'</span>) <span class="keyword">or</span> \</div><div class="line">        <span class="string">'sqlite:///'</span> + os.path.join(basedir, <span class="string">'data-dev.sqlite'</span>)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestingConfig</span><span class="params">(Config)</span>:</span></div><div class="line">    TESTING = <span class="keyword">True</span></div><div class="line">    SQLALCHEMY_DATABASE_URI = os.environ.get(<span class="string">'TEST_DATABASE_URL'</span>) <span class="keyword">or</span> \</div><div class="line">        <span class="string">'sqlite:///'</span> + os.path.join(basedir, <span class="string">'data-test.sqlite'</span>)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProductionConfig</span><span class="params">(Config)</span>:</span></div><div class="line">    SQLALCHEMY_DATABASE_URI = os.environ.get(<span class="string">'DATABASE_URL'</span>) <span class="keyword">or</span> \</div><div class="line">        <span class="string">'sqlite:///'</span> + os.path.join(basedir, <span class="string">'data.sqlite'</span>)</div><div class="line"></div><div class="line">config = &#123;</div><div class="line">    <span class="string">'development'</span>: DevelopmentConfig,</div><div class="line">    <span class="string">'testing'</span>: TestingConfig,</div><div class="line">    <span class="string">'production'</span>: ProductionConfig,</div><div class="line">    <span class="string">'default'</span>: DevelopmentConfig</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="程序包"><a href="#程序包" class="headerlink" title="程序包"></a>程序包</h2><p>应用程序包放置了所有应用程序代码、模板(templates)和静态文件(static)。数据库模型和电子邮件支持功能也要置入到这个包中，以<code>app/models.py</code>和<code>app/email.py</code>形式存入自己的模块当中</p>
+<h3 id="使用工厂函数创建程序实例"><a href="#使用工厂函数创建程序实例" class="headerlink" title="使用工厂函数创建程序实例"></a>使用工厂函数创建程序实例</h3><p>单个文件中开发程序，创建程序实例在全局作用域中，无法动态修改配置，对于单元测试来说很重要，必须在不同的配置环境中运行程序。</p>
+<p>这里把创建程序实例的过程放到可显示调用的<strong>工厂函数</strong>中。(<code>app.__init__.py</code>)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</div><div class="line"><span class="keyword">from</span> flask_bootstrap <span class="keyword">import</span> Bootstrap</div><div class="line"><span class="keyword">from</span> flask_sqlalchemy <span class="keyword">import</span> SQLAlchemy</div><div class="line"><span class="keyword">from</span> config <span class="keyword">import</span> config</div><div class="line"></div><div class="line">bootstrap = Bootstrap()</div><div class="line">db = SQLAlchemy()</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_app</span><span class="params">(config_name)</span>:</span></div><div class="line">    app = Flask(__name__)</div><div class="line">    app.config.from_object(config[config_name])</div><div class="line">    config[config_name].init_app(app)</div><div class="line"></div><div class="line">    bootstrap.init_app(app)</div><div class="line">    mail.init_app(app)</div><div class="line">    moment.init_app(app)</div><div class="line">    db.init_app(app)</div><div class="line"></div><div class="line">    <span class="comment">## route and errorhandler</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> app</div></pre></td></tr></table></figure>
+<p>工厂函数返回创建的Flask程序实例。<code>create_app()</code>函数就是程序的工厂函数，接收一个参数就是程序所使用的配置名。这时候，是动态获得了程序实例了，但是定义路由需要在调用工厂函数之后才能使用<code>app.route</code>装饰器定义路由。这时候就引入蓝图(Blueprint)来进行路由的定义。</p>
+<h3 id="蓝图中实现程序功能"><a href="#蓝图中实现程序功能" class="headerlink" title="蓝图中实现程序功能"></a>蓝图中实现程序功能</h3><p>蓝图定义的路由处于休眠状态，直到蓝图注册到应用实例上后，路由才真正成为程序的一部分，蓝图的使用对于大型程序的模块化开发提供了方便。</p>
+<p><code>app/main/__init__.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Blueprint</div><div class="line"></div><div class="line">main = Blueprint(<span class="string">'main'</span>, __name__)</div><div class="line"></div><div class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views, errors</div></pre></td></tr></table></figure>
+<p>这里定义蓝图main，程序的路由在views.py中，错误处理程序在errors.py中</p>
+<p>在工厂函数<code>create_app()</code>中将蓝图注册到程序实例上</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_app</span><span class="params">(config_name)</span>:</span></div><div class="line">    app = Flask(__name__)</div><div class="line">    <span class="comment"># ...</span></div><div class="line"></div><div class="line">    <span class="keyword">from</span> .main <span class="keyword">import</span> main <span class="keyword">as</span> main_blueprint</div><div class="line">    app.register_blueprint(main_blueprint)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> app</div></pre></td></tr></table></figure>
+<h2 id="启动脚本"><a href="#启动脚本" class="headerlink" title="启动脚本"></a>启动脚本</h2><p>在顶级文件夹中的manage.py文件用于启动应用程序 manage.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">from</span> app <span class="keyword">import</span> create_app, db</div><div class="line"><span class="keyword">from</span> app.models <span class="keyword">import</span> User, Role</div><div class="line"><span class="keyword">from</span> flask_script <span class="keyword">import</span> Manager, Shell</div><div class="line"><span class="keyword">from</span> flask_migrate <span class="keyword">import</span> Migrate, MigrateCommand</div><div class="line"></div><div class="line">app = create_app(os.getenv(<span class="string">'FLASK_CONFIG'</span>) <span class="keyword">or</span> <span class="string">'default'</span>)</div><div class="line">manager = Manager(app)</div><div class="line">migrate = Migrate(app, db)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_shell_context</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> dict(app=app, db=db, User=User, Role=Role)</div><div class="line"></div><div class="line">manager.add_command(<span class="string">"shell"</span>, Shell(make_context=make_shell_context))</div><div class="line">manager.add_command(<span class="string">'db'</span>, MigrateCommand)</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    manager.run()</div></pre></td></tr></table></figure>
+<h2 id="需求文件"><a href="#需求文件" class="headerlink" title="需求文件"></a>需求文件</h2><p>包含一个requirement.txt文件，用于记录所有依赖包以及精准的版本号，pip使用下面命令生成需求文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(venv) $ pip freeze &gt; requirements.txt</div></pre></td></tr></table></figure>
+<p>在一个新环境中，使用下面的命令创建一个相同的环境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(venv) $ pip install -r requirements.txt</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -494,7 +521,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/SQL/" rel="tag"># SQL</a>
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Flask/" rel="tag"># Flask</a>
           
         </div>
       
@@ -507,8 +536,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/05/Hexo-command-Cheatsheet/" rel="next" title="Hexo command Cheatsheet">
-                <i class="fa fa-chevron-left"></i> Hexo command Cheatsheet
+              <a href="/2017/08/28/Flask-从入门到放弃5-数据库操作/" rel="next" title="Flask 从入门到放弃5: 数据库操作">
+                <i class="fa fa-chevron-left"></i> Flask 从入门到放弃5: 数据库操作
               </a>
             
           </div>
@@ -516,10 +545,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/08/Anaconda解决python包管理与环境管理/" rel="prev" title="Anaconda解决python包管理与环境管理">
-                Anaconda解决python包管理与环境管理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -742,7 +767,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL-语句中元素"><span class="nav-number">1.</span> <span class="nav-text">SQL 语句中元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程图"><span class="nav-number">2.</span> <span class="nav-text">流程图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分步分析"><span class="nav-number">3.</span> <span class="nav-text">分步分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FROM-子句"><span class="nav-number">3.1.</span> <span class="nav-text">FROM 子句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WHERE-子句"><span class="nav-number">3.2.</span> <span class="nav-text">WHERE 子句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GROUP-BY阶段"><span class="nav-number">3.3.</span> <span class="nav-text">GROUP BY阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HAVING阶段"><span class="nav-number">3.4.</span> <span class="nav-text">HAVING阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SELECT阶段"><span class="nav-number">3.5.</span> <span class="nav-text">SELECT阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ORDER-BY阶段"><span class="nav-number">3.6.</span> <span class="nav-text">ORDER BY阶段</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#项目结构"><span class="nav-number">1.</span> <span class="nav-text">项目结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置选项"><span class="nav-number">2.</span> <span class="nav-text">配置选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序包"><span class="nav-number">3.</span> <span class="nav-text">程序包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用工厂函数创建程序实例"><span class="nav-number">3.1.</span> <span class="nav-text">使用工厂函数创建程序实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#蓝图中实现程序功能"><span class="nav-number">3.2.</span> <span class="nav-text">蓝图中实现程序功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动脚本"><span class="nav-number">4.</span> <span class="nav-text">启动脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需求文件"><span class="nav-number">5.</span> <span class="nav-text">需求文件</span></a></li></ol></div>
             
 
           </div>
