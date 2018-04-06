@@ -1,0 +1,1218 @@
+﻿<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Big Data,Hadoop," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="MapReduce Paper MapReduce是Google提出的一个软件架构，用于大规模数据集（大于1TB）的并行运算。MapReduce最本质的两个过程就是Map和Reduce，思想来源于函数式编程。 初学MapReduce，写了WordCount入门程序后，觉得编写MapReduce程序只需要实现Map和Reduce函数就可以了，后来觉得，这个框架隐藏的细节还是需要好好了解一下的。下面这">
+<meta name="keywords" content="Big Data,Hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MapReduce原理">
+<meta property="og:url" content="https://lvraikkonen.github.io/2018/04/04/MapReduce原理/index.html">
+<meta property="og:site_name" content="Claus&#39;s Tech Blog">
+<meta property="og:description" content="MapReduce Paper MapReduce是Google提出的一个软件架构，用于大规模数据集（大于1TB）的并行运算。MapReduce最本质的两个过程就是Map和Reduce，思想来源于函数式编程。 初学MapReduce，写了WordCount入门程序后，觉得编写MapReduce程序只需要实现Map和Reduce函数就可以了，后来觉得，这个框架隐藏的细节还是需要好好了解一下的。下面这">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/868d6475efd595a6ea9b1d6f248a32c7.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/9342a1d5774a69c1672855e4337ec9a4.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/840a93c06c0c2f91ec6669bc57476040.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/63d9b9c99d588f5fe9348cefc051617c.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/2e2be46b87e56964605386a6690c3c1e.jpg">
+<meta property="og:updated_time" content="2018-04-06T04:04:01.528Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MapReduce原理">
+<meta name="twitter:description" content="MapReduce Paper MapReduce是Google提出的一个软件架构，用于大规模数据集（大于1TB）的并行运算。MapReduce最本质的两个过程就是Map和Reduce，思想来源于函数式编程。 初学MapReduce，写了WordCount入门程序后，觉得编写MapReduce程序只需要实现Map和Reduce函数就可以了，后来觉得，这个框架隐藏的细节还是需要好好了解一下的。下面这">
+<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/868d6475efd595a6ea9b1d6f248a32c7.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'JWQGEFMRGT',
+      apiKey: '7c12daa85b9bf759fcde9b547d3a9349',
+      indexName: 'lvraikkonen_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lvraikkonen.github.io/2018/04/04/MapReduce原理/"/>
+
+
+
+
+
+  <title>MapReduce原理 | Claus's Tech Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Claus's Tech Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">leave me alone i know what to do</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/04/04/MapReduce原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MapReduce原理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-04T16:50:11+08:00">
+                2018-04-04
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-04-06T12:04:01+08:00">
+                2018-04-06
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Big-Data/" itemprop="url" rel="index">
+                    <span itemprop="name">Big Data</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Big-Data/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/04/MapReduce原理/" class="leancloud_visitors" data-flag-title="MapReduce原理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,105 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://research.google.com/archive/mapreduce.html" target="_blank" rel="noopener">MapReduce Paper</a></p>
+<p>MapReduce是Google提出的一个软件架构，用于大规模数据集（大于1TB）的并行运算。MapReduce最本质的两个过程就是Map和Reduce，思想来源于函数式编程。</p>
+<p>初学MapReduce，写了WordCount入门程序后，觉得编写MapReduce程序只需要实现Map和Reduce函数就可以了，后来觉得，这个框架隐藏的细节还是需要好好了解一下的。下面这个图基本描述了MapReduce的整个过程：</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/868d6475efd595a6ea9b1d6f248a32c7.jpg" alt="MapReduce pipeline"></p>
+<p>其中，Map阶段、Reduce阶段比较好理解，但是Shuffle阶段的这个细节还是很神奇的。下面简单介绍下MapReduce各个阶段。</p>
+<a id="more"></a>
+<h2 id="InputFormat类"><a href="#InputFormat类" class="headerlink" title="InputFormat类"></a>InputFormat类</h2><p>该类的作用是将输入的文件和数据分割成许多小的split文件，并将split的每个行通过LineRecorderReader解析成&lt;Key,Value&gt;,通过job.setInputFromatClass()函数来设置，默认的情况为类TextInputFormat，其中Key默认为字符偏移量，value是该行的值。</p>
+<h2 id="Mapper类"><a href="#Mapper类" class="headerlink" title="Mapper类"></a>Mapper类</h2><p>&lt;k1, v1&gt; –map–&gt; &lt;k2, v2&gt;</p>
+<p>根据输入的&lt;Key,Value&gt;对生成中间结果，默认的情况下使用Mapper类，该类将输入的&lt;Key,Value&gt;对进行映射并作为中间结果输出，通过job.setMapperClass()实现。提供了Mapper的抽象类，需要实现map方法</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/9342a1d5774a69c1672855e4337ec9a4.jpg" alt="Mapper"></p>
+<h2 id="Combiner类"><a href="#Combiner类" class="headerlink" title="Combiner类"></a>Combiner类</h2><p>实现combine函数，该类的主要功能是合并相同的key键，通过job.setCombinerClass()方法设置，默认为null，不合并中间结果</p>
+<h2 id="Partition类"><a href="#Partition类" class="headerlink" title="Partition类"></a>Partition类</h2><p>Map的结果会通过partition分发到指定的Reducer上，哪个key到哪个Reducer的分配过程是由Partitioner规定的。可以通过job.setPartitionerClass()方法进行设置，partition是分割map每个节点的结果，按照key分别映射给不同的reduce，也是可以自定义的，需要实现getPartition函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getPartition(Text key, Text value, <span class="keyword">int</span> numPartitions)</span><br></pre></td></tr></table></figure>
+<p>MapReduce默认使用hashPartitioner，计算方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reducer = (key.hashCode() &amp; Integer.MAX_VALUE) % numReduceTasks</span><br></pre></td></tr></table></figure>
+<h2 id="Reducer类"><a href="#Reducer类" class="headerlink" title="Reducer类"></a>Reducer类</h2><p>&lt;k2, value-list&gt; –reduce–&gt; &lt;k3, v3&gt;</p>
+<p>将中间结果合并，得到中间结果。通过job.setReduceCalss()方法进行设置，默认使用Reducer类，实现reduce方法。</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/840a93c06c0c2f91ec6669bc57476040.jpg" alt=""></p>
+<h2 id="OutputFormat类"><a href="#OutputFormat类" class="headerlink" title="OutputFormat类"></a>OutputFormat类</h2><p>该类负责输出结果的格式。可以通过job.setOutputFormatClass()方法进行设置。默认使用TextOUtputFormat类，得到&lt;Key,value&gt;对。</p>
+<p>整个mapreduce任务的基本流程如下程序所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">        Job job = <span class="keyword">new</span> Job(conf);</span><br><span class="line">        job.setInputFormatClass(TextInputFormat.class);</span><br><span class="line">        job.setMapperClass(Mapper.class);</span><br><span class="line">        job.setCombinerClass(<span class="keyword">null</span>);</span><br><span class="line">        job.setPartitionerClass(HashPartitioner.class);</span><br><span class="line">        job.setReducerClass(Reducer.class);</span><br><span class="line">        job.setOutputFormatClass(TextOutFormat.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Shuffle-过程"><a href="#Shuffle-过程" class="headerlink" title="Shuffle 过程"></a>Shuffle 过程</h2><p>Shuffle过程是MapReduce的核心，Shuffle过程的性能与整个MapReduce的性能直接相关。Shuffle过程包含在Map和Reduce两端中。</p>
+<p>Map端的Shuffle过程是对Map的结果进行分区(partition)、排序(sort)、和溢写(spill)，然后将属于同一个划分的输出合并在一起并写在磁盘上，同时按照不同的划分结果发送给对应的Reduce任务。</p>
+<p>Reduce端会将各个Map发送来的属于同一个划分的输出进行合并、然后对合并结果进行排序，最后交给Reduce处理。</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/63d9b9c99d588f5fe9348cefc051617c.jpg" alt="Shuffle"></p>
+<h3 id="Map-端"><a href="#Map-端" class="headerlink" title="Map 端"></a>Map 端</h3><p>Map端的Shuffle过程，包含了切分(Partition)过程、溢写(Sort&amp;Combine)过程。和合并(Merge)过程。</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/2e2be46b87e56964605386a6690c3c1e.jpg" alt="Map_Shuffle"></p>
+<ol>
+<li>Partition分区</li>
+</ol>
+<p>mapreduce提供Partitioner接口，它的作用就是根据key或value及reduce的数量来决定当前的这对输出数据最终应该交由哪个reducetask处理（分区）。MapRedcuce默认使用hashPartitioner。</p>
+<p>注意：虽然Partitioner接口会计算出一个值来决定某个输出会交给哪个reduce去处理，但是在缓冲区中并不会实现物理上的分区，而是将结果加载key-value后面。物理上的分区实在磁盘上进行的。</p>
+<ol start="2">
+<li>环形缓冲区</li>
+</ol>
+<p>map在内存中有一个环形缓冲区(字节数组实现)，用于存储任务的输出。默认是100M，这其中80%的容量用来缓存，当这部分容量满了的时候会启动一个溢出线程进行溢出操作，写入磁盘形成溢写文件；在溢出的过程中剩余的20%对新生产的数据继续缓存。【简单来说就是别读边写】但如果再次期间缓冲区被填满，map会阻塞直到写磁盘过程完成。</p>
+<p>阈值是可以设置的，但一般默认就可以了。</p>
+<p>1）环形缓冲区大小:<code>mapred-site.xml</code>中设置<code>mapreduce.task.io.sort.mb</code>的值</p>
+<p>2）环形缓冲区溢写的阈值:<code>mapred-site.xml</code>中设置<code>mapreduce.map.sort.spill.percent</code>的值</p>
+<p>作用：为什么要分区呢？？由于map()处理后的数据量可能会非常大，所以如果由一个reduce()处理效率不高，为了解决这个问题可以用分布式的思想，一个reduce()解决不了，就用多个reduce节点。一般来说有几类分区就对应有几个reduce节点，把相同分区交给一个reduce节点处理。</p>
+<ol start="3">
+<li>Spill溢写sort排序</li>
+</ol>
+<p>缓冲区的数据写到磁盘前，会对它进行一个二次快速排序，首先根据数据所属的partition （分区）排序，然后每个partition中再按Key 排序。输出包括一个索引文件和数据文件。如果设定了Combiner，将在排序输出的基础上运行。【Combiner】就是一个简单Reducer操作，它在执行Map 任务的节点本身运行，先对Map 的输出做一次简单Reduce，使得Map的输出更紧凑，更少的数据会被写入磁盘和传送到Reducer。临时文件会在map任务结束后删除。</p>
+<ol start="4">
+<li>merge文件合并<br>每次溢写会在磁盘上生成一个溢写文件，如果map的输出结果很大，有多次这样的溢写发生，磁盘上相应的就会有多个溢写文件存在。因为最终的文件只有一个，所以需要将这些溢写文件归并到一起，这个过程就叫做Merge。【merge就是多个溢写文件合并到一个文件】所以可能也有相同的key存在，在这个过程中如果client设置过Combiner，也会使用Combiner来合并相同的key。</li>
+</ol>
+<p>map端就处理完了，接下来就是reduce端了。</p>
+<h3 id="Reduce-端"><a href="#Reduce-端" class="headerlink" title="Reduce 端"></a>Reduce 端</h3><p>Map端合并最终生成的这个文件也存放在TaskTracker够得着的某个本地目录内，每个reduce task不断地从JobTracker那里获取map task是否完成的信息，如果reduce task得到通知，获知某台TaskTracker上的map task执行完成，Shuffle的后半段过程开始启动。</p>
+<ol>
+<li>copy复制</li>
+</ol>
+<p>reduce端默认有5个数据复制线程从map端复制数据，其通过Http方式得到Map对应分区的输出文件。reduce端并不是等map端执行完后将结果传来，而是直接去map端去Copy输出文件。</p>
+<ol start="2">
+<li>Merge合并</li>
+</ol>
+<p>reduce端的shuffle也有一个环形缓冲区，它的大小要比map端的灵活（由JVM的heapsize设置），由Copy阶段获得的数据，会存放的这个缓冲区中，同样，当到达阀值时会发生溢写到磁盘操作，这个过程中如果设置了Combiner也是会执行的，这个过程会一直执行直到所有的map输出都被复制过来，如果形成了多个磁盘文件还会进行合并，最后一次合并的结果作为reduce的输入而不是写入到磁盘中。</p>
+<ol start="3">
+<li>reduce执行</li>
+</ol>
+<p>当Reducer的输入文件确定后，整个Shuffle操作才最终结束。之后就是Reducer的执行了，最后Reducer会把结果存到HDFS上。</p>
+<h2 id="案例：分区函数使用"><a href="#案例：分区函数使用" class="headerlink" title="案例：分区函数使用"></a>案例：分区函数使用</h2><p>模拟数据：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>aa</td>
+<td>1</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td>bb</td>
+<td>2</td>
+<td>22</td>
+<td></td>
+</tr>
+<tr>
+<td>cc</td>
+<td>11</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>dd</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ee</td>
+<td>99</td>
+<td>99999</td>
+<td></td>
+</tr>
+<tr>
+<td>ff</td>
+<td>12</td>
+<td>23123</td>
+<td></td>
+</tr>
+<tr>
+<td>gg</td>
+<td>12</td>
+<td>41441</td>
+<td>442</td>
+</tr>
+<tr>
+<td>hh</td>
+<td>11</td>
+<td>41435</td>
+<td>412</td>
+</tr>
+</tbody>
+</table>
+<p>现在需要根据字段的个数分区，字段大于3个的为long，小于3个的为short，等于3个的为right。</p>
+<p>下面是map、getPartition和reduce函数的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyPartitionerMapper</span> <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">LongWritable</span>, <span class="title">Text</span>, <span class="title">Text</span>, <span class="title">Text</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">map</span><span class="params">(LongWritable key, Text value, Context context)</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">            String [] arr_value = value.toString().split(<span class="string">" "</span>);</span><br><span class="line">            <span class="keyword">if</span> (arr_value.length &gt; <span class="number">3</span>)&#123;</span><br><span class="line">                context.write(<span class="keyword">new</span> Text(<span class="string">"long"</span>), value);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (arr_value.length &lt; <span class="number">3</span>)&#123;</span><br><span class="line">                context.write(<span class="keyword">new</span> Text(<span class="string">"short"</span>), value);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                context.write(<span class="keyword">new</span> Text(<span class="string">"right"</span>), value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyPartitionerPartitioner</span> <span class="keyword">extends</span> <span class="title">Partitioner</span>&lt;<span class="title">Text</span>, <span class="title">Text</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPartition</span><span class="params">(Text key, Text value, <span class="keyword">int</span> numPartitions)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (key.toString().equals(<span class="string">"long"</span>))&#123;</span><br><span class="line">                result = <span class="number">0</span> % numPartitions;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (key.toString().equals(<span class="string">"short"</span>))&#123;</span><br><span class="line">                result = <span class="number">1</span> % numPartitions;</span><br><span class="line">            &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">                result = <span class="number">2</span> % numPartitions;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyPartitionerReducer</span> <span class="keyword">extends</span> <span class="title">Reducer</span>&lt;<span class="title">Text</span>, <span class="title">Text</span>, <span class="title">Text</span>, <span class="title">Text</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">reduce</span><span class="params">(Text key, Iterable&lt;Text&gt; values, Context context)</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">            <span class="comment">// just output data from map</span></span><br><span class="line">            <span class="keyword">for</span> (Text val: values)&#123;</span><br><span class="line">                context.write(key, val);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/WeChatImage_20170527190034.jpg" alt="Shuo Lv WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Big-Data/" rel="tag"># Big Data</a>
+          
+            <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/28/Flask 从入门到放弃6: 网站结构最佳实践/" rel="next" title="Flask 从入门到放弃6: 网站结构最佳实践">
+                <i class="fa fa-chevron-left"></i> Flask 从入门到放弃6: 网站结构最佳实践
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODkwOC81NDc3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Shuo Lv" />
+          <p class="site-author-name" itemprop="name">Shuo Lv</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lvraikkonen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/1246109477/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/lu-shuo-53/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-quora"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.linkedin.com/in/shuo-lv-58881823/" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/shuo.lv" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://webdemo.myscript.com/views/math.html/" title="公式编辑器" target="_blank">公式编辑器</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pythontutor.com/" title="可视化Python代码" target="_blank">可视化Python代码</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://docs.python-guide.org/en/latest/" title="Python最佳实践" target="_blank">Python最佳实践</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#InputFormat类"><span class="nav-number">1.</span> <span class="nav-text">InputFormat类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mapper类"><span class="nav-number">2.</span> <span class="nav-text">Mapper类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Combiner类"><span class="nav-number">3.</span> <span class="nav-text">Combiner类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Partition类"><span class="nav-number">4.</span> <span class="nav-text">Partition类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reducer类"><span class="nav-number">5.</span> <span class="nav-text">Reducer类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OutputFormat类"><span class="nav-number">6.</span> <span class="nav-text">OutputFormat类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shuffle-过程"><span class="nav-number">7.</span> <span class="nav-text">Shuffle 过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Map-端"><span class="nav-number">7.1.</span> <span class="nav-text">Map 端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reduce-端"><span class="nav-number">7.2.</span> <span class="nav-text">Reduce 端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#案例：分区函数使用"><span class="nav-number">8.</span> <span class="nav-text">案例：分区函数使用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shuo Lv</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("QttC3P4LGflMxbppLnNEY62a-gzGzoHsz", "joh41qpX9cxG63me5aR8vKXx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- 背景动画 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
