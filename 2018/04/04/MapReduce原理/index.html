@@ -106,7 +106,8 @@
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/840a93c06c0c2f91ec6669bc57476040.jpg">
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/63d9b9c99d588f5fe9348cefc051617c.jpg">
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/2e2be46b87e56964605386a6690c3c1e.jpg">
-<meta property="og:updated_time" content="2018-04-06T04:04:01.528Z">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/24778ea95f91c596d03a185b4250b5e1.jpg">
+<meta property="og:updated_time" content="2018-04-09T02:11:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MapReduce原理">
 <meta name="twitter:description" content="MapReduce Paper MapReduce是Google提出的一个软件架构，用于大规模数据集（大于1TB）的并行运算。MapReduce最本质的两个过程就是Map和Reduce，思想来源于函数式编程。 初学MapReduce，写了WordCount入门程序后，觉得编写MapReduce程序只需要实现Map和Reduce函数就可以了，后来觉得，这个框架隐藏的细节还是需要好好了解一下的。下面这">
@@ -357,8 +358,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2018-04-06T12:04:01+08:00">
-                2018-04-06
+              <time title="更新于" itemprop="dateModified" datetime="2018-04-09T10:11:19+08:00">
+                2018-04-09
               </time>
             
           </span>
@@ -502,6 +503,7 @@
 </ol>
 <p>map端就处理完了，接下来就是reduce端了。</p>
 <h3 id="Reduce-端"><a href="#Reduce-端" class="headerlink" title="Reduce 端"></a>Reduce 端</h3><p>Map端合并最终生成的这个文件也存放在TaskTracker够得着的某个本地目录内，每个reduce task不断地从JobTracker那里获取map task是否完成的信息，如果reduce task得到通知，获知某台TaskTracker上的map task执行完成，Shuffle的后半段过程开始启动。</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/24778ea95f91c596d03a185b4250b5e1.jpg" alt="Shuffle_ReducePart"></p>
 <ol>
 <li>copy复制</li>
 </ol>
@@ -647,6 +649,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/04/08/MapReduce-实现倒排索引/" rel="prev" title="MapReduce 实现倒排索引">
+                MapReduce 实现倒排索引 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -742,7 +748,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-count">56</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -764,7 +770,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
