@@ -124,6 +124,9 @@ map端就处理完了，接下来就是reduce端了。
 
 Map端合并最终生成的这个文件也存放在TaskTracker够得着的某个本地目录内，每个reduce task不断地从JobTracker那里获取map task是否完成的信息，如果reduce task得到通知，获知某台TaskTracker上的map task执行完成，Shuffle的后半段过程开始启动。
 
+![Shuffle_ReducePart](http://7xkfga.com1.z0.glb.clouddn.com/24778ea95f91c596d03a185b4250b5e1.jpg)
+
+
 1. copy复制
 
 reduce端默认有5个数据复制线程从map端复制数据，其通过Http方式得到Map对应分区的输出文件。reduce端并不是等map端执行完后将结果传来，而是直接去map端去Copy输出文件。
