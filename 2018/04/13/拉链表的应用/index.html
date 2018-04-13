@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="数据仓库," />
 
 
 
@@ -93,13 +93,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Claus&#39;s Tech Blog">
-<meta property="og:url" content="https://lvraikkonen.github.io/index.html">
+<meta name="description" content="数据仓库和事务数据库不一样的地方，在于数据仓库需要对历史数据进行分析。而在数据仓库海量的数据里，如何既节约存储空间，又能满足对历史变更数据的查询，就成为一个要解决的问题。这时候就可以使用拉链表来完成这种需求。 什么是拉链表以订单这种场景为例，原始订单表orders有如下几个字段：订单ID、创建时间、修改时间、订单状态 4月1号当天的订单    orderid createtime modified">
+<meta name="keywords" content="数据仓库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="拉链表的应用">
+<meta property="og:url" content="https://lvraikkonen.github.io/2018/04/13/拉链表的应用/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
+<meta property="og:description" content="数据仓库和事务数据库不一样的地方，在于数据仓库需要对历史数据进行分析。而在数据仓库海量的数据里，如何既节约存储空间，又能满足对历史变更数据的查询，就成为一个要解决的问题。这时候就可以使用拉链表来完成这种需求。 什么是拉链表以订单这种场景为例，原始订单表orders有如下几个字段：订单ID、创建时间、修改时间、订单状态 4月1号当天的订单    orderid createtime modified">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-13T12:59:16.907Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Claus&#39;s Tech Blog">
+<meta name="twitter:title" content="拉链表的应用">
+<meta name="twitter:description" content="数据仓库和事务数据库不一样的地方，在于数据仓库需要对历史数据进行分析。而在数据仓库海量的数据里，如何既节约存储空间，又能满足对历史变更数据的查询，就成为一个要解决的问题。这时候就可以使用拉链表来完成这种需求。 什么是拉链表以订单这种场景为例，原始订单表orders有如下几个字段：订单ID、创建时间、修改时间、订单状态 4月1号当天的订单    orderid createtime modified">
 
 
 
@@ -127,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="https://lvraikkonen.github.io/"/>
+  <link rel="canonical" href="https://lvraikkonen.github.io/2018/04/13/拉链表的应用/"/>
 
 
 
 
 
-  <title>Claus's Tech Blog</title>
+  <title>拉链表的应用 | Claus's Tech Blog</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -159,9 +164,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -292,9 +295,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -320,9 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/13/拉链表的应用/" itemprop="url">拉链表的应用</a></h1>
+          <h1 class="post-title" itemprop="name headline">拉链表的应用</h1>
         
 
         <div class="post-meta">
@@ -413,9 +414,7 @@
       
 
       
-        
-          
-            <p>数据仓库和事务数据库不一样的地方，在于数据仓库需要对历史数据进行分析。而在数据仓库海量的数据里，如何既节约存储空间，又能满足对历史变更数据的查询，就成为一个要解决的问题。这时候就可以使用拉链表来完成这种需求。</p>
+        <p>数据仓库和事务数据库不一样的地方，在于数据仓库需要对历史数据进行分析。而在数据仓库海量的数据里，如何既节约存储空间，又能满足对历史变更数据的查询，就成为一个要解决的问题。这时候就可以使用拉链表来完成这种需求。</p>
 <h2 id="什么是拉链表"><a href="#什么是拉链表" class="headerlink" title="什么是拉链表"></a>什么是拉链表</h2><p>以订单这种场景为例，原始订单表orders有如下几个字段：订单ID、创建时间、修改时间、订单状态</p>
 <p>4月1号当天的订单</p>
 <table>
@@ -703,814 +702,111 @@
 </ol>
 </blockquote>
 
-          
-        
       
     </div>
 
     <div>
       
+        
+
+      
     </div>
 
     <div>
       
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/04/11/Homebrew-管理后台服务/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
         
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/11/Homebrew-管理后台服务/" itemprop="url">Homebrew 管理后台服务</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T09:08:38+08:00">
-                2018-04-11
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2018-04-11T09:37:38+08:00">
-                2018-04-11
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/备忘/" itemprop="url" rel="index">
-                    <span itemprop="name">备忘</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/04/11/Homebrew-管理后台服务/" class="leancloud_visitors" data-flag-title="Homebrew 管理后台服务">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                  <span class="post-meta-divider">|</span>
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  508 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/WeChatImage_20170527190034.jpg" alt="Shuo Lv WeChat Pay"/>
+          <p>微信打赏</p>
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
       
       
+    </div>
+  </div>
 
+
+      
+    </div>
+
+    <div>
       
         
-          <p>在MacOS上，Homebrew是一个特别好的软件包管理的工具。以前只是拿来安装软件，偶然一次Mac重启了，好多后台服务就停了，这时候想起来Homebrew还能管理它所安装的软件的后台服务。下面内容转自<a href="https://robots.thoughtbot.com/starting-and-stopping-background-services-with-homebrew" target="_blank" rel="noopener">Starting and Stopping Background Services with Homebrew</a> 作为备忘。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/11/Homebrew-管理后台服务/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/04/08/MapReduce-实现倒排索引/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/08/MapReduce-实现倒排索引/" itemprop="url">MapReduce 实现倒排索引</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-08T09:23:29+08:00">
-                2018-04-08
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2018-04-09T18:15:17+08:00">
-                2018-04-09
-              </time>
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Big-Data/" itemprop="url" rel="index">
-                    <span itemprop="name">Big Data</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Big-Data/Hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">Hadoop</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/数据仓库/" rel="tag"># 数据仓库</a>
           
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/04/08/MapReduce-实现倒排索引/" class="leancloud_visitors" data-flag-title="MapReduce 实现倒排索引">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                  <span class="post-meta-divider">|</span>
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  743 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>倒排索引是一种索引方法，被用来存储在全文搜索下某个单词在一个文档或者一组文档中的存储位置的映射，常被应用于搜索引擎和关键字查询的问题中。</p>
-<p>以英文为例，下面是要被索引的文本：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">T0 = &quot;it is what it is&quot;  </span><br><span class="line">T1 = &quot;what is it&quot;  </span><br><span class="line">T2 = &quot;it is a banana&quot;</span><br></pre></td></tr></table></figure>
-<p>有两种不同的反向索引形式：</p>
-<ul>
-<li>一条记录的水平反向索引（或者反向档案索引）包含每个引用单词的文档的列表。</li>
-<li>一个单词的水平反向索引（或者完全反向索引）又包含每个单词在一个文档中的位置</li>
-</ul>
-<p>我们就能得到下面的反向文件索引：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;a&quot;:      &#123;2&#125;</span><br><span class="line">&quot;banana&quot;: &#123;2&#125;</span><br><span class="line">&quot;is&quot;:     &#123;0, 1, 2&#125;</span><br><span class="line">&quot;it&quot;:     &#123;0, 1, 2&#125;</span><br><span class="line">&quot;what&quot;:   &#123;0, 1&#125;</span><br></pre></td></tr></table></figure></p>
-<p>检索的条件”what”,”is”和”it”将对应集合的交集。检索的条件”what”, “is” 和 “it” 将对应这个集合： ${\displaystyle {0,1}\cap {0,1,2}\cap {0,1,2}={0,1}}$。</p>
-<p>下面得到的是第二种倒排索引，包含有<code>文档数量和单词结果在文档中的位置</code>组成的的成对数据。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;a&quot;:      &#123;(2, 2)&#125;</span><br><span class="line">&quot;banana&quot;: &#123;(2, 3)&#125;</span><br><span class="line">&quot;is&quot;:     &#123;(0, 1), (0, 4), (1, 1), (2, 1)&#125;</span><br><span class="line">&quot;it&quot;:     &#123;(0, 0), (0, 3), (1, 2), (2, 0)&#125; </span><br><span class="line">&quot;what&quot;:   &#123;(0, 2), (1, 0)&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/08/MapReduce-实现倒排索引/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/11/Homebrew-管理后台服务/" rel="next" title="Homebrew 管理后台服务">
+                <i class="fa fa-chevron-left"></i> Homebrew 管理后台服务
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
+          <span class="post-nav-divider"></span>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/04/04/MapReduce原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/04/MapReduce原理/" itemprop="url">MapReduce原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-04T16:50:11+08:00">
-                2018-04-04
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2018-04-09T10:11:19+08:00">
-                2018-04-09
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Big-Data/" itemprop="url" rel="index">
-                    <span itemprop="name">Big Data</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Big-Data/Hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">Hadoop</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/04/04/MapReduce原理/" class="leancloud_visitors" data-flag-title="MapReduce原理">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                  <span class="post-meta-divider">|</span>
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  2,105 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p><a href="https://research.google.com/archive/mapreduce.html" target="_blank" rel="noopener">MapReduce Paper</a></p>
-<p>MapReduce是Google提出的一个软件架构，用于大规模数据集（大于1TB）的并行运算。MapReduce最本质的两个过程就是Map和Reduce，思想来源于函数式编程。</p>
-<p>初学MapReduce，写了WordCount入门程序后，觉得编写MapReduce程序只需要实现Map和Reduce函数就可以了，后来觉得，这个框架隐藏的细节还是需要好好了解一下的。下面这个图基本描述了MapReduce的整个过程：</p>
-<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/868d6475efd595a6ea9b1d6f248a32c7.jpg" alt="MapReduce pipeline"></p>
-<p>其中，Map阶段、Reduce阶段比较好理解，但是Shuffle阶段的这个细节还是很神奇的。下面简单介绍下MapReduce各个阶段。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/04/MapReduce原理/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
+
+    <div class="post-spread">
       
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/08/28/Flask 从入门到放弃6: 网站结构最佳实践/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/28/Flask 从入门到放弃6: 网站结构最佳实践/" itemprop="url">Flask 从入门到放弃6: 网站结构最佳实践</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-28T17:50:39+08:00">
-                2017-08-28
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2018-04-04T15:11:06+08:00">
-                2018-04-04
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Flask从入门到放弃/" itemprop="url" rel="index">
-                    <span itemprop="name">Flask从入门到放弃</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/08/28/Flask 从入门到放弃6: 网站结构最佳实践/" class="leancloud_visitors" data-flag-title="Flask 从入门到放弃6: 网站结构最佳实践">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                  <span class="post-meta-divider">|</span>
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  1,089 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>来自<a href="https://item.jd.com/11594082.html" target="_blank" rel="noopener">狗书</a>第七章：大型程序的结构</p>
-<p> <img src="https://covers.oreillystatic.com/images/0636920031116/lrg.jpg" alt="Flask Web Development"></p>
-<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>下图显示多文件的Flask程序的基本结构</p>
-<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/structure.png" alt="FlaskProjectTree"></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/28/Flask 从入门到放弃6: 网站结构最佳实践/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+  </div>
 
 
           </div>
@@ -1518,6 +814,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODkwOC81NDc3"></div>
+    
+  </div>
+
 
         </div>
         
@@ -1537,8 +839,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpg"
@@ -1670,6 +981,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是拉链表"><span class="nav-number">1.</span> <span class="nav-text">什么是拉链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现拉链表"><span class="nav-number">2.</span> <span class="nav-text">实现拉链表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">2.1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-全量初始化"><span class="nav-number">2.2.</span> <span class="nav-text">1. 全量初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-增量抽取"><span class="nav-number">2.3.</span> <span class="nav-text">2. 增量抽取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-放到拉链表中"><span class="nav-number">2.4.</span> <span class="nav-text">3. 放到拉链表中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询性能优化"><span class="nav-number">3.</span> <span class="nav-text">查询性能优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -1789,10 +1116,10 @@
 
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 
@@ -1827,6 +1154,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
