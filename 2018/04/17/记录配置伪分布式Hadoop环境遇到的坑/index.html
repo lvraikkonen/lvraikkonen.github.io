@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Mac,Homebrew," />
+  <meta name="keywords" content="Hadoop," />
 
 
 
@@ -93,18 +93,20 @@
 
 
 
-<meta name="description" content="在MacOS上，Homebrew是一个特别好的软件包管理的工具。以前只是拿来安装软件，偶然一次Mac重启了，好多后台服务就停了，这时候想起来Homebrew还能管理它所安装的软件的后台服务。下面内容转自Starting and Stopping Background Services with Homebrew 作为备忘。">
-<meta name="keywords" content="Mac,Homebrew">
+<meta name="description" content="问题本地mac搭了个Hadoop3.0的伪分布式环境，HDFS运行正常、MapReduce单机模式也正常，JPS后台守护进程都正常。但是写了个MapReduce任务，想去跑一下，结果卡在了Map 100% Reduce 0%  去stackoverflow查了一圈，基本都在说运行环境没有分配足够的内存导致的，从container的syslog里面只有下面的ERROR： 12345678910111">
+<meta name="keywords" content="Hadoop">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Homebrew 管理后台服务">
-<meta property="og:url" content="https://lvraikkonen.github.io/2018/04/11/Homebrew-管理后台服务/index.html">
+<meta property="og:title" content="记录配置伪分布式Hadoop环境遇到的坑">
+<meta property="og:url" content="https://lvraikkonen.github.io/2018/04/17/记录配置伪分布式Hadoop环境遇到的坑/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
-<meta property="og:description" content="在MacOS上，Homebrew是一个特别好的软件包管理的工具。以前只是拿来安装软件，偶然一次Mac重启了，好多后台服务就停了，这时候想起来Homebrew还能管理它所安装的软件的后台服务。下面内容转自Starting and Stopping Background Services with Homebrew 作为备忘。">
+<meta property="og:description" content="问题本地mac搭了个Hadoop3.0的伪分布式环境，HDFS运行正常、MapReduce单机模式也正常，JPS后台守护进程都正常。但是写了个MapReduce任务，想去跑一下，结果卡在了Map 100% Reduce 0%  去stackoverflow查了一圈，基本都在说运行环境没有分配足够的内存导致的，从container的syslog里面只有下面的ERROR： 12345678910111">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-11T01:37:38.000Z">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/8decc87de4ed7b15bd9df527e063dbd5.jpg">
+<meta property="og:updated_time" content="2018-04-17T07:49:24.700Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Homebrew 管理后台服务">
-<meta name="twitter:description" content="在MacOS上，Homebrew是一个特别好的软件包管理的工具。以前只是拿来安装软件，偶然一次Mac重启了，好多后台服务就停了，这时候想起来Homebrew还能管理它所安装的软件的后台服务。下面内容转自Starting and Stopping Background Services with Homebrew 作为备忘。">
+<meta name="twitter:title" content="记录配置伪分布式Hadoop环境遇到的坑">
+<meta name="twitter:description" content="问题本地mac搭了个Hadoop3.0的伪分布式环境，HDFS运行正常、MapReduce单机模式也正常，JPS后台守护进程都正常。但是写了个MapReduce任务，想去跑一下，结果卡在了Map 100% Reduce 0%  去stackoverflow查了一圈，基本都在说运行环境没有分配足够的内存导致的，从container的syslog里面只有下面的ERROR： 12345678910111">
+<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/8decc87de4ed7b15bd9df527e063dbd5.jpg">
 
 
 
@@ -132,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="https://lvraikkonen.github.io/2018/04/11/Homebrew-管理后台服务/"/>
+  <link rel="canonical" href="https://lvraikkonen.github.io/2018/04/17/记录配置伪分布式Hadoop环境遇到的坑/"/>
 
 
 
 
 
-  <title>Homebrew 管理后台服务 | Claus's Tech Blog</title>
+  <title>记录配置伪分布式Hadoop环境遇到的坑 | Claus's Tech Blog</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -306,7 +308,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/04/11/Homebrew-管理后台服务/">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/04/17/记录配置伪分布式Hadoop环境遇到的坑/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shuo Lv">
@@ -323,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Homebrew 管理后台服务</h1>
+          <h1 class="post-title" itemprop="name headline">记录配置伪分布式Hadoop环境遇到的坑</h1>
         
 
         <div class="post-meta">
@@ -335,8 +337,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T09:08:38+08:00">
-                2018-04-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-17T14:51:54+08:00">
+                2018-04-17
               </time>
             
 
@@ -351,8 +353,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2018-04-11T09:37:38+08:00">
-                2018-04-11
+              <time title="更新于" itemprop="dateModified" datetime="2018-04-17T15:49:24+08:00">
+                2018-04-17
               </time>
             
           </span>
@@ -370,8 +372,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/备忘/" itemprop="url" rel="index">
-                    <span itemprop="name">备忘</span>
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
                   </a>
                 </span>
 
@@ -387,7 +389,7 @@
 
           
           
-             <span id="/2018/04/11/Homebrew-管理后台服务/" class="leancloud_visitors" data-flag-title="Homebrew 管理后台服务">
+             <span id="/2018/04/17/记录配置伪分布式Hadoop环境遇到的坑/" class="leancloud_visitors" data-flag-title="记录配置伪分布式Hadoop环境遇到的坑">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -414,7 +416,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  508 字
+                  1,340 字
                 </span>
               
 
@@ -436,19 +438,27 @@
       
 
       
-        <p>在MacOS上，Homebrew是一个特别好的软件包管理的工具。以前只是拿来安装软件，偶然一次Mac重启了，好多后台服务就停了，这时候想起来Homebrew还能管理它所安装的软件的后台服务。下面内容转自<a href="https://robots.thoughtbot.com/starting-and-stopping-background-services-with-homebrew" target="_blank" rel="noopener">Starting and Stopping Background Services with Homebrew</a> 作为备忘。</p>
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>本地mac搭了个Hadoop3.0的伪分布式环境，HDFS运行正常、MapReduce单机模式也正常，JPS后台守护进程都正常。但是写了个MapReduce任务，想去跑一下，结果卡在了Map 100% Reduce 0%</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/8decc87de4ed7b15bd9df527e063dbd5.jpg" alt="stuckAtReduce"></p>
+<p>去stackoverflow查了一圈，基本都在说运行环境没有分配足够的内存导致的，从container的syslog里面只有下面的ERROR：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Error: org.apache.hadoop.mapreduce.task.reduce.Shuffle$ShuffleError: error in shuffle in fetcher#1</span><br><span class="line">	at org.apache.hadoop.mapreduce.task.reduce.Shuffle.run(Shuffle.java:134)</span><br><span class="line">	at org.apache.hadoop.mapred.ReduceTask.run(ReduceTask.java:377)</span><br><span class="line">	at org.apache.hadoop.mapred.YarnChild$2.run(YarnChild.java:174)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at javax.security.auth.Subject.doAs(Subject.java:422)</span><br><span class="line">	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1965)</span><br><span class="line">	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:168)</span><br><span class="line">Caused by: java.io.IOException: Exceeded MAX_FAILED_UNIQUE_FETCHES; bailing-out.</span><br><span class="line">	at org.apache.hadoop.mapreduce.task.reduce.ShuffleSchedulerImpl.checkReducerHealth(ShuffleSchedulerImpl.java:396)</span><br><span class="line">	at org.apache.hadoop.mapreduce.task.reduce.ShuffleSchedulerImpl.copyFailed(ShuffleSchedulerImpl.java:311)</span><br><span class="line">	at org.apache.hadoop.mapreduce.task.reduce.Fetcher.openShuffleUrl(Fetcher.java:291)</span><br><span class="line">	at org.apache.hadoop.mapreduce.task.reduce.Fetcher.copyFromHost(Fetcher.java:330)</span><br><span class="line">	at org.apache.hadoop.mapreduce.task.reduce.Fetcher.run(Fetcher.java:198)</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>如果你使用 <code>Homebrew</code> 安装过 <code>mysql</code> 那么下面的安装后提示你可能比较熟悉</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">To have launchd start mysql at login:</span><br><span class="line">    ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents</span><br><span class="line">Then to load mysql now:</span><br><span class="line">    launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</span><br><span class="line">Or, if you don&apos;t want/need launchctl, you can just run:</span><br><span class="line">    mysql.server start</span><br></pre></td></tr></table></figure>
-<p>如果按上面的说明操作的话，未免太麻烦了，而且也很难记住 plist 的位置。还好 Homebrew 提供了一个易用的接口来管理 plist，然后你就不用再纠结什么 <code>ln</code>，<code>launchctl</code>，和 plist 的位置了。</p>
-<h2 id="brew-services"><a href="#brew-services" class="headerlink" title="brew services"></a>brew services</h2><p>首先安装 <code>brew services</code> 命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew tap gapple/services</span><br></pre></td></tr></table></figure></p>
-<p>下面举个例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ brew services start mysql</span><br><span class="line">==&gt; Successfully started `mysql` (label: homebrew.mxcl.mysql)</span><br></pre></td></tr></table></figure></p>
-<p>在后台，<code>brew services start</code> 其实执行了最上面的安装后消息里面提到的所有命令，比如首先运行 <code>ln -sfv ...</code>，然后 <code>launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</code> 。</p>
-<p>假设突然 MySQL 出毛病了，我们要重启一下，那么执行下面的命令就行了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">brew services restart mysql</span><br><span class="line">Stopping `mysql`... (might take a while)</span><br><span class="line">==&gt; Successfully stopped `mysql` (label: homebrew.mxcl.mysql)</span><br><span class="line">==&gt; Successfully started `mysql` (label: homebrew.mxcl.mysql)</span><br></pre></td></tr></table></figure></p>
-<p>想看所有的已启用的服务的话：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ brew services list</span><br><span class="line">redis      started      442 /Users/gabe/Library/LaunchAgents/homebrew.mxcl.redis.plist</span><br><span class="line">postgresql started      443 /Users/gabe/Library/LaunchAgents/homebrew.mxcl.postgresql.plist</span><br><span class="line">mongodb    started      444 /Users/gabe/Library/LaunchAgents/homebrew.mxcl.mongodb.plist</span><br><span class="line">memcached  started      445 /Users/gabe/Library/LaunchAgents/homebrew.mxcl.memcached.plist</span><br><span class="line">mysql      started    87538 /Users/gabe/Library/LaunchAgents/homebrew.mxcl.mysql.plist</span><br></pre></td></tr></table></figure></p>
-<p>要注意的是，这里不止显示通过 <code>brew services</code> 加载的服务，也包含 <code>launchctl load</code> 加载的。</p>
-<p>如果你卸载了 MySQL 但是 <code>Homebrew</code> 没把 plist 文件删除的话，你可以</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ brew services cleanup</span><br><span class="line">Removing unused plist /Users/gabe/Library/LaunchAgents/homebrew.mxcl.mysql.plist</span><br></pre></td></tr></table></figure>
+<h2 id="内存问题解决方法"><a href="#内存问题解决方法" class="headerlink" title="内存问题解决方法"></a>内存问题解决方法</h2><p>歪个楼，看了不少的关于内存不足的分析，也学了不少，记在下面以备以后需要。</p>
+<p>引用自<a href="https://blog.csdn.net/dslztx/article/details/46445725" target="_blank" rel="noopener">MapReduce任务Shuffle Error错误</a></p>
+<blockquote>
+<p>shuffle过程的输入是：map任务的输出文件，它的输出接收者是：运行reduce任务的机子上的内存<br>buffer，并且shuffle过程以并行方式运行<br>参数mapreduce.reduce.shuffle.input.buffer.percent控制运行reduce任务的机子上多少比例的<br>内存用作上述buffer(默认值为0.70)，参数mapreduce.reduce.shuffle.parallelcopies控制<br>shuffle过程的并行度(默认值为5)<br>那么”mapreduce.reduce.shuffle.input.buffer.percent” *<br>“mapreduce.reduce.shuffle.parallelcopies” 必须小于等于1，否则就会出现如上错误<br>因此，我将mapreduce.reduce.shuffle.input.buffer.percent设置成值为0.1，<br>就可以正常运行了（设置成0.2，还是会抛同样的错）</p>
+<p>另外，可以发现如果使用两个参数的默认值，那么两者乘积为3.5，大大大于1了，<br>为什么没有经常抛出以上的错误呢？</p>
+<p>首先，把默认值设为比较大，主要是基于性能考虑，将它们设为比较大，可以大大加快从map复制数据的速度<br>其次，要抛出如上异常，还需满足另外一个条件，就是map任务的数据一下子准备好了等待shuffle去复制，<br>在这种情况下，就会导致shuffle过程的“线程数量”和“内存buffer使用量”都是满负荷的值，自然就造成<br>了内存不足的错误；而如果map任务的数据是断断续续完成的，那么没有一个时刻shuffle过程的“线程数<br>量”和“内存buffer使用量”是满负荷值的，自然也就不会抛出如上错误<br>另外，如果在设置以上参数后，还是出现错误，那么有可能是运行Reduce任务的进程的内存总量不足，可以<br>通过mapred.child.java.opts参数来调节，比如设置mapred.child.java.opts=-Xmx2024m<br>reduce会在map执行到一定比例启动多个fetch线程去拉取map的输出结果，放到reduce的内存、磁盘中，<br>然后进行merge。当数据量大时，拉取到内存的数据就会引起OOM，所以此时要减少fetch占内存的百分比，<br>将fetch的数据直接放在磁盘上。</p>
+<p>mapreduce.reduce.shuffle.memory.limit.percent：每个fetch取到的map输出的大小能够占的内<br>存比的大小。默认是0.25。因此实际每个fetcher的输出能放在内存的大小是reducer的java heap<br>size<em>0.9</em>0.25</p>
+</blockquote>
+<h2 id="我的问题解决"><a href="#我的问题解决" class="headerlink" title="我的问题解决"></a>我的问题解决</h2><p>言归正传，按照上面的解决办法，问题依然存在，然后我删掉了Hadoop重新配置了一个全新的，跑一下伪分布式的hadoop-example，依然是这样，大脑都快炸了，啊啊啊</p>
+<p>后来发现有人说是本机host的问题，把计算机名加入到host里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1   localhost</span><br><span class="line">-- added</span><br><span class="line">127.0.0.1   my_computername</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>好了~~~内牛满面啊</p>
+<h2 id="Hadoop伪分布式环境配置"><a href="#Hadoop伪分布式环境配置" class="headerlink" title="Hadoop伪分布式环境配置"></a>Hadoop伪分布式环境配置</h2><h3 id="core-site-xml"><a href="#core-site-xml" class="headerlink" title="core-site.xml"></a>core-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://localhost:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/Users/lvshuo/bigdata/hadoop/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>io.file.buffer.size<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>131702<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="hdfs-site-xml"><a href="#hdfs-site-xml" class="headerlink" title="hdfs-site.xml"></a>hdfs-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/Users/lvshuo/bigdata/hadoop/tmp/hdfs/namenode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>file:/Users/lvshuo/bigdata/hadoop/tmp/hdfs/datanode<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="yarn-site-xml"><a href="#yarn-site-xml" class="headerlink" title="yarn-site.xml"></a>yarn-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="mapred-site-xml"><a href="#mapred-site-xml" class="headerlink" title="mapred-site.xml"></a>mapred-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapred.child.java.opts<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>-Xmx4096m<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.reduce.shuffle.memory.limit.percent<span class="tag">&lt;/<span class="name">name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>0.1<span class="tag">&lt;/<span class="name">value</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Expert: Maximum percentage of the in-memory limit that a  </span><br><span class="line">    single shuffle can consume<span class="tag">&lt;/<span class="name">description</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.application.classpath<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span></span><br><span class="line">    /Users/lvshuo/bigdata/hadoop/etc/hadoop:/Users/lvshuo/bigdata/hadoop/share/hadoop/common/lib/*:/Users/lvshuo/bigdata/hadoop/share/hadoop/common/*:/Users/lvshuo/bigdata/hadoop/share/hadoop/hdfs:/Users/lvshuo/bigdata/hadoop/share/hadoop/hdfs/lib/*:/Users/lvshuo/bigdata/hadoop/share/hadoop/hdfs/*:/Users/lvshuo/bigdata/hadoop/share/hadoop/mapreduce/*:/Users/lvshuo/bigdata/hadoop/share/hadoop/yarn:/Users/lvshuo/bigdata/hadoop/share/hadoop/yarn/lib/*:/Users/lvshuo/bigdata/hadoop/share/hadoop/yarn/*</span><br><span class="line">    <span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -493,9 +503,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Mac/" rel="tag"># Mac</a>
-          
-            <a href="/tags/Homebrew/" rel="tag"># Homebrew</a>
+            <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
           
         </div>
       
@@ -508,8 +516,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/08/MapReduce-实现倒排索引/" rel="next" title="MapReduce 实现倒排索引">
-                <i class="fa fa-chevron-left"></i> MapReduce 实现倒排索引
+              <a href="/2018/04/13/拉链表的应用/" rel="next" title="拉链表的应用">
+                <i class="fa fa-chevron-left"></i> 拉链表的应用
               </a>
             
           </div>
@@ -517,10 +525,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/13/拉链表的应用/" rel="prev" title="拉链表的应用">
-                拉链表的应用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -743,7 +747,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#brew-services"><span class="nav-number">1.</span> <span class="nav-text">brew services</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存问题解决方法"><span class="nav-number">2.</span> <span class="nav-text">内存问题解决方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我的问题解决"><span class="nav-number">3.</span> <span class="nav-text">我的问题解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hadoop伪分布式环境配置"><span class="nav-number">4.</span> <span class="nav-text">Hadoop伪分布式环境配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#core-site-xml"><span class="nav-number">4.1.</span> <span class="nav-text">core-site.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hdfs-site-xml"><span class="nav-number">4.2.</span> <span class="nav-text">hdfs-site.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yarn-site-xml"><span class="nav-number">4.3.</span> <span class="nav-text">yarn-site.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapred-site-xml"><span class="nav-number">4.4.</span> <span class="nav-text">mapred-site.xml</span></a></li></ol></li></ol></div>
             
 
           </div>
