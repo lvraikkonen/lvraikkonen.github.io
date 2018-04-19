@@ -1,0 +1,1144 @@
+﻿<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Kafka," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Kafka是一个分布式消息发布订阅系统，Kafka可以用于以下场景：  消息系统， 例如ActiveMQ 和 RabbitMQ. 站点的用户活动追踪。 用来记录用户的页面浏览，搜索，点击等。 操作审计。 用户/管理员的网站操作的监控。 日志聚合。收集数据，集中处理。 流处理等">
+<meta name="keywords" content="Kafka">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka入门">
+<meta property="og:url" content="https://lvraikkonen.github.io/2018/04/18/Kafka入门/index.html">
+<meta property="og:site_name" content="Claus&#39;s Tech Blog">
+<meta property="og:description" content="Kafka是一个分布式消息发布订阅系统，Kafka可以用于以下场景：  消息系统， 例如ActiveMQ 和 RabbitMQ. 站点的用户活动追踪。 用来记录用户的页面浏览，搜索，点击等。 操作审计。 用户/管理员的网站操作的监控。 日志聚合。收集数据，集中处理。 流处理等">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/f82cbd2ddbb1b9d8967aef1f9400d95e.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/d01cc984be0f688c7b965359c18bb69b.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/6846419c10b1905e609a30845996320d.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/5e88d29ceebffad0e1f3a4447e3e5d20.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/e5100a41ab185ec8ac110f7d12d67648.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/732b33d9089033702a584c8b2754f886.jpg">
+<meta property="og:updated_time" content="2018-04-19T03:45:32.054Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kafka入门">
+<meta name="twitter:description" content="Kafka是一个分布式消息发布订阅系统，Kafka可以用于以下场景：  消息系统， 例如ActiveMQ 和 RabbitMQ. 站点的用户活动追踪。 用来记录用户的页面浏览，搜索，点击等。 操作审计。 用户/管理员的网站操作的监控。 日志聚合。收集数据，集中处理。 流处理等">
+<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/f82cbd2ddbb1b9d8967aef1f9400d95e.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'JWQGEFMRGT',
+      apiKey: '7c12daa85b9bf759fcde9b547d3a9349',
+      indexName: 'lvraikkonen_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lvraikkonen.github.io/2018/04/18/Kafka入门/"/>
+
+
+
+
+
+  <title>Kafka入门 | Claus's Tech Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Claus's Tech Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">leave me alone i know what to do</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/04/18/Kafka入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Kafka入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-18T19:25:38+08:00">
+                2018-04-18
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-04-19T11:45:32+08:00">
+                2018-04-19
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kafka/" itemprop="url" rel="index">
+                    <span itemprop="name">Kafka</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/18/Kafka入门/" class="leancloud_visitors" data-flag-title="Kafka入门">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,475 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Kafka是一个分布式消息发布订阅系统，Kafka可以用于以下场景：</p>
+<ul>
+<li>消息系统， 例如ActiveMQ 和 RabbitMQ.</li>
+<li>站点的用户活动追踪。 用来记录用户的页面浏览，搜索，点击等。</li>
+<li>操作审计。 用户/管理员的网站操作的监控。</li>
+<li>日志聚合。收集数据，集中处理。</li>
+<li>流处理等</li>
+</ul>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/f82cbd2ddbb1b9d8967aef1f9400d95e.jpg" alt="流处理平台"></p>
+<a id="more"></a>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
+<li>Producer：消息生产者，就是向kafka broker发消息的客户端。</li>
+<li>Consumer：消息消费者，是消息的使用方，负责消费Kafka服务器上的消息。</li>
+<li>Topic：主题，由用户定义并配置在Kafka服务器，用于建立Producer和Consumer之间的订阅关系。生产者发送消息到指定的Topic下，消息者从这个Topic下消费消息。</li>
+<li><p>Partition：消息分区，一个topic可以分为多个 partition，每个partition是一个有序的队列。partition中的每条消息都会被分配一个有序的id（offset）。</p>
+<p>  <em>note: 一个topic的一个partition只能被一个consumer group中的一个consumer消费，多个consumer消费同一个partition中的数据是不允许的，但是一个consumer可以消费多个partition中的数据</em></p>
+</li>
+</ul>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/d01cc984be0f688c7b965359c18bb69b.jpg" alt="partition"></p>
+<ul>
+<li>Broker：一台kafka服务器就是一个broker。一个集群由多个broker组成。一个broker可以容纳多个topic。</li>
+<li>Consumer Group：消费者分组，用于归组同类消费者。每个consumer属于一个特定的consumer group，多个消费者可以共同消费一个Topic下的消息，每个消费者消费其中的部分消息，这些消费者就组成了一个分组，拥有同一个分组名称，通常也被称为消费者集群。</li>
+</ul>
+<h2 id="快速实践Kafka"><a href="#快速实践Kafka" class="headerlink" title="快速实践Kafka"></a>快速实践Kafka</h2><p>下载kafka和zookeeper的安装包，解压，配置环境变量，启动zookeeper服务，启动kafka守护进程</p>
+<h3 id="新建一个topic"><a href="#新建一个topic" class="headerlink" title="新建一个topic"></a>新建一个topic</h3><p>使用kafka自带的命令行工具kafka-topic.sh创建一个新的topic</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test</span><br></pre></td></tr></table></figure>
+<h3 id="发送一个消息到topic"><a href="#发送一个消息到topic" class="headerlink" title="发送一个消息到topic"></a>发送一个消息到topic</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test </span><br><span class="line">This is a message</span><br><span class="line">This is another message</span><br></pre></td></tr></table></figure>
+<h3 id="读取刚创建的消息"><a href="#读取刚创建的消息" class="headerlink" title="读取刚创建的消息"></a>读取刚创建的消息</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic test --from-beginning</span><br></pre></td></tr></table></figure>
+<p>可以看到刚才创建的两条消息被输出来了。</p>
+<h2 id="使用python的Kafka客户端实现生产者消费者"><a href="#使用python的Kafka客户端实现生产者消费者" class="headerlink" title="使用python的Kafka客户端实现生产者消费者"></a>使用python的Kafka客户端实现生产者消费者</h2><p>实现上面命令行的生产者消费者的例子：</p>
+<h3 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> kafka <span class="keyword">import</span> KafkaProducer</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">producer = KafkaProducer(bootstrap_servers=<span class="string">'localhost:9092'</span>)  </span><br><span class="line">  </span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    ts = int(time.time() * <span class="number">1000</span>)</span><br><span class="line">    producer.send(topic=<span class="string">"myfirsttopic"</span>, value=bytes(str(i).encode(<span class="string">'utf-8'</span>)), timestamp_ms=ts)</span><br><span class="line">    producer.flush()</span><br><span class="line">    print(i)</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> kafka <span class="keyword">import</span> KafkaConsumer</span><br><span class="line"></span><br><span class="line">KAFKA_HOST = <span class="string">'localhost'</span></span><br><span class="line">KAFKA_PORT = <span class="number">9092</span></span><br><span class="line">KAFKA_TOPIC = <span class="string">'myfirsttopic'</span></span><br><span class="line"></span><br><span class="line">consumer = KafkaConsumer(KAFKA_TOPIC, bootstrap_servers=<span class="string">'localhost:9092'</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">for</span> message <span class="keyword">in</span> consumer:</span><br><span class="line">        print(message)</span><br><span class="line"><span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">    print(<span class="string">"Catch keyboard interrupt"</span>)</span><br></pre></td></tr></table></figure>
+<p>可以看到，生产者产生的消息被消费者消费了</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/6846419c10b1905e609a30845996320d.jpg" alt="producer_consumer_python1"></p>
+<h3 id="追踪偏移量offset"><a href="#追踪偏移量offset" class="headerlink" title="追踪偏移量offset"></a>追踪偏移量offset</h3><p>kafka允许consumer将当前消费的消息的offset提交到kafka中，这样如果consumer因异常退出后，下次启动仍然可以从上次记录的offset开始向后继续消费消息。</p>
+<p>修改一下刚才的consumer代码，把enable_auto_commit设为false，让应用程序决定何时提交偏移</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> kafka <span class="keyword">import</span> KafkaConsumer, TopicPartition, OffsetAndMetadata</span><br><span class="line"></span><br><span class="line">KAFKA_HOST = <span class="string">'localhost'</span></span><br><span class="line">KAFKA_PORT = <span class="number">9092</span></span><br><span class="line">kafka_topic = TopicPartition(<span class="string">"myfirsttopic"</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">consumer = KafkaConsumer(</span><br><span class="line">    bootstrap_servers=[<span class="string">'localhost:9092'</span>],</span><br><span class="line">    group_id=<span class="string">"testgroup"</span>,</span><br><span class="line">    auto_offset_reset=<span class="string">"earliest"</span>,</span><br><span class="line">    enable_auto_commit=<span class="keyword">False</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">consumer.assign([tp])</span><br><span class="line">print(<span class="string">"Start offset is: "</span> + str(consumer.position(tp)))</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">for</span> message <span class="keyword">in</span> consumer:</span><br><span class="line">        print(message)</span><br><span class="line">        consumer.seek(tp, message.offset+<span class="number">1</span>)</span><br><span class="line">        consumer.commit()</span><br><span class="line"><span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">    print(<span class="string">"Catch keyboard interrupt"</span>)</span><br></pre></td></tr></table></figure>
+<p>在offset为249时候终止消费者，然后再次启动消费者，可以看出是从上次停止的地方(250)继续消费：</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/5e88d29ceebffad0e1f3a4447e3e5d20.jpg" alt="offset"></p>
+<p>默认情况下auto.commit.enable等于true，这也就意味着consumer会定期的commit offset</p>
+<h2 id="Kafka消息发送分区选择"><a href="#Kafka消息发送分区选择" class="headerlink" title="Kafka消息发送分区选择"></a>Kafka消息发送分区选择</h2><p>Kafka发送消息的流程图如下：</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/e5100a41ab185ec8ac110f7d12d67648.jpg" alt="sendMsg"></p>
+<p>那么，发送消息的时候，是如何选择分区的呢？KafkaProducer对象通过send方法，将记录发给kafka</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">producer.send(<span class="keyword">new</span> ProducerRecord&lt;String, String&gt;(topicName, Integer.toString(i), Integer.toString(i)));</span><br></pre></td></tr></table></figure>
+<p>在KafkaProducer中，是通过内部的私有方法doSend来发送消息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> partition = <span class="keyword">this</span>.partition(record, serializedKey, serializedValue, cluster);</span><br></pre></td></tr></table></figure>
+<p>看一下partition方法的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(ProducerRecord&lt;K, V&gt; record, <span class="keyword">byte</span>[] serializedKey, <span class="keyword">byte</span>[] serializedValue, Cluster cluster)</span> </span>&#123;</span><br><span class="line">        Integer partition = record.partition();</span><br><span class="line">        <span class="keyword">return</span> partition != <span class="keyword">null</span> ? partition.intValue() : <span class="keyword">this</span>.partitioner.partition(record.topic(), record.key(), serializedKey, record.value(), serializedValue, cluster);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果record指定了分区则指定的分区会被使用，如果没有则使用partitioner分区器来选择分区</p>
+<p>partitioner的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(String topic, Object key, <span class="keyword">byte</span>[] keyBytes, Object value, <span class="keyword">byte</span>[] valueBytes, Cluster cluster)</span> </span>&#123;</span><br><span class="line">    List&lt;PartitionInfo&gt; partitions = cluster.partitionsForTopic(topic);</span><br><span class="line">    <span class="keyword">int</span> numPartitions = partitions.size();</span><br><span class="line">    <span class="keyword">if</span> (keyBytes == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> nextValue = <span class="keyword">this</span>.nextValue(topic);</span><br><span class="line">        List&lt;PartitionInfo&gt; availablePartitions = cluster.availablePartitionsForTopic(topic);</span><br><span class="line">        <span class="keyword">if</span> (availablePartitions.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> part = Utils.toPositive(nextValue) % availablePartitions.size();</span><br><span class="line">            <span class="keyword">return</span> ((PartitionInfo)availablePartitions.get(part)).partition();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> Utils.toPositive(nextValue) % numPartitions;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Utils.toPositive(Utils.murmur2(keyBytes)) % numPartitions;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">nextValue</span><span class="params">(String topic)</span> </span>&#123;</span><br><span class="line">    AtomicInteger counter = (AtomicInteger)<span class="keyword">this</span>.topicCounterMap.get(topic);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">null</span> == counter) &#123;</span><br><span class="line">        counter = <span class="keyword">new</span> AtomicInteger(ThreadLocalRandom.current().nextInt());</span><br><span class="line">        AtomicInteger currentCounter = (AtomicInteger)<span class="keyword">this</span>.topicCounterMap.putIfAbsent(topic, counter);</span><br><span class="line">        <span class="keyword">if</span> (currentCounter != <span class="keyword">null</span>) &#123;</span><br><span class="line">                counter = currentCounter;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> counter.getAndIncrement();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果key为null，则先根据topic名获取上次计算分区时使用的一个整数并加一。然后判断topic的可用分区数是否大于0，如果大于0则使用获取的nextValue的值和可用分区数进行取模操作。 如果topic的可用分区数小于等于0，则用获取的nextValue的值和总分区数进行取模操作。</p>
+<p>如果消息的key不为null，就根据hash算法murmur2就算出key的hash值，然后和分区数进行取模运算。</p>
+<h2 id="Kafka-Connect"><a href="#Kafka-Connect" class="headerlink" title="Kafka Connect"></a>Kafka Connect</h2><p>Kafka Connect 是Kafka 的一部分，它为在Kafka 和外部数据存储系统之间移动数据提供了一种可靠且可伸缩的方式。</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/732b33d9089033702a584c8b2754f886.jpg" alt="KafkaConnect"></p>
+<p>Kafka Connnect有两个核心概念：Source和Sink。 Source负责导入数据到Kafka，Sink负责从Kafka导出数据，它们都被称为Connector。</p>
+<h3 id="Kafka-Connect实例"><a href="#Kafka-Connect实例" class="headerlink" title="Kafka Connect实例"></a>Kafka Connect实例</h3><p>ToDo</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://kafka.apache.org/" target="_blank" rel="noopener">Apache Kafka Doc</a></li>
+<li><a href="https://www.confluent.io/" target="_blank" rel="noopener">Kafka Connect</a></li>
+<li><a href="https://www.confluent.io/blog/building-real-time-streaming-etl-pipeline-20-minutes/" target="_blank" rel="noopener">Building a Real-Time Streaming ETL Pipeline in 20 Minutes</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/WeChatImage_20170527190034.jpg" alt="Shuo Lv WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Kafka/" rel="tag"># Kafka</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/17/记录配置伪分布式Hadoop环境遇到的坑/" rel="next" title="记录配置伪分布式Hadoop环境遇到的坑">
+                <i class="fa fa-chevron-left"></i> 记录配置伪分布式Hadoop环境遇到的坑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODkwOC81NDc3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Shuo Lv" />
+          <p class="site-author-name" itemprop="name">Shuo Lv</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lvraikkonen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/1246109477/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/lu-shuo-53/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-quora"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.linkedin.com/in/shuo-lv-58881823/" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/shuo.lv" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://webdemo.myscript.com/views/math.html/" title="公式编辑器" target="_blank">公式编辑器</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pythontutor.com/" title="可视化Python代码" target="_blank">可视化Python代码</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://docs.python-guide.org/en/latest/" title="Python最佳实践" target="_blank">Python最佳实践</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速实践Kafka"><span class="nav-number">2.</span> <span class="nav-text">快速实践Kafka</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建一个topic"><span class="nav-number">2.1.</span> <span class="nav-text">新建一个topic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发送一个消息到topic"><span class="nav-number">2.2.</span> <span class="nav-text">发送一个消息到topic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取刚创建的消息"><span class="nav-number">2.3.</span> <span class="nav-text">读取刚创建的消息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用python的Kafka客户端实现生产者消费者"><span class="nav-number">3.</span> <span class="nav-text">使用python的Kafka客户端实现生产者消费者</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生产者"><span class="nav-number">3.1.</span> <span class="nav-text">生产者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消费者"><span class="nav-number">3.2.</span> <span class="nav-text">消费者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#追踪偏移量offset"><span class="nav-number">3.3.</span> <span class="nav-text">追踪偏移量offset</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka消息发送分区选择"><span class="nav-number">4.</span> <span class="nav-text">Kafka消息发送分区选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka-Connect"><span class="nav-number">5.</span> <span class="nav-text">Kafka Connect</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka-Connect实例"><span class="nav-number">5.1.</span> <span class="nav-text">Kafka Connect实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shuo Lv</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("QttC3P4LGflMxbppLnNEY62a-gzGzoHsz", "joh41qpX9cxG63me5aR8vKXx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- 背景动画 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
