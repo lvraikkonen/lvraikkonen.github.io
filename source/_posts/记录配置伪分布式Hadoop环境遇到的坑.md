@@ -1,7 +1,7 @@
 ---
 title: 记录配置伪分布式Hadoop环境遇到的坑
 date: 2018-04-17 14:51:54
-categories: [Hadoop]
+categories: [Big Data, Hadoop]
 tag: [Hadoop]
 ---
 

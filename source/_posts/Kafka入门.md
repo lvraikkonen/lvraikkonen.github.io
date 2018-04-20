@@ -1,7 +1,7 @@
 ---
 title: Kafka入门
 date: 2018-04-18 19:25:38
-categories: [Kafka]
+categories: [Big Data, Kafka]
 tag: [Kafka]
 ---
 
