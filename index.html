@@ -303,6 +303,167 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/05/16/MySql-binlog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/16/MySql-binlog/" itemprop="url">MySQL Binlog以及Canal简单使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-16T19:30:02+08:00">
+                2018-05-16
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-05-17T17:47:46+08:00">
+                2018-05-17
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/16/MySql-binlog/" class="leancloud_visitors" data-flag-title="MySQL Binlog以及Canal简单使用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,528 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在ETL过程中，如何获取增量数据是完成ETL过程的主要解决问题，前面文章<a href="https://lvraikkonen.github.io/2018/05/07/ETL%E5%A2%9E%E9%87%8F%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8D%95%E8%8E%B7/">ETL增量数据的捕获</a>中，使用日志对比的方法是一种比较好的获取增量数据流的方式，那篇文章里主要介绍了SQL Server的<code>Change Data Capture</code>这么个功能来完成增量数据的获取任务，这篇文章介绍一下对于MySQL来说，如何通过读取binlog来获取增量数据。</p>
+<h2 id="MySQL的日志"><a href="#MySQL的日志" class="headerlink" title="MySQL的日志"></a>MySQL的日志</h2><p>MySQL 的日志包括错误日志（ErrorLog），更新日志（Update Log），二进制日志（Binlog），查询日志（Query Log），慢查询日志（Slow Query Log）等。在默认情况下，系统仅仅打开错误日志，关闭了其他所有日志。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/16/MySql-binlog/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/05/07/ETL增量数据的捕获/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1059,308 +1220,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/04/13/拉链表的应用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Shuo Lv">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Claus's Tech Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/13/拉链表的应用/" itemprop="url">拉链表的应用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-13T19:28:03+08:00">
-                2018-04-13
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2018-04-13T21:01:54+08:00">
-                2018-04-13
-              </time>
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/04/13/拉链表的应用/" class="leancloud_visitors" data-flag-title="拉链表的应用">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                  <span class="post-meta-divider">|</span>
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  1,424 字
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>数据仓库和事务数据库不一样的地方，在于数据仓库需要对历史数据进行分析。而在数据仓库海量的数据里，如何既节约存储空间，又能满足对历史变更数据的查询，就成为一个要解决的问题。这时候就可以使用拉链表来完成这种需求。</p>
-<h2 id="什么是拉链表"><a href="#什么是拉链表" class="headerlink" title="什么是拉链表"></a>什么是拉链表</h2><p>以订单这种场景为例，原始订单表orders有如下几个字段：订单ID、创建时间、修改时间、订单状态</p>
-<p>4月1号当天的订单</p>
-<table>
-<thead>
-<tr>
-<th>orderid</th>
-<th>createtime</th>
-<th>modifiedtime</th>
-<th>status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>2018-04-01</td>
-<td>2018-04-01</td>
-<td>create</td>
-</tr>
-<tr>
-<td>2</td>
-<td>2018-04-01</td>
-<td>2018-04-01</td>
-<td>create</td>
-</tr>
-<tr>
-<td>3</td>
-<td>2018-04-01</td>
-<td>2018-04-01</td>
-<td>create</td>
-</tr>
-</tbody>
-</table>
-<p>4月2号当天的订单表数据</p>
-<table>
-<thead>
-<tr>
-<th>orderid</th>
-<th>createtime</th>
-<th>modifiedtime</th>
-<th>status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>2018-04-01</td>
-<td>2018-04-02</td>
-<td>paid</td>
-</tr>
-<tr>
-<td>2</td>
-<td>2018-04-01</td>
-<td>2018-04-02</td>
-<td>finish-closed</td>
-</tr>
-<tr>
-<td>3</td>
-<td>2018-04-01</td>
-<td>2018-04-02</td>
-<td>paid</td>
-</tr>
-<tr>
-<td>4</td>
-<td>2018-04-02</td>
-<td>2018-04-02</td>
-<td>create</td>
-</tr>
-</tbody>
-</table>
-<p>这一天，订单1、3由create变成paid状态，订单2由create变为paid，然后变为finish状态(假设现在只关心订单的最新状态)，订单4为新订单。</p>
-<p>这时候，在数据仓库中，可以设计一张表来保存每天的订单变化情况。增加两个字段：<code>dw_start_date</code>和<code>dw_end_date</code>，<code>dw_start_date</code>表示该条记录的生命周期开始时间，<code>dw_end_date</code>表示该条记录的生命周期结束时间。现在表就变成了下面这个样子：</p>
-<table>
-<thead>
-<tr>
-<th>orderid</th>
-<th>createtime</th>
-<th>modifiedtime</th>
-<th>status</th>
-<th>dw_start_date</th>
-<th>dw_end_date</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>2018-04-01</td>
-<td>2018-04-01</td>
-<td>create</td>
-<td>2018-04-01</td>
-<td>2018-04-01</td>
-</tr>
-<tr>
-<td>1</td>
-<td>2018-04-01</td>
-<td>2018-04-02</td>
-<td>paid</td>
-<td>2018-04-02</td>
-<td>9999-12-31</td>
-</tr>
-<tr>
-<td>2</td>
-<td>2018-04-01</td>
-<td>2018-04-01</td>
-<td>create</td>
-<td>2018-04-01</td>
-<td>2018-04-01</td>
-</tr>
-<tr>
-<td>2</td>
-<td>2018-04-01</td>
-<td>2018-04-02</td>
-<td>finish-closed</td>
-<td>2018-04-02</td>
-<td>9999-12-31</td>
-</tr>
-<tr>
-<td>3</td>
-<td>2018-04-01</td>
-<td>2018-04-01</td>
-<td>create</td>
-<td>2018-04-01</td>
-<td>2018-04-01</td>
-</tr>
-<tr>
-<td>3</td>
-<td>2018-04-01</td>
-<td>2018-04-02</td>
-<td>paid</td>
-<td>2018-04-02</td>
-<td>9999-12-31</td>
-</tr>
-<tr>
-<td>4</td>
-<td>2018-04-02</td>
-<td>2018-04-02</td>
-<td>create</td>
-<td>2018-04-02</td>
-<td>9999-12-31</td>
-</tr>
-</tbody>
-</table>
-<p>这个表就叫拉链表 <code>orders_his</code></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/13/拉链表的应用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1410,7 +1269,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">62</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1432,7 +1291,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
