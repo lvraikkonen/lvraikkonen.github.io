@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="面试,Algorithm,Data Structure," />
+  <meta name="keywords" content="数据仓库," />
 
 
 
@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="需要在内存中存储多项数据时，有两种基本方式：数组和链表 由于数组是连续存储的，在操作数组中的数据时就可以根据离首地址的偏移量直接存取相应位置上的数据，但是如果要在数据组中任意位置上插入一个元素，就需要先把后面的元素集体向后移一位为其空出存储空间。与之相反，链表是离散存储的，所以在插入一个数据时只要申请一片新空间，然后将其中的连接关系做一个修改就可以，但是显然在链表上查找一个数据时就要逐个遍历了。">
-<meta name="keywords" content="面试,Algorithm,Data Structure">
+<meta name="description" content="在数据仓库实际构建过程中，往往都是快猛糙地直接接入业务系统，订制ETL开发，然后简单进行维度建模，满足业务方的报表分析需求，到这里就建立了数据仓库1.0版本。但是这时候的数据仓库很脆弱，业务方的任何需求变更、以及任何环节的数据质量问题，都会导致整个流程发生剧烈的变动，这时候就需要进行数据分层。数据分层的好处如下：  清晰数据结构：每一个数据分层都有它的作用域，这样我们在使用表的时候能更方便地定位和">
+<meta name="keywords" content="数据仓库">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数组和链表">
-<meta property="og:url" content="https://lvraikkonen.github.io/2017/06/13/数组和链表/index.html">
+<meta property="og:title" content="数据仓库分层">
+<meta property="og:url" content="https://lvraikkonen.github.io/2018/06/07/数据仓库分层/index.html">
 <meta property="og:site_name" content="Claus&#39;s Tech Blog">
-<meta property="og:description" content="需要在内存中存储多项数据时，有两种基本方式：数组和链表 由于数组是连续存储的，在操作数组中的数据时就可以根据离首地址的偏移量直接存取相应位置上的数据，但是如果要在数据组中任意位置上插入一个元素，就需要先把后面的元素集体向后移一位为其空出存储空间。与之相反，链表是离散存储的，所以在插入一个数据时只要申请一片新空间，然后将其中的连接关系做一个修改就可以，但是显然在链表上查找一个数据时就要逐个遍历了。">
+<meta property="og:description" content="在数据仓库实际构建过程中，往往都是快猛糙地直接接入业务系统，订制ETL开发，然后简单进行维度建模，满足业务方的报表分析需求，到这里就建立了数据仓库1.0版本。但是这时候的数据仓库很脆弱，业务方的任何需求变更、以及任何环节的数据质量问题，都会导致整个流程发生剧烈的变动，这时候就需要进行数据分层。数据分层的好处如下：  清晰数据结构：每一个数据分层都有它的作用域，这样我们在使用表的时候能更方便地定位和">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-04T07:07:53.271Z">
+<meta property="og:updated_time" content="2018-06-08T01:36:19.237Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数组和链表">
-<meta name="twitter:description" content="需要在内存中存储多项数据时，有两种基本方式：数组和链表 由于数组是连续存储的，在操作数组中的数据时就可以根据离首地址的偏移量直接存取相应位置上的数据，但是如果要在数据组中任意位置上插入一个元素，就需要先把后面的元素集体向后移一位为其空出存储空间。与之相反，链表是离散存储的，所以在插入一个数据时只要申请一片新空间，然后将其中的连接关系做一个修改就可以，但是显然在链表上查找一个数据时就要逐个遍历了。">
+<meta name="twitter:title" content="数据仓库分层">
+<meta name="twitter:description" content="在数据仓库实际构建过程中，往往都是快猛糙地直接接入业务系统，订制ETL开发，然后简单进行维度建模，满足业务方的报表分析需求，到这里就建立了数据仓库1.0版本。但是这时候的数据仓库很脆弱，业务方的任何需求变更、以及任何环节的数据质量问题，都会导致整个流程发生剧烈的变动，这时候就需要进行数据分层。数据分层的好处如下：  清晰数据结构：每一个数据分层都有它的作用域，这样我们在使用表的时候能更方便地定位和">
 
 
 
@@ -132,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="https://lvraikkonen.github.io/2017/06/13/数组和链表/"/>
+  <link rel="canonical" href="https://lvraikkonen.github.io/2018/06/07/数据仓库分层/"/>
 
 
 
 
 
-  <title>数组和链表 | Claus's Tech Blog</title>
+  <title>数据仓库分层 | Claus's Tech Blog</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -306,7 +306,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2017/06/13/数组和链表/">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/06/07/数据仓库分层/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shuo Lv">
@@ -323,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数组和链表</h1>
+          <h1 class="post-title" itemprop="name headline">数据仓库分层</h1>
         
 
         <div class="post-meta">
@@ -335,8 +335,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T16:46:42+08:00">
-                2017-06-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-07T15:09:32+08:00">
+                2018-06-07
               </time>
             
 
@@ -351,8 +351,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2018-04-04T15:07:53+08:00">
-                2018-04-04
+              <time title="更新于" itemprop="dateModified" datetime="2018-06-08T09:36:19+08:00">
+                2018-06-08
               </time>
             
           </span>
@@ -365,7 +365,7 @@
 
           
           
-             <span id="/2017/06/13/数组和链表/" class="leancloud_visitors" data-flag-title="数组和链表">
+             <span id="/2018/06/07/数据仓库分层/" class="leancloud_visitors" data-flag-title="数据仓库分层">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -392,7 +392,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  260 字
+                  918 字
                 </span>
               
 
@@ -414,37 +414,23 @@
       
 
       
-        <p>需要在内存中存储多项数据时，有两种基本方式：数组和链表</p>
-<p>由于数组是连续存储的，在操作数组中的数据时就可以根据离首地址的偏移量直接存取相应位置上的数据，但是如果要在数据组中任意位置上插入一个元素，就需要先把后面的元素集体向后移一位为其空出存储空间。与之相反，链表是离散存储的，所以在插入一个数据时只要申请一片新空间，然后将其中的连接关系做一个修改就可以，但是显然在链表上查找一个数据时就要逐个遍历了。</p>
-<p>数组的优势在于能够随机访问，而链表只能顺序访问。</p>
-<p>链表的优势在于能够以较高的效率在任意位置插入或删除一个节点。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>数组</th>
-<th>链表</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>读取</td>
-<td>O(1)</td>
-<td>O(n)</td>
-</tr>
-<tr>
-<td>插入</td>
-<td>O(n)</td>
-<td>O(1)</td>
-</tr>
-<tr>
-<td>删除</td>
-<td>O(n)</td>
-<td>O(1)</td>
-</tr>
-</tbody>
-</table>
+        <p>在数据仓库实际构建过程中，往往都是快猛糙地直接接入业务系统，订制ETL开发，然后简单进行维度建模，满足业务方的报表分析需求，到这里就建立了数据仓库1.0版本。但是这时候的数据仓库很脆弱，业务方的任何需求变更、以及任何环节的数据质量问题，都会导致整个流程发生剧烈的变动，这时候就需要进行数据分层。数据分层的好处如下：</p>
+<ol>
+<li>清晰数据结构：每一个数据分层都有它的作用域，这样我们在使用表的时候能更方便地定位和理解。</li>
+<li>数据血缘追踪：简单来讲可以这样理解，我们最终给业务诚信的是一能直接使用的张业务表，但是它的来源有很多，如果有一张来源表出问题了，我们希望能够快速准确地定位到问题，并清楚它的危害范围。</li>
+<li>减少重复开发：规范数据分层，开发一些通用的中间层数据，能够减少极大的重复计算。</li>
+<li>把复杂问题简单化。讲一个复杂的任务分解成多个步骤来完成，每一层只处理单一的步骤，比较简单和容易理解。而且便于维护数据的准确性，当数据出现问题之后，可以不用修复所有的数据，只需要从有问题的步骤开始修复。</li>
+<li>屏蔽原始数据的异常。</li>
+<li>屏蔽业务的影响，不必改一次业务就需要重新接入数据。</li>
+</ol>
 <a id="more"></a>
+<h2 id="数据仓库分层架构"><a href="#数据仓库分层架构" class="headerlink" title="数据仓库分层架构"></a>数据仓库分层架构</h2><p>逻辑上以把数据仓库分为下面三个层：数据运营层(ODS)、数据仓库层(DW)和数据产品层(APP)</p>
+<h3 id="ODS数据运营层"><a href="#ODS数据运营层" class="headerlink" title="ODS数据运营层"></a>ODS数据运营层</h3><p>数据运营层，也叫ODS层，是最接近数据源中数据的一层，数据源中的数据，经过抽取、洗净、传输，也就说传说中的 ETL 之后，装入本层。本层的数据，总体上大多是按照源头业务系统的分类方式而分类的。</p>
+<p>但是，这一层面的数据却不等同于原始数据。在源数据装入这一层时，要进行诸如去噪（例如有一条数据中人的年龄是 300 岁，这种属于异常数据，就需要提前做一些处理）、去重（例如在个人资料表中，同一 ID 却有两条重复数据，在接入的时候需要做一步去重）、字段命名规范等一系列操作。</p>
+<h3 id="DW数据层库层"><a href="#DW数据层库层" class="headerlink" title="DW数据层库层"></a>DW数据层库层</h3><p>在这里，从 ODS 层中获得的数据按照主题基于维度建模理论建立各种数据模型，DW层的数据是ODS层的数据通过ETL清洗、转换、加载生成的。此外，基于性能、重复计算和使用便捷性考虑， DW层除了保存基于维度建模的最细粒度的事实表和维度表，还会基于它们生成一层汇总数据(DW汇总层)。</p>
+<h3 id="APP数据应用层"><a href="#APP数据应用层" class="headerlink" title="APP数据应用层"></a>APP数据应用层</h3><p>在DW层的基础上，各个业务方可以建立自己的数据集市，主要是提供给数据产品和数据分析使用的数据，一般会存放在 ES、Mysql 等系统中供线上系统使用，也可能会存在 Hive 或者 Druid 中供数据分析和数据挖掘使用。原则上不允许应用层直接访问ODS层。</p>
+<p>转自<a href="http://www.mdjs.info/2017/05/14/data-warehouse/data-layer/" target="_blank" rel="noopener">木东居士——如何优雅地设计数据分层</a></p>
+
       
     </div>
 
@@ -489,11 +475,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/面试/" rel="tag"># 面试</a>
-          
-            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
-          
-            <a href="/tags/Data-Structure/" rel="tag"># Data Structure</a>
+            <a href="/tags/数据仓库/" rel="tag"># 数据仓库</a>
           
         </div>
       
@@ -506,8 +488,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/12/搜索和排序之搜索/" rel="next" title="搜索和排序之搜索">
-                <i class="fa fa-chevron-left"></i> 搜索和排序之搜索
+              <a href="/2018/05/16/MySql-binlog/" rel="next" title="MySQL Binlog以及Canal简单使用">
+                <i class="fa fa-chevron-left"></i> MySQL Binlog以及Canal简单使用
               </a>
             
           </div>
@@ -515,10 +497,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/13/堆栈和队列/" rel="prev" title="堆栈和队列">
-                堆栈和队列 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -590,8 +568,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpg"
@@ -722,6 +709,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据仓库分层架构"><span class="nav-number">1.</span> <span class="nav-text">数据仓库分层架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ODS数据运营层"><span class="nav-number">1.1.</span> <span class="nav-text">ODS数据运营层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DW数据层库层"><span class="nav-number">1.2.</span> <span class="nav-text">DW数据层库层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#APP数据应用层"><span class="nav-number">1.3.</span> <span class="nav-text">APP数据应用层</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
