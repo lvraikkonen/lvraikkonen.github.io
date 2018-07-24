@@ -1,0 +1,1134 @@
+﻿<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Kafka," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="参考Kafka 源码解析之 Producer 发送模型（一） 一个简单的生产者下面的代码是一个简单的生产者向Kafka中发送消息的例子： 1234567891011121314151617181920212223import org.apache.kafka.clients.producer.KafkaProducer;import org.apache.kafka.clients.produce">
+<meta name="keywords" content="Kafka">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(转)Kafka生产者发送消息流程">
+<meta property="og:url" content="https://lvraikkonen.github.io/2018/07/24/Kafka生产者发送消息流程/index.html">
+<meta property="og:site_name" content="Claus&#39;s Tech Blog">
+<meta property="og:description" content="参考Kafka 源码解析之 Producer 发送模型（一） 一个简单的生产者下面的代码是一个简单的生产者向Kafka中发送消息的例子： 1234567891011121314151617181920212223import org.apache.kafka.clients.producer.KafkaProducer;import org.apache.kafka.clients.produce">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/ffb9e67b8d65d57b7cb829db352c0af7.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/08d251f219dd8a86c817d387540b36c6.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/b0ae8380071924c101579698e00ac4d7.jpg">
+<meta property="og:updated_time" content="2018-07-24T08:13:32.813Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(转)Kafka生产者发送消息流程">
+<meta name="twitter:description" content="参考Kafka 源码解析之 Producer 发送模型（一） 一个简单的生产者下面的代码是一个简单的生产者向Kafka中发送消息的例子： 1234567891011121314151617181920212223import org.apache.kafka.clients.producer.KafkaProducer;import org.apache.kafka.clients.produce">
+<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/ffb9e67b8d65d57b7cb829db352c0af7.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'JWQGEFMRGT',
+      apiKey: '7c12daa85b9bf759fcde9b547d3a9349',
+      indexName: 'lvraikkonen_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lvraikkonen.github.io/2018/07/24/Kafka生产者发送消息流程/"/>
+
+
+
+
+
+  <title>(转)Kafka生产者发送消息流程 | Claus's Tech Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Claus's Tech Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">leave me alone i know what to do</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/07/24/Kafka生产者发送消息流程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">(转)Kafka生产者发送消息流程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-24T13:07:48+08:00">
+                2018-07-24
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-24T16:13:32+08:00">
+                2018-07-24
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Big-Data/" itemprop="url" rel="index">
+                    <span itemprop="name">Big Data</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Big-Data/Kafka/" itemprop="url" rel="index">
+                    <span itemprop="name">Kafka</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07/24/Kafka生产者发送消息流程/" class="leancloud_visitors" data-flag-title="(转)Kafka生产者发送消息流程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,944 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考<a href="http://matt33.com/2017/06/25/kafka-producer-send-module/" target="_blank" rel="noopener">Kafka 源码解析之 Producer 发送模型（一）</a></p>
+<h2 id="一个简单的生产者"><a href="#一个简单的生产者" class="headerlink" title="一个简单的生产者"></a>一个简单的生产者</h2><p>下面的代码是一个简单的生产者向Kafka中发送消息的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.producer.KafkaProducer;</span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.producer.Producer;</span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.producer.ProducerRecord;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleProducer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Properties props = <span class="keyword">new</span> Properties();</span><br><span class="line">        props.put(<span class="string">"bootstrap.servers"</span>, <span class="string">"localhost:9092"</span>);</span><br><span class="line">        props.put(<span class="string">"key.serializer"</span>, <span class="string">"org.apache.kafka.common.serialization.StringSerializer"</span>);</span><br><span class="line">        props.put(<span class="string">"value.serializer"</span>, <span class="string">"org.apache.kafka.common.serialization.StringSerializer"</span>);</span><br><span class="line"></span><br><span class="line">        Producer&lt;String, String&gt; producer = <span class="keyword">new</span> KafkaProducer&lt;&gt;(props);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">            String msg = <span class="string">"This is message "</span> + i;</span><br><span class="line">            ProducerRecord&lt;String, String&gt; pr = <span class="keyword">new</span> ProducerRecord&lt;&gt;(<span class="string">"testTopic"</span>, msg);</span><br><span class="line">            producer.send(pr);</span><br><span class="line">        &#125;</span><br><span class="line">        producer.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Kafka提供了生产者API，使用时候需要实例化KafkaProducer，然后调用send方法发送数据。</p>
+<h2 id="生产者数据发送流程"><a href="#生产者数据发送流程" class="headerlink" title="生产者数据发送流程"></a>生产者数据发送流程</h2><p>下面的流程图展示了消息的发送流程</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/ffb9e67b8d65d57b7cb829db352c0af7.jpg" alt="producer send message procedure"></p>
+<p>首先创建一个<code>ProducerRecord</code>对象，包含了目标主题和要发送的内容。然后数据被发送给<code>序列化器</code>，将键和值对象序列化成字节数据。然后数据发送给<code>分区器</code>，如果ProducerRecord里面指定了分区，分区器不做任何操作，否则根据ProducerRecord对象的键来选择一个分区。然后上面的记录被追加到一个<code>记录批次</code>里面，有一个独立的线程将记录批次发送到相应的broker上。</p>
+<a id="more"></a>
+<p>实例化了生产者对象之后，调用send方法发送数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 异步向Topic发送数据</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Future&lt;RecordMetadata&gt; <span class="title">send</span><span class="params">(ProducerRecord&lt;K, V&gt; record)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> send(record, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 异步向Topic发送数据，发送确认后调用回调函数</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Future&lt;RecordMetadata&gt; <span class="title">send</span><span class="params">(ProducerRecord&lt;K, V&gt; record, Callback callback)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// intercept the record, which can be potentially modified; this method does not throw exceptions</span></span><br><span class="line">    ProducerRecord&lt;K, V&gt; interceptedRecord = <span class="keyword">this</span>.interceptors.onSend(record);</span><br><span class="line">    <span class="keyword">return</span> doSend(interceptedRecord, callback);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="doSend的具体实现"><a href="#doSend的具体实现" class="headerlink" title="doSend的具体实现"></a>doSend的具体实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Implementation of asynchronously send a record to a topic.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Future&lt;RecordMetadata&gt; <span class="title">doSend</span><span class="params">(ProducerRecord&lt;K, V&gt; record, Callback callback)</span> </span>&#123;</span><br><span class="line">    TopicPartition tp = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 1.确认数据要发送到的topic的 metadata 是可用的</span></span><br><span class="line">        ClusterAndWaitTime clusterAndWaitTime = waitOnMetadata(record.topic(), record.partition(), maxBlockTimeMs);</span><br><span class="line">        <span class="keyword">long</span> remainingWaitMs = Math.max(<span class="number">0</span>, maxBlockTimeMs - clusterAndWaitTime.waitedOnMetadataMs);</span><br><span class="line">        Cluster cluster = clusterAndWaitTime.cluster;</span><br><span class="line">        <span class="comment">// 2.序列化key和value</span></span><br><span class="line">        <span class="keyword">byte</span>[] serializedKey;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            serializedKey = keySerializer.serialize(record.topic(), record.headers(), record.key());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassCastException cce) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> SerializationException(<span class="string">"Can't convert key of class "</span> + record.key().getClass().getName() +</span><br><span class="line">                <span class="string">" to class "</span> + producerConfig.getClass(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG).getName() +</span><br><span class="line">                <span class="string">" specified in key.serializer"</span>, cce);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">byte</span>[] serializedValue;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            serializedValue = valueSerializer.serialize(record.topic(), record.headers(), record.value());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassCastException cce) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> SerializationException(<span class="string">"Can't convert value of class "</span> + record.value().getClass().getName() +</span><br><span class="line">                <span class="string">" to class "</span> + producerConfig.getClass(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG).getName() +</span><br><span class="line">                <span class="string">" specified in value.serializer"</span>, cce);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 3.获取消息的partition值</span></span><br><span class="line">        <span class="keyword">int</span> partition = partition(record, serializedKey, serializedValue, cluster);</span><br><span class="line">        tp = <span class="keyword">new</span> TopicPartition(record.topic(), partition);</span><br><span class="line"></span><br><span class="line">        setReadOnly(record.headers());</span><br><span class="line">        Header[] headers = record.headers().toArray();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> serializedSize = AbstractRecords.estimateSizeInBytesUpperBound(apiVersions.maxUsableProduceMagic(),</span><br><span class="line">                    compressionType, serializedKey, serializedValue, headers);</span><br><span class="line">        ensureValidRecordSize(serializedSize);</span><br><span class="line">        <span class="keyword">long</span> timestamp = record.timestamp() == <span class="keyword">null</span> ? time.milliseconds() : record.timestamp();</span><br><span class="line">        log.trace(<span class="string">"Sending record &#123;&#125; with callback &#123;&#125; to topic &#123;&#125; partition &#123;&#125;"</span>, record, callback, record.topic(), partition);</span><br><span class="line">        <span class="comment">// producer callback will make sure to call both 'callback' and interceptor callback</span></span><br><span class="line">        Callback interceptCallback = <span class="keyword">new</span> InterceptorCallback&lt;&gt;(callback, <span class="keyword">this</span>.interceptors, tp);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (transactionManager != <span class="keyword">null</span> &amp;&amp; transactionManager.isTransactional())</span><br><span class="line">                transactionManager.maybeAddPartitionToTransaction(tp);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 4.向累加器中追加数据</span></span><br><span class="line">        RecordAccumulator.RecordAppendResult result = accumulator.append(tp, timestamp, serializedKey, serializedValue, headers, interceptCallback, remainingWaitMs);</span><br><span class="line">        <span class="comment">// 5.如果batch满了，唤醒sender线程发送数据 </span></span><br><span class="line">        <span class="keyword">if</span> (result.batchIsFull || result.newBatchCreated) &#123;</span><br><span class="line">            log.trace(<span class="string">"Waking up the sender since topic &#123;&#125; partition &#123;&#125; is either full or getting a new batch"</span>, record.topic(), partition);</span><br><span class="line">            <span class="keyword">this</span>.sender.wakeup();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result.future;</span><br><span class="line">        <span class="comment">// handling exceptions and record the errors;</span></span><br><span class="line">        <span class="comment">// for API exceptions return them in the future,</span></span><br><span class="line">        <span class="comment">// for other exceptions throw directly</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> (ApiException e) &#123;</span><br><span class="line">        log.debug(<span class="string">"Exception occurred during message send:"</span>, e);</span><br><span class="line">        <span class="keyword">if</span> (callback != <span class="keyword">null</span>)</span><br><span class="line">            callback.onCompletion(<span class="keyword">null</span>, e);</span><br><span class="line">        <span class="keyword">this</span>.errors.record();</span><br><span class="line">        <span class="keyword">this</span>.interceptors.onSendError(record, tp, e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> FutureFailure(e);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">        <span class="keyword">this</span>.errors.record();</span><br><span class="line">        <span class="keyword">this</span>.interceptors.onSendError(record, tp, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> InterruptException(e);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (BufferExhaustedException e) &#123;</span><br><span class="line">        <span class="keyword">this</span>.errors.record();</span><br><span class="line">        <span class="keyword">this</span>.metrics.sensor(<span class="string">"buffer-exhausted-records"</span>).record();</span><br><span class="line">        <span class="keyword">this</span>.interceptors.onSendError(record, tp, e);</span><br><span class="line">        <span class="keyword">throw</span> e;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (KafkaException e) &#123;</span><br><span class="line">        <span class="keyword">this</span>.errors.record();</span><br><span class="line">        <span class="keyword">this</span>.interceptors.onSendError(record, tp, e);</span><br><span class="line">        <span class="keyword">throw</span> e;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="comment">// we notify interceptor about all exceptions, since onSend is called before anything else in this method</span></span><br><span class="line">        <span class="keyword">this</span>.interceptors.onSendError(record, tp, e);</span><br><span class="line">        <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面<code>doSend</code>方法中，发送数据总共分5步：</p>
+<ol>
+<li>确认数据要发送到的 topic 的 metadata 是可用的</li>
+<li>序列化key和value</li>
+<li>获取消息的partition值</li>
+<li>向累加器中追加数据，数据先进行缓存</li>
+<li>如果batch满了，唤醒sender线程发送数据</li>
+</ol>
+<h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><p>生产者端对数据的key和value进行序列化操作，消费者端再进行相应的反序列化操作，下面是Kafka提供的序列化器和反序列化器</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/08d251f219dd8a86c817d387540b36c6.jpg" alt="Kafka.serializers"></p>
+<p>对于自带的序列化器不能满足需求的情况，可以使用例如Avro、Thrift或者Protobuf等序列化框架或者使用自定义的序列化器。</p>
+<p>下面使用<a href="https://avro.apache.org/" target="_blank" rel="noopener">Avro</a>序列化记录</p>
+<p>首先使用Avro命令生成自定义对象，.avsc文件通过JSON来描述数据的schema</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;type&quot;: &quot;record&quot;,</span><br><span class="line">  &quot;namespace&quot;: &quot;com.example&quot;,</span><br><span class="line">  &quot;name&quot;: &quot;Customer&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1&quot;,</span><br><span class="line">  &quot;fields&quot;: [</span><br><span class="line">    &#123; &quot;name&quot;: &quot;first_name&quot;, &quot;type&quot;: &quot;string&quot;, &quot;doc&quot;: &quot;First Name of Customer&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;: &quot;last_name&quot;, &quot;type&quot;: &quot;string&quot;, &quot;doc&quot;: &quot;Last Name of Customer&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;: &quot;age&quot;, &quot;type&quot;: &quot;int&quot;, &quot;doc&quot;: &quot;Age at the time of registration&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;: &quot;height&quot;, &quot;type&quot;: &quot;float&quot;, &quot;doc&quot;: &quot;Height at the time of registration in cm&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;: &quot;weight&quot;, &quot;type&quot;: &quot;float&quot;, &quot;doc&quot;: &quot;Weight at the time of registration in kg&quot; &#125;,</span><br><span class="line">    &#123; &quot;name&quot;: &quot;automated_email&quot;, &quot;type&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;doc&quot;: &quot;Field indicating if the user is enrolled in marketing emails&quot; &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>生成自定义的数据对象后，将schema保存在注册表中，这样消费者在读取数据的时候就知道用什么schema来反序列化记录。</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/b0ae8380071924c101579698e00ac4d7.jpg" alt="schemaRegistry"></p>
+<p>下面是使用avro的KafkaAvroSerializer来序列化对象，需要制定schema注册表的位置<code>http://127.0.0.1:8081</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> io.confluent.kafka.serializers.KafkaAvroSerializer;</span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.producer.Callback;</span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.producer.KafkaProducer;</span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.producer.ProducerRecord;</span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.producer.RecordMetadata;</span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.common.serialization.StringSerializer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">KafkaAvroProducer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        Properties properties = <span class="keyword">new</span> Properties();</span><br><span class="line">        properties.setProperty(<span class="string">"bootstrap.servers"</span>, <span class="string">"localhost:9092"</span>);</span><br><span class="line">        properties.setProperty(<span class="string">"acks"</span>, <span class="string">"1"</span>);</span><br><span class="line">        properties.setProperty(<span class="string">"retries"</span>, <span class="string">"10"</span>);</span><br><span class="line">        properties.setProperty(<span class="string">"key.serializer"</span>, StringSerializer.class.getName());</span><br><span class="line">        properties.setProperty(<span class="string">"value.serializer"</span>, KafkaAvroSerializer.class.getName());</span><br><span class="line">        properties.setProperty(<span class="string">"schema.registry.url"</span>, <span class="string">"http://127.0.0.1:8081"</span>);</span><br><span class="line"></span><br><span class="line">        String topic = <span class="string">"customer-avro"</span>;</span><br><span class="line"></span><br><span class="line">        KafkaProducer&lt;String, Customer&gt; kafkaProducer = <span class="keyword">new</span> KafkaProducer&lt;String, Customer&gt;(properties);</span><br><span class="line"></span><br><span class="line">        Customer customer = Customer.newBuilder()</span><br><span class="line">                .setFirstName(<span class="string">"Mike"</span>)</span><br><span class="line">                .setLastName(<span class="string">"Tom"</span>)</span><br><span class="line">                .setAge(<span class="number">30</span>)</span><br><span class="line">                .setHeight(<span class="number">171.0f</span>)</span><br><span class="line">                .setWeight(<span class="number">120.5f</span>)</span><br><span class="line">                .setAutomatedEmail(<span class="keyword">false</span>)</span><br><span class="line">                .build();</span><br><span class="line"></span><br><span class="line">        ProducerRecord&lt;String, Customer&gt; producerRecord = <span class="keyword">new</span> ProducerRecord&lt;String, Customer&gt;(</span><br><span class="line">                topic, customer</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        kafkaProducer.send(producerRecord, <span class="keyword">new</span> Callback() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompletion</span><span class="params">(RecordMetadata recordMetadata, Exception e)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (e == <span class="keyword">null</span>)&#123;</span><br><span class="line">                    System.out.println(<span class="string">"Success"</span>);</span><br><span class="line">                    System.out.println(recordMetadata.toString());</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        kafkaProducer.flush();</span><br><span class="line">        kafkaProducer.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更具体的Avro序列化，查看Avro的相关文档。</p>
+<h3 id="获取分区"><a href="#获取分区" class="headerlink" title="获取分区"></a>获取分区</h3><p>看一下partition方法的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(ProducerRecord&lt;K, V&gt; record, <span class="keyword">byte</span>[] serializedKey, <span class="keyword">byte</span>[] serializedValue, Cluster cluster)</span> </span>&#123;</span><br><span class="line">    Integer partition = record.partition();</span><br><span class="line">    <span class="keyword">return</span> partition != <span class="keyword">null</span> ? partition.intValue() : <span class="keyword">this</span>.partitioner.partition(record.topic(), record.key(), serializedKey, record.value(), serializedValue, cluster);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果record指定了分区则指定的分区会被使用，如果没有则使用partitioner分区器来选择分区</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(String topic, Object key, <span class="keyword">byte</span>[] keyBytes, Object value, <span class="keyword">byte</span>[] valueBytes, Cluster cluster)</span> </span>&#123;</span><br><span class="line">    List&lt;PartitionInfo&gt; partitions = cluster.partitionsForTopic(topic);</span><br><span class="line">    <span class="keyword">int</span> numPartitions = partitions.size();</span><br><span class="line">    <span class="comment">// key为空</span></span><br><span class="line">    <span class="keyword">if</span> (keyBytes == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 根据topic名获取上次计算分区时使用的一个整数并加一</span></span><br><span class="line">        <span class="keyword">int</span> nextValue = <span class="keyword">this</span>.nextValue(topic);</span><br><span class="line">        List&lt;PartitionInfo&gt; availablePartitions = cluster.availablePartitionsForTopic(topic);</span><br><span class="line">        <span class="keyword">if</span> (availablePartitions.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 如果大于0则使用获取的nextValue的值和可用分区数进行取模操作</span></span><br><span class="line">            <span class="keyword">int</span> part = Utils.toPositive(nextValue) % availablePartitions.size();</span><br><span class="line">            <span class="keyword">return</span> ((PartitionInfo)availablePartitions.get(part)).partition();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> Utils.toPositive(nextValue) % numPartitions;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 如果消息的key不为null，就根据hash算法murmur2就算出key的hash值，然后和分区数进行取模运算。</span></span><br><span class="line">        <span class="keyword">return</span> Utils.toPositive(Utils.murmur2(keyBytes)) % numPartitions;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">nextValue</span><span class="params">(String topic)</span> </span>&#123;</span><br><span class="line">    AtomicInteger counter = (AtomicInteger)<span class="keyword">this</span>.topicCounterMap.get(topic);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">null</span> == counter) &#123;<span class="comment">// 第一次调用时，随机产生</span></span><br><span class="line">        counter = <span class="keyword">new</span> AtomicInteger(ThreadLocalRandom.current().nextInt());</span><br><span class="line">        AtomicInteger currentCounter = (AtomicInteger)<span class="keyword">this</span>.topicCounterMap.putIfAbsent(topic, counter);</span><br><span class="line">        <span class="keyword">if</span> (currentCounter != <span class="keyword">null</span>) &#123;</span><br><span class="line">                counter = currentCounter;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> counter.getAndIncrement();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="向累加器追加数据"><a href="#向累加器追加数据" class="headerlink" title="向累加器追加数据"></a>向累加器追加数据</h3><p>生产者向累加器中追加数据，当batch满了，唤醒sender线程发送数据</p>
+<p>Producer 通过<code>RecordAccumulator</code>实例追加数据，每个 TopicPartition 都会对应一个 Deque<recordbatch>，当添加数据时，会向其 topic-partition 对应的这个 queue 最新创建的一个 RecordBatch 中添加 record，而发送数据时，则会先从 queue 中最老的那个 RecordBatch 开始发送。</recordbatch></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> RecordAppendResult <span class="title">append</span><span class="params">(TopicPartition tp,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    <span class="keyword">long</span> timestamp,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    <span class="keyword">byte</span>[] key,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    <span class="keyword">byte</span>[] value,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    Header[] headers,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    Callback callback,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    <span class="keyword">long</span> maxTimeToBlock)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="comment">// We keep track of the number of appending thread to make sure we do not miss batches in</span></span><br><span class="line">    <span class="comment">// abortIncompleteBatches().</span></span><br><span class="line">    appendsInProgress.incrementAndGet();</span><br><span class="line">    ByteBuffer buffer = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (headers == <span class="keyword">null</span>) headers = Record.EMPTY_HEADERS;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 获取该 topic-partition 对应的 queue</span></span><br><span class="line">        Deque&lt;ProducerBatch&gt; dq = getOrCreateDeque(tp);<span class="comment">// 每个 topicPartition 对应一个 queue</span></span><br><span class="line">        <span class="keyword">synchronized</span> (dq) &#123;</span><br><span class="line">            <span class="keyword">if</span> (closed)</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Cannot send after the producer is closed."</span>);</span><br><span class="line">            <span class="comment">// 向 queue 中追加数据, 先获取 queue 中最新加入的那个 RecordBatch,</span></span><br><span class="line">            <span class="comment">// 如果不存在或者存在但剩余空余不足以添加本条 record 则返回 null</span></span><br><span class="line">            RecordAppendResult appendResult = tryAppend(timestamp, key, value, headers, callback, dq);</span><br><span class="line">            <span class="keyword">if</span> (appendResult != <span class="keyword">null</span>)</span><br><span class="line">                <span class="keyword">return</span> appendResult;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// we don't have an in-progress record batch try to allocate a new batch</span></span><br><span class="line">        <span class="keyword">byte</span> maxUsableMagic = apiVersions.maxUsableProduceMagic();</span><br><span class="line">        <span class="comment">// 为 topic-partition 创建一个新的 RecordBatch 缓冲区, 需要初始化相应的 RecordBatch，要为其分配的大小是: max（batch.size, 加上头文件的本条消息的大小）</span></span><br><span class="line">        <span class="keyword">int</span> size = Math.max(<span class="keyword">this</span>.batchSize, AbstractRecords.estimateSizeInBytesUpperBound(maxUsableMagic, compression, key, value, headers));</span><br><span class="line">        log.trace(<span class="string">"Allocating a new &#123;&#125; byte message buffer for topic &#123;&#125; partition &#123;&#125;"</span>, size, tp.topic(), tp.partition());</span><br><span class="line">        buffer = free.allocate(size, maxTimeToBlock);</span><br><span class="line">        <span class="keyword">synchronized</span> (dq) &#123;</span><br><span class="line">            <span class="comment">// Need to check if producer is closed again after grabbing the dequeue lock.</span></span><br><span class="line">            <span class="keyword">if</span> (closed)</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Cannot send after the producer is closed."</span>);</span><br><span class="line"></span><br><span class="line">            RecordAppendResult appendResult = tryAppend(timestamp, key, value, headers, callback, dq);</span><br><span class="line">            <span class="keyword">if</span> (appendResult != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// Somebody else found us a batch, return the one we waited for! Hopefully this doesn't happen often...</span></span><br><span class="line">            <span class="keyword">return</span> appendResult;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 给 topic-partition 创建一个 RecordBatch</span></span><br><span class="line">            MemoryRecordsBuilder recordsBuilder = recordsBuilder(buffer, maxUsableMagic);</span><br><span class="line">            ProducerBatch batch = <span class="keyword">new</span> ProducerBatch(tp, recordsBuilder, time.milliseconds());</span><br><span class="line">            <span class="comment">// 向新的 RecordBatch 中追加数据</span></span><br><span class="line">            FutureRecordMetadata future = Utils.notNull(batch.tryAppend(timestamp, key, value, headers, callback, time.milliseconds()));</span><br><span class="line"></span><br><span class="line">            dq.addLast(batch);</span><br><span class="line">            incomplete.add(batch);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Don't deallocate this buffer in the finally block as it's being used in the record batch</span></span><br><span class="line">            buffer = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 如果 dp.size()&gt;1 就证明这个 queue 有一个 batch 是可以发送了</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> RecordAppendResult(future, dq.size() &gt; <span class="number">1</span> || batch.isFull(), <span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (buffer != <span class="keyword">null</span>)</span><br><span class="line">            free.deallocate(buffer);</span><br><span class="line">        appendsInProgress.decrementAndGet();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>获取该 topic-partition 对应的 queue，没有的话会创建一个空的 queue；</li>
+<li>向 queue 中追加数据，先获取 queue 中最新加入的那个 RecordBatch，如果不存在或者存在但剩余空余不足以添加本条 record 则返回 null，成功写入的话直接返回结果，写入成功；</li>
+<li>如果不存在现有的RecordBatch，创建一个新的 RecordBatch，初始化内存大小根据 <code>max(batch.size, Records.LOG_OVERHEAD + Record.recordSize(key, value))</code> 来确定（防止单条 record 过大的情况）；</li>
+<li>向新建的 RecordBatch 写入 record，并将 RecordBatch 添加到 queue 中，返回结果，写入成功。</li>
+</ol>
+<h3 id="发送RecordBatch到Broker"><a href="#发送RecordBatch到Broker" class="headerlink" title="发送RecordBatch到Broker"></a>发送RecordBatch到Broker</h3><p>当 record 写入成功后，如果发现 RecordBatch 已满足发送的条件（通常是 queue 中有多个 batch，那么最先添加的那些 batch 肯定是可以发送了），那么就会唤醒 sender 线程，发送 RecordBatch</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sendProduceRequests</span><span class="params">(Map&lt;Integer, List&lt;ProducerBatch&gt;&gt; collated, <span class="keyword">long</span> now)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (Map.Entry&lt;Integer, List&lt;ProducerBatch&gt;&gt; entry : collated.entrySet())</span><br><span class="line">        sendProduceRequest(now, entry.getKey(), acks, requestTimeout, entry.getValue());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sendProduceRequest</span><span class="params">(<span class="keyword">long</span> now, <span class="keyword">int</span> destination, <span class="keyword">short</span> acks, <span class="keyword">int</span> timeout, List&lt;ProducerBatch&gt; batches)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (batches.isEmpty())</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    Map&lt;TopicPartition, MemoryRecords&gt; produceRecordsByPartition = <span class="keyword">new</span> HashMap&lt;&gt;(batches.size());</span><br><span class="line">    <span class="keyword">final</span> Map&lt;TopicPartition, ProducerBatch&gt; recordsByPartition = <span class="keyword">new</span> HashMap&lt;&gt;(batches.size());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find the minimum magic version used when creating the record sets</span></span><br><span class="line">    <span class="keyword">byte</span> minUsedMagic = apiVersions.maxUsableProduceMagic();</span><br><span class="line">    <span class="keyword">for</span> (ProducerBatch batch : batches) &#123;</span><br><span class="line">        <span class="keyword">if</span> (batch.magic() &lt; minUsedMagic)</span><br><span class="line">            minUsedMagic = batch.magic();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (ProducerBatch batch : batches) &#123;</span><br><span class="line">        TopicPartition tp = batch.topicPartition;</span><br><span class="line">        MemoryRecords records = batch.records();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!records.hasMatchingMagic(minUsedMagic))</span><br><span class="line">            records = batch.records().downConvert(minUsedMagic, <span class="number">0</span>, time).records();</span><br><span class="line">        produceRecordsByPartition.put(tp, records);</span><br><span class="line">        recordsByPartition.put(tp, batch);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ProduceRequest.Builder requestBuilder = ProduceRequest.Builder.forMagic(minUsedMagic, acks, timeout,</span><br><span class="line">            produceRecordsByPartition, transactionalId);</span><br><span class="line">    RequestCompletionHandler callback = <span class="keyword">new</span> RequestCompletionHandler() &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">(ClientResponse response)</span> </span>&#123;</span><br><span class="line">            handleProduceResponse(response, recordsByPartition, time.milliseconds());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    String nodeId = Integer.toString(destination);</span><br><span class="line">    ClientRequest clientRequest = client.newClientRequest(nodeId, requestBuilder, now, acks != <span class="number">0</span>, callback);</span><br><span class="line">    client.send(clientRequest, now);</span><br><span class="line">    log.trace(<span class="string">"Sent produce request to &#123;&#125;: &#123;&#125;"</span>, nodeId, requestBuilder);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/WeChatImage_20170527190034.jpg" alt="Shuo Lv WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Kafka/" rel="tag"># Kafka</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/07/数据仓库分层/" rel="next" title="数据仓库分层">
+                <i class="fa fa-chevron-left"></i> 数据仓库分层
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODkwOC81NDc3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Shuo Lv" />
+          <p class="site-author-name" itemprop="name">Shuo Lv</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">64</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lvraikkonen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/1246109477/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/lu-shuo-53/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-quora"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.linkedin.com/in/shuo-lv-58881823/" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/shuo.lv" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://webdemo.myscript.com/views/math.html/" title="公式编辑器" target="_blank">公式编辑器</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pythontutor.com/" title="可视化Python代码" target="_blank">可视化Python代码</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://docs.python-guide.org/en/latest/" title="Python最佳实践" target="_blank">Python最佳实践</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个简单的生产者"><span class="nav-number">1.</span> <span class="nav-text">一个简单的生产者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生产者数据发送流程"><span class="nav-number">2.</span> <span class="nav-text">生产者数据发送流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#doSend的具体实现"><span class="nav-number">2.1.</span> <span class="nav-text">doSend的具体实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列化"><span class="nav-number">2.2.</span> <span class="nav-text">序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取分区"><span class="nav-number">2.3.</span> <span class="nav-text">获取分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向累加器追加数据"><span class="nav-number">2.4.</span> <span class="nav-text">向累加器追加数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发送RecordBatch到Broker"><span class="nav-number">2.5.</span> <span class="nav-text">发送RecordBatch到Broker</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shuo Lv</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("QttC3P4LGflMxbppLnNEY62a-gzGzoHsz", "joh41qpX9cxG63me5aR8vKXx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- 背景动画 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
