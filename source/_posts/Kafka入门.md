@@ -217,9 +217,53 @@ Kafka Connect 是Kafka 的一部分，它为在Kafka 和外部数据存储系统
 
 Kafka Connnect有两个核心概念：Source和Sink。 Source负责导入数据到Kafka，Sink负责从Kafka导出数据，它们都被称为Connector。
 
-### Kafka Connect实例
+### Kafka Connect简单实例
 
-ToDo
+下面这个例子使用Kafka Connect将数据从文件导入到Kafka，然后再将Topic中数据导入到文件中
+
+创建文件，写入测试数据
+
+``` shell
+cd /Users/lvshuo/bigdata/kafka
+echo "Hello World" > test.txt
+```
+
+topic的偏移量存储在/tmp/connect.offsets这个文件中,在`config/connect-standalone.properties`配置，每次connect启动的时候会根据connector的name获得topic偏移量,然后在继续读取或者写入数据
+
+下面配置source和sink：一个用于将文件数据导入Kafka，一个用于将Topic数据导出到文件，下面是配置文件`connect-console-source.properties`的内容：
+
+```
+name=local-console-source
+connector.class=org.apache.kafka.connect.file.FileStreamSourceConnector
+tasks.max=1
+topic=connect-test
+```
+
+`connect-console-sink.properties`文件内容：
+
+```
+name=local-console-sink
+connector.class=org.apache.kafka.connect.file.FileStreamSinkConnector
+tasks.max=1
+topics=connect-test
+file=test.sink.txt
+```
+
+启动两个单点的connector
+
+```
+bin/connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties
+```
+
+可以看到生成了test.sink.txt的文件
+
+![](http://7xkfga.com1.z0.glb.clouddn.com/d059e077ead8d5198287610b1d072f26.jpg)
+
+查看一下connect-test主题中的数据
+
+![](http://7xkfga.com1.z0.glb.clouddn.com/0cc55fc23040d38fe7529e19d45d85d1.jpg)
+
+更多的Connector可以去confluent平台去看。
 
 ## 参考
 

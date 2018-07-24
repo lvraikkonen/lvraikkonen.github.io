@@ -165,3 +165,78 @@ cp /Users/lvshuo/test.log /Users/lvshuo/bigdata/logs
 ![log](http://7xkfga.com1.z0.glb.clouddn.com/63390f5d1fb2857a0e2360252d519dca.jpg)
 
 Flume在传完文件之后，将会修改文件的后缀，变为.COMPLETED
+
+
+## Flume整合Kafka
+
+上面的案例里面，Flume将监测到的Log文件内容输出到了控制台。在实际的项目中，经常使用Kafka作为数据中间件，来同时支持离线批处理和在线流式计算
+
+![](http://7xkfga.com1.z0.glb.clouddn.com/cd417fb9909b96fcad2e64fa06b1f0bd.jpg)
+
+对于Kafka来说，Flume既能作为生产者，又能作为消费者
+
+Flume作为Kafka消费者：
+
+![](http://7xkfga.com1.z0.glb.clouddn.com/09891d703456ffd68b8cf11d8906c838.jpg)
+
+Flume作为Kafka生产者：
+
+![](http://7xkfga.com1.z0.glb.clouddn.com/decae35b621baf4b2c1ebee17ab8abaa.jpg)
+
+下面的例子，Flume作为Kafka的生产者，将监控到的Log文件写入到Kafka的相关Topic中
+
+### Flume传输Log到Kafka中
+
+下面是Flume的配置， 
+
+``` shell
+# Name component of agent
+a1.sources = r1
+a1.sinks = sample 
+a1.channels = sample-channel
+
+# # Describe/configure the source
+a1.sources.r1.type = exec
+a1.sources.r1.command = tail -f /Users/lvshuo/bigdata/logs/my_log_file.log 
+a1.sources.r1.logStdErr = true
+
+# sink type
+a1.sinks.sample.type = logger
+
+## buffers events in memeory to channel
+a1.channels.sample-channel.type = memory
+a1.channels.sample-channel.capacity = 1000
+a1.channels.sample-channel.transactionCapacity = 100
+
+# bind source and sink to the channel
+a1.sources.r1.channels.selector.type = replicating
+a1.sources.r1.channels = sample-channel
+
+## kafka config
+a1.sinks.sample.type = org.apache.flume.sink.kafka.KafkaSink
+a1.sinks.sample.kafka.topic = flumeLogTopic
+a1.sinks.sample.kafka.bootstrap.servers = 127.0.0.1:9092
+a1.sinks.sample.kafka.producer.acks = 1
+a1.sinks.sample.kafka.flumeBatchSize = 20
+a1.sinks.sample.channel = sample-channel
+```
+
+相关Flume配置参考
+- [Flume User Guide(Exec Source)](https://flume.apache.org/FlumeUserGuide.html#exec-source)
+- [Flume User Guide(Kafka Sink)](https://flume.apache.org/FlumeUserGuide.html#kafka-sink)
+
+启动Flume代理a1
+
+``` shell
+bin/flume-ng agent -c /Users/lvshuo/bigdata/flume/conf/ -f /Users/lvshuo/bigdata/flume/conf/flume-kafka.conf -n a1 -Dflume.root.logger=INFO,console
+```
+
+查看FlumeLogTopic中的数据，发现log中的数据已经发送到Topic中，可以供下游消费者进行消费
+
+``` shell
+kafka-console-consumer.sh --zookeeper localhost:2181 --topic flumeLogTopic --from-beginning
+```
+
+![](http://7xkfga.com1.z0.glb.clouddn.com/a2e43175f6c5374b1fe2cad20e7c62b4.jpg)
+
+
