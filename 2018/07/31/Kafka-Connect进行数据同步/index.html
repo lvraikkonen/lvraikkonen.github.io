@@ -1,0 +1,1182 @@
+﻿<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Kafka," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Kafka Connect 是一个可扩展、可靠的在 Kafka 和其他系统之间流传输的数据工具。它可以通过 Connectors （连接器）简单、快速的将大集合数据导入和导出 Kafka，数据的导入导出可能有以下几种选择：  flume kafka connector kafka 生产者/消费者API 商业ETL工具  Kafka Connect可以将完整的数据库注入到Kafka的Topic中，">
+<meta name="keywords" content="Kafka">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka Connect进行数据同步">
+<meta property="og:url" content="https://lvraikkonen.github.io/2018/07/31/Kafka-Connect进行数据同步/index.html">
+<meta property="og:site_name" content="Claus&#39;s Tech Blog">
+<meta property="og:description" content="Kafka Connect 是一个可扩展、可靠的在 Kafka 和其他系统之间流传输的数据工具。它可以通过 Connectors （连接器）简单、快速的将大集合数据导入和导出 Kafka，数据的导入导出可能有以下几种选择：  flume kafka connector kafka 生产者/消费者API 商业ETL工具  Kafka Connect可以将完整的数据库注入到Kafka的Topic中，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/0d9dc4075f3e89d1ad093a097c6723e4.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/2ae1bbfda905f00a6ed2348771f6da31.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/8f0b8517ced51e9b0379e6d63be5b0ab.jpg">
+<meta property="og:image" content="https://www.confluent.io/wp-content/uploads/elasticsearch_kafka-min-768x327.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/98017f5944415d87fe4be68d8f672ac3.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/998f900ede9a3f68511c8745ad7ec215.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/7f435dce09ab276c7ef26c767bafab3e.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/fecbc7df87463fb381fb0b0dd55e7a3d.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/dd2deaccea181e98ff80d0852260a7c0.jpg">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/8f606c2881399514f392e62907f3a2f7.jpg">
+<meta property="og:updated_time" content="2018-07-31T09:08:43.184Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kafka Connect进行数据同步">
+<meta name="twitter:description" content="Kafka Connect 是一个可扩展、可靠的在 Kafka 和其他系统之间流传输的数据工具。它可以通过 Connectors （连接器）简单、快速的将大集合数据导入和导出 Kafka，数据的导入导出可能有以下几种选择：  flume kafka connector kafka 生产者/消费者API 商业ETL工具  Kafka Connect可以将完整的数据库注入到Kafka的Topic中，">
+<meta name="twitter:image" content="http://7xkfga.com1.z0.glb.clouddn.com/0d9dc4075f3e89d1ad093a097c6723e4.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'JWQGEFMRGT',
+      apiKey: '7c12daa85b9bf759fcde9b547d3a9349',
+      indexName: 'lvraikkonen_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lvraikkonen.github.io/2018/07/31/Kafka-Connect进行数据同步/"/>
+
+
+
+
+
+  <title>Kafka Connect进行数据同步 | Claus's Tech Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Claus's Tech Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">leave me alone i know what to do</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/07/31/Kafka-Connect进行数据同步/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Kafka Connect进行数据同步</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-31T11:21:39+08:00">
+                2018-07-31
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-31T17:08:43+08:00">
+                2018-07-31
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Big-Data/" itemprop="url" rel="index">
+                    <span itemprop="name">Big Data</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Big-Data/Kafka/" itemprop="url" rel="index">
+                    <span itemprop="name">Kafka</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07/31/Kafka-Connect进行数据同步/" class="leancloud_visitors" data-flag-title="Kafka Connect进行数据同步">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,772 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://7xkfga.com1.z0.glb.clouddn.com/0d9dc4075f3e89d1ad093a097c6723e4.jpg" alt=""></p>
+<p>Kafka Connect 是一个可扩展、可靠的在 Kafka 和其他系统之间流传输的数据工具。它可以通过 Connectors （连接器）简单、快速的将大集合数据导入和导出 Kafka，数据的导入导出可能有以下几种选择：</p>
+<ul>
+<li>flume</li>
+<li>kafka connector</li>
+<li>kafka 生产者/消费者API</li>
+<li>商业ETL工具</li>
+</ul>
+<p>Kafka Connect可以将完整的数据库注入到Kafka的Topic中，或者将服务器的系统监控指标注入到Kafka，然后像正常的Kafka流处理机制一样进行数据流处理。</p>
+<p>使用Kafka客户端API，是需要在应用程序里面进行开发的，可以根据不同的需求进行数据的操作；而如果需要Kafka连接数据存储系统，则使用例如Connect这种可插拔式的连接器，就会很方便，因为不需要修改系统代码。</p>
+<a id="more"></a>
+<h2 id="Kafka-Connect的工作模式"><a href="#Kafka-Connect的工作模式" class="headerlink" title="Kafka Connect的工作模式"></a>Kafka Connect的工作模式</h2><ul>
+<li><p>Standalone：在standalone模式中，所有的worker都在一个独立的进程中完成。</p>
+</li>
+<li><p>Distributed：distributed模式具有高扩展性，以及提供自动容错机制。你可以使用一个group.ip来启动很多worker进程，在有效的worker进程中它们会自动的去协调执行connector和task，如果你新加了一个worker或者挂了一个worker，其他的worker会检测到然后在重新分配connector和task。</p>
+</li>
+</ul>
+<h2 id="运行Kafka-Connect"><a href="#运行Kafka-Connect" class="headerlink" title="运行Kafka Connect"></a>运行Kafka Connect</h2><p>下面以Standalone模式举例，通过下面的命令运行Connect：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/connect-standalone.sh config/connect-standalone.properties Connector1.properties [Connector2.properties ...]</span><br></pre></td></tr></table></figure>
+<p>第一个参数是worker的配置，这包括Kafka连接的参数设置，序列化格式，以及频繁地提交offset。</p>
+<p>Connect进程有以下几个重要的配置参数：</p>
+<ul>
+<li>bootstrap.server</li>
+<li>group.id</li>
+<li>key.converter/val.converter</li>
+</ul>
+<p>其余的参数是 Connector（连接器）配置文件</p>
+<p>下面以Elasticsearch-sink作为例子，配置一个自己的connector</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">name=elasticsearch-sink</span><br><span class="line">connector.class=io.confluent.connect.elasticsearch.ElasticsearchSinkConnector</span><br><span class="line">tasks.max=1</span><br><span class="line">topics=logs</span><br><span class="line">topic.index.map=logs:logs_index</span><br><span class="line">key.ignore=true</span><br><span class="line">schema.ignore=true</span><br><span class="line">connection.url=http://localhost:9200</span><br><span class="line">type.name=log</span><br></pre></td></tr></table></figure>
+<ul>
+<li>name： 连接器唯一的名称，不能重复。</li>
+<li>Connector.calss：连接器的Java类。</li>
+<li>tasks.max：连接器创建任务的最大数。</li>
+<li>Connector.class 配置支持多种格式：全名或连接器类的别名。比如连接器是 <code>org.apache.kafka.connect.file.FileStreamSinkConnector</code>，你可以指定全名，也可以使用 FileStreamSink或FileStreamSinkConnector</li>
+<li>topics：作为连接器的输入的 topic 列表。</li>
+</ul>
+<h3 id="加载Elasticsearch-Sink-Connector"><a href="#加载Elasticsearch-Sink-Connector" class="headerlink" title="加载Elasticsearch-Sink Connector"></a>加载Elasticsearch-Sink Connector</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">confluent load elasticsearch-sink</span><br></pre></td></tr></table></figure>
+<h2 id="REST-API管理Connector"><a href="#REST-API管理Connector" class="headerlink" title="REST API管理Connector"></a>REST API管理Connector</h2><p>Confluent提供了一个用于管理 Connector 的 REST API。默认情况下，此服务的端口是8083</p>
+<ul>
+<li>GET /Connectors：返回活跃的 Connector 列表</li>
+<li>POST /Connectors：创建一个新的 Connector；请求的主体是一个包含字符串name字段和对象 config 字段（Connector 的配置参数）的 JSON 对象。</li>
+<li>GET /Connectors/{name}：获取指定 Connector 的信息</li>
+<li>GET /Connectors/{name}/config：获取指定 Connector 的配置参数</li>
+<li>PUT /Connectors/{name}/config：更新指定 Connector 的配置参数</li>
+<li>GET /Connectors/{name}/status：获取 Connector 的当前状态，包括它是否正在运行，失败，暂停等。</li>
+<li>GET /Connectors/{name}/tasks：获取当前正在运行的 Connector 的任务列表。</li>
+<li>GET /Connectors/{name}/tasks/{taskid}/status：获取任务的当前状态，包括是否是运行中的，失败的，暂停的等，</li>
+<li>PUT /Connectors/{name}/pause：暂停连接器和它的任务，停止消息处理，直到 Connector 恢复。</li>
+<li>PUT /Connectors/{name}/resume：恢复暂停的 Connector（如果 Connector 没有暂停，则什么都不做）</li>
+<li>POST /Connectors/{name}/restart：重启 Connector（Connector 已故障）</li>
+<li>POST /Connectors/{name}/tasks/{taskId}/restart：重启单个任务 (通常这个任务已失败)</li>
+<li>DELETE /Connectors/{name}：删除 Connector, 停止所有的任务并删除其配置</li>
+</ul>
+<h2 id="测试使用Connector向Elasticsearch中发送数据"><a href="#测试使用Connector向Elasticsearch中发送数据" class="headerlink" title="测试使用Connector向Elasticsearch中发送数据"></a>测试使用Connector向Elasticsearch中发送数据</h2><p>首先创建一个Topic：logs</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic logs</span><br></pre></td></tr></table></figure>
+<p>启动Kafka Connect</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/connect-standalone etc/kafka/connect-standalone.properties etc/kafka-connect-elasticsearch/elasticsearch-connect.properties &amp;</span><br></pre></td></tr></table></figure>
+<p>向Topic发送一条json数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kafka-console-producer --broker-list localhost:9092 --topic logs</span><br><span class="line"></span><br><span class="line">&gt;&#123;<span class="string">"name"</span>:<span class="string">"f1"</span>,<span class="string">"type"</span>:<span class="string">"string"</span>&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kafka-console-consumer --bootstrap-server localhost:9092 --topic logs --from-beginning</span><br></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/2ae1bbfda905f00a6ed2348771f6da31.jpg" alt=""></p>
+<p>可以看到，刚才的一条数据已经写入到Topic中了</p>
+<p>同时，可以看到Elasticsearch中已经存在刚才Topic中的那条数据了</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/8f0b8517ced51e9b0379e6d63be5b0ab.jpg" alt=""></p>
+<h2 id="MySQL-gt-Kafka-gt-Elasticsearch"><a href="#MySQL-gt-Kafka-gt-Elasticsearch" class="headerlink" title="MySQL -&gt; Kafka -&gt; Elasticsearch"></a>MySQL -&gt; Kafka -&gt; Elasticsearch</h2><p><img src="https://www.confluent.io/wp-content/uploads/elasticsearch_kafka-min-768x327.png" alt="MySQL -&gt; Kafka -&gt; Elasticsearch"></p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>首先下载数据库的JDBC驱动， <a href="https://dev.mysql.com/downloads/connector/j/5.1.html" target="_blank" rel="noopener">MySQL</a>、<a href="https://www.microsoft.com/en-us/download/details.aspx?id=56615" target="_blank" rel="noopener">SQL Server</a>…</p>
+<p>启动Confluent</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/98017f5944415d87fe4be68d8f672ac3.jpg" alt=""></p>
+<h3 id="在MySQL中创建测试数据"><a href="#在MySQL中创建测试数据" class="headerlink" title="在MySQL中创建测试数据"></a>在MySQL中创建测试数据</h3><p><img src="http://7xkfga.com1.z0.glb.clouddn.com/998f900ede9a3f68511c8745ad7ec215.jpg" alt=""></p>
+<p>插入一条测试数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> sample_data (<span class="keyword">id</span>, <span class="keyword">name</span>) <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">'claus'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="配置Kafka-JDBC-Source"><a href="#配置Kafka-JDBC-Source" class="headerlink" title="配置Kafka JDBC Source"></a>配置Kafka JDBC Source</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"jdbc_source_mysql_sample_01"</span>,</span><br><span class="line">    <span class="attr">"config"</span>: &#123;</span><br><span class="line">            <span class="attr">"_comment"</span>: <span class="string">"The JDBC connector class. Don't change this if you want to use the JDBC Source."</span>,</span><br><span class="line">            <span class="attr">"connector.class"</span>: <span class="string">"io.confluent.connect.jdbc.JdbcSourceConnector"</span>,</span><br><span class="line"></span><br><span class="line">            <span class="attr">"_comment"</span>: <span class="string">"How to serialise the value of keys - here use the Confluent Avro serialiser. Note that the JDBC Source Connector always returns null for the key "</span>,</span><br><span class="line">            <span class="attr">"key.converter"</span>: <span class="string">"io.confluent.connect.avro.AvroConverter"</span>,</span><br><span class="line"></span><br><span class="line">            <span class="attr">"_comment"</span>: <span class="string">"Since we're using Avro serialisation, we need to specify the Confluent schema registry at which the created schema is to be stored. NB Schema Registry and Avro serialiser are both part of Confluent Open Source."</span>,</span><br><span class="line">            <span class="attr">"key.converter.schema.registry.url"</span>: <span class="string">"http://localhost:8081"</span>,</span><br><span class="line"></span><br><span class="line">            <span class="attr">"_comment"</span>: <span class="string">"As above, but for the value of the message. Note that these key/value serialisation settings can be set globally for Connect and thus omitted for individual connector configs to make them shorter and clearer"</span>,</span><br><span class="line">            <span class="attr">"value.converter"</span>: <span class="string">"io.confluent.connect.avro.AvroConverter"</span>,</span><br><span class="line">            <span class="attr">"value.converter.schema.registry.url"</span>: <span class="string">"http://localhost:8081"</span>,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="attr">"_comment"</span>: <span class="string">" --- JDBC-specific configuration below here  --- "</span>,</span><br><span class="line">            <span class="attr">"_comment"</span>: <span class="string">"JDBC connection URL. This will vary by RDBMS. Consult your manufacturer's handbook for more information"</span>,</span><br><span class="line">            <span class="attr">"connection.url"</span>: <span class="string">"jdbc:mysql://localhost:3306/kafka_demo?user=claus&amp;password=LvRaikkonen_0306"</span>,</span><br><span class="line"></span><br><span class="line">            <span class="attr">"_comment"</span>: <span class="string">"Which table(s) to include"</span>,</span><br><span class="line">            <span class="attr">"table.whitelist"</span>: <span class="string">"sample_data"</span>,</span><br><span class="line"></span><br><span class="line">            <span class="attr">"_comment"</span>: <span class="string">"Pull all rows based on an timestamp column. You can also do bulk or incrementing column-based extracts. For more information, see http://docs.confluent.io/current/connect/connect-jdbc/docs/source_config_options.html#mode"</span>,</span><br><span class="line">            <span class="attr">"mode"</span>: <span class="string">"timestamp"</span>,</span><br><span class="line"></span><br><span class="line">            <span class="attr">"_comment"</span>: <span class="string">"Which column has the timestamp value to use?  "</span>,</span><br><span class="line">            <span class="attr">"timestamp.column.name"</span>: <span class="string">"update_ts"</span>,</span><br><span class="line"></span><br><span class="line">            <span class="attr">"_comment"</span>: <span class="string">"If the column is not defined as NOT NULL, tell the connector to ignore this  "</span>,</span><br><span class="line">            <span class="attr">"validate.non.null"</span>: <span class="string">"false"</span>,</span><br><span class="line"></span><br><span class="line">            <span class="attr">"_comment"</span>: <span class="string">"The Kafka topic will be made up of this prefix, plus the table name  "</span>,</span><br><span class="line">            <span class="attr">"topic.prefix"</span>: <span class="string">"mysql-"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="加载Connector并将MySQL数据写入Topic中"><a href="#加载Connector并将MySQL数据写入Topic中" class="headerlink" title="加载Connector并将MySQL数据写入Topic中"></a>加载Connector并将MySQL数据写入Topic中</h3><p>加载刚才创建的Connector</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/confluent load jdbc_source_mysql_sample_01 -d etc/kafka-connect-jdbc/kafka-connect-mysql-jdbc-source.json</span><br></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/7f435dce09ab276c7ef26c767bafab3e.jpg" alt=""></p>
+<p>可以看见，connector已经被加载并且正在运行</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/fecbc7df87463fb381fb0b0dd55e7a3d.jpg" alt=""></p>
+<p>运行Avro Consumer查看Topic中的数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kafka-avro-console-consumer --bootstrap-server localhost:9092 --property schema.registry.url=http://localhost:8081 --property print.key=<span class="literal">true</span> --from-beginning --topic mysql-sample_data</span><br></pre></td></tr></table></figure>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/dd2deaccea181e98ff80d0852260a7c0.jpg" alt=""></p>
+<p>Kafka Connect使用Topic <code>connect-offsets</code>来跟踪数据的偏移量，这里的offset是通过sample_data表的<code>update_ts</code>字段来跟踪并提交的，所以connector即使关闭，下次也可以继续追踪新增数据。</p>
+<h3 id="配置ES-sink并将Topic数据导入到ES中"><a href="#配置ES-sink并将Topic数据导入到ES中" class="headerlink" title="配置ES-sink并将Topic数据导入到ES中"></a>配置ES-sink并将Topic数据导入到ES中</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"es-sink-mysql-sampleData-01"</span>,</span><br><span class="line">  <span class="attr">"config"</span>: &#123;</span><br><span class="line">    <span class="attr">"_comment"</span>: <span class="string">"-- standard converter stuff -- this can actually go in the worker config globally --"</span>,</span><br><span class="line">    <span class="attr">"connector.class"</span>: <span class="string">"io.confluent.connect.elasticsearch.ElasticsearchSinkConnector"</span>,</span><br><span class="line">    <span class="attr">"value.converter"</span>: <span class="string">"io.confluent.connect.avro.AvroConverter"</span>,</span><br><span class="line">    <span class="attr">"key.converter"</span>: <span class="string">"io.confluent.connect.avro.AvroConverter"</span>,</span><br><span class="line">    <span class="attr">"key.converter.schema.registry.url"</span>: <span class="string">"http://localhost:8081"</span>,</span><br><span class="line">    <span class="attr">"value.converter.schema.registry.url"</span>: <span class="string">"http://localhost:8081"</span>,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="attr">"_comment"</span>: <span class="string">"--- Elasticsearch-specific config ---"</span>,</span><br><span class="line">    <span class="attr">"_comment"</span>: <span class="string">"Elasticsearch server address"</span>,</span><br><span class="line">    <span class="attr">"connection.url"</span>: <span class="string">"http://localhost:9200"</span>,</span><br><span class="line"></span><br><span class="line">    <span class="attr">"_comment"</span>: <span class="string">"Elasticsearch mapping name. Gets created automatically if doesn't exist  "</span>,</span><br><span class="line">    <span class="attr">"type.name"</span>: <span class="string">"type.name=kafka-connect"</span>,</span><br><span class="line"></span><br><span class="line">    <span class="attr">"_comment"</span>: <span class="string">"Which topic to stream data from into Elasticsearch"</span>,</span><br><span class="line">    <span class="attr">"topics"</span>: <span class="string">"mysql-sample_data"</span>,</span><br><span class="line"></span><br><span class="line">    <span class="attr">"_comment"</span>: <span class="string">"If the Kafka message doesn't have a key (as is the case with JDBC source)  you need to specify key.ignore=true. If you don't, you'll get an error from the Connect task: 'ConnectException: Key is used as document id and can not be null."</span>,</span><br><span class="line">    <span class="attr">"key.ignore"</span>: <span class="string">"true"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到ES中已经创建名为mysql-sample_data的Index，并且Topic中的4条数据已经导入到ES中了。</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/8f606c2881399514f392e62907f3a2f7.jpg" alt=""></p>
+<h2 id="开发Connector"><a href="#开发Connector" class="headerlink" title="开发Connector"></a>开发Connector</h2><p>TBD</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/WeChatImage_20170527190034.jpg" alt="Shuo Lv WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Kafka/" rel="tag"># Kafka</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/25/Kafka消费者基础使用/" rel="next" title="Kafka消费者基础使用">
+                <i class="fa fa-chevron-left"></i> Kafka消费者基础使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODkwOC81NDc3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Shuo Lv" />
+          <p class="site-author-name" itemprop="name">Shuo Lv</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lvraikkonen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/1246109477/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/lu-shuo-53/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-quora"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.linkedin.com/in/shuo-lv-58881823/" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/shuo.lv" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://webdemo.myscript.com/views/math.html/" title="公式编辑器" target="_blank">公式编辑器</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pythontutor.com/" title="可视化Python代码" target="_blank">可视化Python代码</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://docs.python-guide.org/en/latest/" title="Python最佳实践" target="_blank">Python最佳实践</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka-Connect的工作模式"><span class="nav-number">1.</span> <span class="nav-text">Kafka Connect的工作模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行Kafka-Connect"><span class="nav-number">2.</span> <span class="nav-text">运行Kafka Connect</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加载Elasticsearch-Sink-Connector"><span class="nav-number">2.1.</span> <span class="nav-text">加载Elasticsearch-Sink Connector</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REST-API管理Connector"><span class="nav-number">3.</span> <span class="nav-text">REST API管理Connector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试使用Connector向Elasticsearch中发送数据"><span class="nav-number">4.</span> <span class="nav-text">测试使用Connector向Elasticsearch中发送数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL-gt-Kafka-gt-Elasticsearch"><span class="nav-number">5.</span> <span class="nav-text">MySQL -&gt; Kafka -&gt; Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">5.1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在MySQL中创建测试数据"><span class="nav-number">5.2.</span> <span class="nav-text">在MySQL中创建测试数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Kafka-JDBC-Source"><span class="nav-number">5.3.</span> <span class="nav-text">配置Kafka JDBC Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载Connector并将MySQL数据写入Topic中"><span class="nav-number">5.4.</span> <span class="nav-text">加载Connector并将MySQL数据写入Topic中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置ES-sink并将Topic数据导入到ES中"><span class="nav-number">5.5.</span> <span class="nav-text">配置ES-sink并将Topic数据导入到ES中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发Connector"><span class="nav-number">6.</span> <span class="nav-text">开发Connector</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shuo Lv</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("QttC3P4LGflMxbppLnNEY62a-gzGzoHsz", "joh41qpX9cxG63me5aR8vKXx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- 背景动画 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
