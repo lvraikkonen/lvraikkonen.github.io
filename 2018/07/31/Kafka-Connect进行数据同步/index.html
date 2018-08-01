@@ -111,7 +111,7 @@
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/fecbc7df87463fb381fb0b0dd55e7a3d.jpg">
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/dd2deaccea181e98ff80d0852260a7c0.jpg">
 <meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/8f606c2881399514f392e62907f3a2f7.jpg">
-<meta property="og:updated_time" content="2018-07-31T09:08:43.184Z">
+<meta property="og:updated_time" content="2018-08-01T06:52:19.853Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka Connect进行数据同步">
 <meta name="twitter:description" content="Kafka Connect 是一个可扩展、可靠的在 Kafka 和其他系统之间流传输的数据工具。它可以通过 Connectors （连接器）简单、快速的将大集合数据导入和导出 Kafka，数据的导入导出可能有以下几种选择：  flume kafka connector kafka 生产者/消费者API 商业ETL工具  Kafka Connect可以将完整的数据库注入到Kafka的Topic中，">
@@ -362,8 +362,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2018-07-31T17:08:43+08:00">
-                2018-07-31
+              <time title="更新于" itemprop="dateModified" datetime="2018-08-01T14:52:19+08:00">
+                2018-08-01
               </time>
             
           </span>
@@ -436,7 +436,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,772 字
+                  1,908 字
                 </span>
               
 
@@ -469,6 +469,17 @@
 <p>Kafka Connect可以将完整的数据库注入到Kafka的Topic中，或者将服务器的系统监控指标注入到Kafka，然后像正常的Kafka流处理机制一样进行数据流处理。</p>
 <p>使用Kafka客户端API，是需要在应用程序里面进行开发的，可以根据不同的需求进行数据的操作；而如果需要Kafka连接数据存储系统，则使用例如Connect这种可插拔式的连接器，就会很方便，因为不需要修改系统代码。</p>
 <a id="more"></a>
+<h2 id="构建数据管道需要考虑的问题"><a href="#构建数据管道需要考虑的问题" class="headerlink" title="构建数据管道需要考虑的问题"></a>构建数据管道需要考虑的问题</h2><p>ETL，现在流行的叫法叫做数据管道，构建一个好的数据管道可能要考虑一下几个方面：</p>
+<ol>
+<li>及时性、数据频率要求</li>
+<li>可靠性，避免单点故障，并能够自动从各种故障中快速恢复；</li>
+<li>高吞吐两盒动态吞吐量</li>
+<li>数据格式，需要支持各种不同的数据类型</li>
+<li>转换，ETL/ELT</li>
+<li>安全性</li>
+<li>故障处理能力</li>
+<li>耦合性和灵活性</li>
+</ol>
 <h2 id="Kafka-Connect的工作模式"><a href="#Kafka-Connect的工作模式" class="headerlink" title="Kafka Connect的工作模式"></a>Kafka Connect的工作模式</h2><ul>
 <li><p>Standalone：在standalone模式中，所有的worker都在一个独立的进程中完成。</p>
 </li>
@@ -832,7 +843,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka-Connect的工作模式"><span class="nav-number">1.</span> <span class="nav-text">Kafka Connect的工作模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行Kafka-Connect"><span class="nav-number">2.</span> <span class="nav-text">运行Kafka Connect</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加载Elasticsearch-Sink-Connector"><span class="nav-number">2.1.</span> <span class="nav-text">加载Elasticsearch-Sink Connector</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REST-API管理Connector"><span class="nav-number">3.</span> <span class="nav-text">REST API管理Connector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试使用Connector向Elasticsearch中发送数据"><span class="nav-number">4.</span> <span class="nav-text">测试使用Connector向Elasticsearch中发送数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL-gt-Kafka-gt-Elasticsearch"><span class="nav-number">5.</span> <span class="nav-text">MySQL -&gt; Kafka -&gt; Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">5.1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在MySQL中创建测试数据"><span class="nav-number">5.2.</span> <span class="nav-text">在MySQL中创建测试数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Kafka-JDBC-Source"><span class="nav-number">5.3.</span> <span class="nav-text">配置Kafka JDBC Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载Connector并将MySQL数据写入Topic中"><span class="nav-number">5.4.</span> <span class="nav-text">加载Connector并将MySQL数据写入Topic中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置ES-sink并将Topic数据导入到ES中"><span class="nav-number">5.5.</span> <span class="nav-text">配置ES-sink并将Topic数据导入到ES中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发Connector"><span class="nav-number">6.</span> <span class="nav-text">开发Connector</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#构建数据管道需要考虑的问题"><span class="nav-number">1.</span> <span class="nav-text">构建数据管道需要考虑的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka-Connect的工作模式"><span class="nav-number">2.</span> <span class="nav-text">Kafka Connect的工作模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行Kafka-Connect"><span class="nav-number">3.</span> <span class="nav-text">运行Kafka Connect</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加载Elasticsearch-Sink-Connector"><span class="nav-number">3.1.</span> <span class="nav-text">加载Elasticsearch-Sink Connector</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REST-API管理Connector"><span class="nav-number">4.</span> <span class="nav-text">REST API管理Connector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试使用Connector向Elasticsearch中发送数据"><span class="nav-number">5.</span> <span class="nav-text">测试使用Connector向Elasticsearch中发送数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL-gt-Kafka-gt-Elasticsearch"><span class="nav-number">6.</span> <span class="nav-text">MySQL -&gt; Kafka -&gt; Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">6.1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在MySQL中创建测试数据"><span class="nav-number">6.2.</span> <span class="nav-text">在MySQL中创建测试数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Kafka-JDBC-Source"><span class="nav-number">6.3.</span> <span class="nav-text">配置Kafka JDBC Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载Connector并将MySQL数据写入Topic中"><span class="nav-number">6.4.</span> <span class="nav-text">加载Connector并将MySQL数据写入Topic中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置ES-sink并将Topic数据导入到ES中"><span class="nav-number">6.5.</span> <span class="nav-text">配置ES-sink并将Topic数据导入到ES中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发Connector"><span class="nav-number">7.</span> <span class="nav-text">开发Connector</span></a></li></ol></div>
             
 
           </div>
