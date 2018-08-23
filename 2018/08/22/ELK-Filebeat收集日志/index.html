@@ -1,0 +1,1132 @@
+﻿<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Elasticsearch,ELK," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="ELK(Elasticsearch + Logstash + Kibana) 简单来说，可以完成对于海量日志数据的汇总、搜索、查询以及可视化，可以快速定位和分析问题。  通过 Logstash 我们可以把各种日志进行转换后存储到 elasticsearch 中 通过 Elasticsearch 可以非常灵活的存储和索引日志，并且elasticsearch 提供了丰富的 HTTP REST AP">
+<meta name="keywords" content="Elasticsearch,ELK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ELK+Filebeat收集日志">
+<meta property="og:url" content="https://lvraikkonen.github.io/2018/08/22/ELK-Filebeat收集日志/index.html">
+<meta property="og:site_name" content="Claus&#39;s Tech Blog">
+<meta property="og:description" content="ELK(Elasticsearch + Logstash + Kibana) 简单来说，可以完成对于海量日志数据的汇总、搜索、查询以及可视化，可以快速定位和分析问题。  通过 Logstash 我们可以把各种日志进行转换后存储到 elasticsearch 中 通过 Elasticsearch 可以非常灵活的存储和索引日志，并且elasticsearch 提供了丰富的 HTTP REST AP">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://www.elastic.co/guide/en/beats/libbeat/current/images/beats-platform.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/33eebbae76933312b00db18909209bbd.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/70053f47dfddf0541465bf90767091ce.jpg">
+<meta property="og:updated_time" content="2018-08-23T07:23:19.847Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ELK+Filebeat收集日志">
+<meta name="twitter:description" content="ELK(Elasticsearch + Logstash + Kibana) 简单来说，可以完成对于海量日志数据的汇总、搜索、查询以及可视化，可以快速定位和分析问题。  通过 Logstash 我们可以把各种日志进行转换后存储到 elasticsearch 中 通过 Elasticsearch 可以非常灵活的存储和索引日志，并且elasticsearch 提供了丰富的 HTTP REST AP">
+<meta name="twitter:image" content="https://www.elastic.co/guide/en/beats/libbeat/current/images/beats-platform.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'JWQGEFMRGT',
+      apiKey: '7c12daa85b9bf759fcde9b547d3a9349',
+      indexName: 'lvraikkonen_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lvraikkonen.github.io/2018/08/22/ELK-Filebeat收集日志/"/>
+
+
+
+
+
+  <title>ELK+Filebeat收集日志 | Claus's Tech Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Claus's Tech Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">leave me alone i know what to do</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/08/22/ELK-Filebeat收集日志/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ELK+Filebeat收集日志</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-22T16:45:44+08:00">
+                2018-08-22
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-08-23T15:23:19+08:00">
+                2018-08-23
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/08/22/ELK-Filebeat收集日志/" class="leancloud_visitors" data-flag-title="ELK+Filebeat收集日志">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,826 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ELK(Elasticsearch + Logstash + Kibana) 简单来说，可以完成对于海量日志数据的汇总、搜索、查询以及可视化，可以快速定位和分析问题。</p>
+<ul>
+<li>通过 Logstash 我们可以把各种日志进行转换后存储到 elasticsearch 中</li>
+<li>通过 Elasticsearch 可以非常灵活的存储和索引日志，并且elasticsearch 提供了丰富的 HTTP REST API 接口来对数据进行增删查等操作</li>
+<li>通过 Kibana 我们可以对存储在 elasticsearch 中的日志以图形化的形式进行展现，并且提供非常丰富的过滤接口，让用户能够通过过滤快速定位问题</li>
+</ul>
+<p>在日常日志处理中，也常用Beats工具，可以作为轻量级的数据收集Agent</p>
+<p><img src="https://www.elastic.co/guide/en/beats/libbeat/current/images/beats-platform.png" alt="Beats"></p>
+<a id="more"></a>
+<p>与 Logstash 不同，Beats 只是 data shipper。Beats 家族共享 libbeat 这个库，每个产品分别实现对不同数据来源的收集。目前官方实现有：</p>
+<ul>
+<li>Filebeat —— 文件</li>
+<li>Metricbeat —— 系统及应用指标</li>
+<li>Packetbeat —— 网络抓包分析，如 SQL, DNS</li>
+<li>Winlogbeat —— Windows 系统日志</li>
+<li>Auditbeat —— 审计数据</li>
+<li>Heartbeat —— ICMP, TCP, HTTP 监控</li>
+</ul>
+<h2 id="日志收集框架"><a href="#日志收集框架" class="headerlink" title="日志收集框架"></a>日志收集框架</h2><p><img src="http://7xkfga.com1.z0.glb.clouddn.com/33eebbae76933312b00db18909209bbd.png" alt=""></p>
+<p>日志数据流如下:</p>
+<p>应用程序将日志存储在服务器上，部署在每台服务器上的FileBeat负责收集日志，然后将日志发送给Kafka进行消息缓冲，同时也可以支持流失处理(流处理应用可以从消息的offset初始的地方来读取)；然后通过Logstash将日志进行处理之后，比如解析等处理，将处理后的对象传递给ElasticSearch，进行落地并进行索引处理；最后通过Kibana来提供web界面，来查看日志等。</p>
+<p>下面以Log4net配置的应用Log为例。</p>
+<h2 id="样例日志数据"><a href="#样例日志数据" class="headerlink" title="样例日志数据"></a>样例日志数据</h2><p>针对两种不同类型的应用日志，分别使用两种pattern，也分别记录到Debug.lg和Error.log文件中。</p>
+<ul>
+<li>日志类型为Debug,Info,Warn的日志，使用[%date] [%thread] %-5level Log4NetTest %logger %method [%message%exception]%n模式，分别记录下时间，线程，日志等级，应用名称，日志记录类属性，日志记录方法，日志信息和异常</li>
+<li>日志类型为Error和Fatal的日志，使用[%date] [%thread] %-5level Log4NetTest %l [%message%n%exception]%n，分别是时间，线程，日志等级，应用名称，出错位置（包含具体文件，以及所在行，需要PDB文件才能到行），日志信息和异常</li>
+</ul>
+<h2 id="配置Filebeat"><a href="#配置Filebeat" class="headerlink" title="配置Filebeat"></a>配置Filebeat</h2><p>Filebeat隶属于Beats，Filebeat占用资源极少，简单配置<code>filebeat.yml</code>文件就可以使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">filebeat.prospectors:</span><br><span class="line"></span><br><span class="line">- type: log</span><br><span class="line">  # Change to true to enable this prospector configuration.</span><br><span class="line">  enabled: true</span><br><span class="line">  # Paths that should be crawled and fetched. Glob based paths.</span><br><span class="line">  paths:</span><br><span class="line">    - /Users/lvshuo/bigdata/logs/*.Error.log</span><br><span class="line">  </span><br><span class="line">  multiline.pattern: &apos;^[0-9]&#123;4&#125;-[0-9]&#123;2&#125;-[0-9]&#123;2&#125; [0-9]&#123;2&#125;:[0-9]&#123;2&#125;:[0-9]&#123;2&#125;,[0-9]&#123;3&#125;&apos;</span><br><span class="line">  multiline.negate: true</span><br><span class="line">  multiline.match: after</span><br><span class="line">  </span><br><span class="line">  fields:</span><br><span class="line">    log_topics: errorlog</span><br><span class="line"></span><br><span class="line">- type: log</span><br><span class="line">  enabled: false</span><br><span class="line">  paths:</span><br><span class="line">    - /Users/lvshuo/bigdata/logs/*.Info.log</span><br><span class="line">  </span><br><span class="line">  multiline.pattern: &apos;^[0-9]&#123;4&#125;-[0-9]&#123;2&#125;-[0-9]&#123;2&#125; [0-9]&#123;2&#125;:[0-9]&#123;2&#125;:[0-9]&#123;2&#125;,[0-9]&#123;3&#125;&apos;</span><br><span class="line">  multiline.negate: true</span><br><span class="line">  multiline.match: after</span><br><span class="line"></span><br><span class="line">  fields:</span><br><span class="line">    log_topics: infolog</span><br><span class="line"></span><br><span class="line">#--------------- Logstash output ----------------------</span><br><span class="line">output.logstash:</span><br><span class="line">  hosts: [&quot;localhost:5044&quot;]</span><br><span class="line"></span><br><span class="line">  index: &apos;&#123;[fields][log_topics]&#125;&apos;</span><br></pre></td></tr></table></figure>
+<p><strong>note:</strong> 在6.0版本以后，document_type类型就不被支持了。为了分类处理INFO和ERROR日志，并写入不同的index中，在filebeat的配置里，加入<code>fields</code>的自定义字段，然后通过%{[]}获取对应的值 ，如下：</p>
+<pre><code>if [fields][fieldname] == &quot;string&quot;
+</code></pre><p>为了以后不再采坑，建议参考安装包中自带的样例配置文件 <code>filebeat.reference.yml</code></p>
+<p>上面将收集到的Log数据传递给Logstash(为了演示，直接将Beats输出到Logstash)</p>
+<h2 id="配置Logstash"><a href="#配置Logstash" class="headerlink" title="配置Logstash"></a>配置Logstash</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">#指定logstash监听filebeat的端口</span><br><span class="line">input &#123;</span><br><span class="line">    beats &#123;</span><br><span class="line">        port =&gt; &quot;5044&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"># The filter part of this file is commented out to indicate that it is</span><br><span class="line"># optional.</span><br><span class="line">filter &#123;</span><br><span class="line">    grok &#123;</span><br><span class="line">            match =&gt; &#123;</span><br><span class="line">             &quot;message&quot; =&gt; &quot;%&#123;TIMESTAMP_ISO8601:datetime&#125; \[%&#123;SYSLOGPROG:appName&#125;\] %&#123;LOGLEVEL:level&#125; \s*(?&lt;traceback&gt;([\s\S]*))&quot;</span><br><span class="line">             &#125; </span><br><span class="line">            overwrite =&gt; [&quot;message&quot;]</span><br><span class="line">        &#125;</span><br><span class="line">    date &#123;</span><br><span class="line">        match =&gt; [&quot;datetime&quot;, &quot;yyyy-MM-dd HH:mm:ss,SSS&quot;, &quot;UNIX&quot;]</span><br><span class="line">        target =&gt; &quot;@timestamp&quot;</span><br><span class="line">        locale =&gt; &quot;cn&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">    if [fields][log_topics] == &quot;errorlog&quot; &#123;</span><br><span class="line">        # file &#123;</span><br><span class="line">        #     path =&gt; &quot;/Users/lvshuo/Desktop/tmp/log/errorLog_%&#123;+YYYYMMdd&#125;_%&#123;+HH&#125;.log&quot;</span><br><span class="line">        #     codec =&gt; line &#123; format =&gt; &quot;%&#123;message&#125;&quot;&#125;</span><br><span class="line">        # &#125;</span><br><span class="line">        stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">        elasticsearch &#123; </span><br><span class="line">            hosts =&gt; [&quot;localhost:9200&quot;]</span><br><span class="line">            index =&gt; &quot;logstash-%&#123;[fields][log_topics]&#125;-%&#123;+YYYY.MM.dd&#125;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Grok</code> 是 Logstash 最重要的插件，可以在 grok 里预定义好命名正则表达式</p>
+<p>下面是一个很好用的Grok Debugger，可以调试grok表达式：</p>
+<p><a href="http://grokdebug.herokuapp.com/" target="_blank" rel="noopener">http://grokdebug.herokuapp.com/</a></p>
+<h3 id="Grok过滤器插件"><a href="#Grok过滤器插件" class="headerlink" title="Grok过滤器插件"></a>Grok过滤器插件</h3><p>Grok内置了120多种的正则表达式库，地址:<a href="https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns" target="_blank" rel="noopener">https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns</a></p>
+<p>比如,下面这条日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">55.3.244.1 GET /index.html 15824 0.043</span><br></pre></td></tr></table></figure>
+<p>这条日志可切分为5个部分，IP(55.3.244.1)、方法(GET)、请求文件路径(/index.html)、字节数(15824)、访问时长(0.043),对这条日志的解析模式(正则表达式匹配)如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%&#123;IP:client&#125; %&#123;WORD:method&#125; %&#123;URIPATHPARAM:request&#125; %&#123;NUMBER:bytes&#125; %&#123;NUMBER:duration&#125;</span><br></pre></td></tr></table></figure>
+<p>写到filter中:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">filter &#123;</span><br><span class="line">    grok &#123;</span><br><span class="line">        match =&gt; &#123; &quot;message&quot; =&gt; &quot;%&#123;IP:client&#125; %&#123;WORD:method&#125; %&#123;URIPATHPARAM:request&#125; %&#123;NUMBER:bytes&#125; %&#123;NUMBER:duration&#125;&quot;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解析后:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">client: 55.3.244.1</span><br><span class="line">method: GET</span><br><span class="line">request: /index.html</span><br><span class="line">bytes: 15824</span><br><span class="line">duration: 0.043</span><br></pre></td></tr></table></figure>
+<p>如果内置的正则表达式不能满足要求，可以按下面步骤解析任意格式日志：</p>
+<ol>
+<li>先确定日志的切分原则，也就是一条日志切分成几个部分。</li>
+<li>对每一块进行分析，如果Grok中正则满足需求，直接拿来用。如果Grok中没用现成的，采用自定义模式。</li>
+<li>学会在Grok Debugger中调试。</li>
+</ol>
+<p>下面两条日志:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2017-03-07 00:03:44,373 4191949560 [CASFilter.java:330:DEBUG]  entering doFilter()</span><br><span class="line">2017-03-16 00:00:01,641 133383049 [UploadFileModel.java:234:INFO]  上报内容准备写入文件</span><br></pre></td></tr></table></figure>
+<p>切分原则:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">2017-03-16 00:00:01,641:时间</span><br><span class="line">133383049：编号</span><br><span class="line">UploadFileModel.java:java类名</span><br><span class="line">234:代码行号</span><br><span class="line">INFO：日志级别</span><br><span class="line">entering doFilter()：日志内容</span><br></pre></td></tr></table></figure>
+<p>前五个字段用Grok中已有的，分别是TIMESTAMP_ISO8601、NUMBER、JAVAFILE、NUMBER、LOGLEVEL，最后一个采用自定义正则的形式，日志级别的]之后的内容不论是中英文，都作为日志信息处理，最后一个字段的内容用info表示，正则如下:</p>
+<p>(?<info>([\s\S]*))</info></p>
+<p>上面两条日志对应的完整的正则如下，其中\s*用于剔除空格。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%&#123;TIMESTAMP_ISO8601:time&#125; %&#123;NUMBER:num&#125; \[\s*%&#123;JAVAFILE:class&#125;\s*\:\s*%&#123;NUMBER:lineNumber&#125;\s*\:%&#123;LOGLEVEL:level&#125;\s*\] (?&lt;info&gt;([\s\S]*))</span><br></pre></td></tr></table></figure>
+<p><a href="http://grokdebug.herokuapp.com/" target="_blank" rel="noopener">http://grokdebug.herokuapp.com/</a></p>
+<h3 id="时间处理插件Date"><a href="#时间处理插件Date" class="headerlink" title="时间处理插件Date"></a>时间处理插件Date</h3><p>date 插件可以用来转换你的日志记录中的时间字符串，变成 LogStash::Timestamp 对象，然后转存到 @timestamp 字段里</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">filter &#123;</span><br><span class="line">    grok &#123;</span><br><span class="line">        match =&gt; [&quot;message&quot;, &quot;%&#123;HTTPDATE:logdate&#125;&quot;]</span><br><span class="line">    &#125;</span><br><span class="line">    date &#123;</span><br><span class="line">        match =&gt; [&quot;logdate&quot;, &quot;dd/MMM/yyyy:HH:mm:ss Z&quot;]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="数据修改插件-Mutate"><a href="#数据修改插件-Mutate" class="headerlink" title="数据修改插件(Mutate)"></a>数据修改插件(Mutate)</h3><p>mutate 插件是 Logstash 另一个重要插件。它提供了丰富的基础类型数据处理能力。包括类型转换，字符串处理和字段处理等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">filter &#123;</span><br><span class="line">    mutate &#123;</span><br><span class="line">        convert =&gt; [&quot;request_time&quot;, &quot;float&quot;]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="GeoIP-地址查询归类"><a href="#GeoIP-地址查询归类" class="headerlink" title="GeoIP 地址查询归类"></a>GeoIP 地址查询归类</h3><p>GeoIP 库可以根据 IP 地址提供对应的地域信息，包括国别，省市，经纬度等，对于可视化地图和区域统计非常有用。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>首先启动log所在机器上部署的Filebeat agent</p>
+<p>mac:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown root filebeat.yml </span><br><span class="line">sudo ./filebeat -e -c filebeat.yml -d &quot;publish&quot;</span><br></pre></td></tr></table></figure></p>
+<p>windows:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Program Files\Filebeat&gt; Start-Service filebeat</span><br></pre></td></tr></table></figure></p>
+<p>然后启动Logstash</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/logstash -f first-pipeline.conf --config.test_and_exit 测试配置文件 </span><br><span class="line">bin/logstash -f first-pipeline.conf --config.reload.automatic 自动加载配置文件的修改</span><br></pre></td></tr></table></figure>
+<p>可以在Kibana中看到</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/70053f47dfddf0541465bf90767091ce.jpg" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/WeChatImage_20170527190034.jpg" alt="Shuo Lv WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Elasticsearch/" rel="tag"># Elasticsearch</a>
+          
+            <a href="/tags/ELK/" rel="tag"># ELK</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/17/Spark应用运行流程/" rel="next" title="Spark应用运行流程(转)">
+                <i class="fa fa-chevron-left"></i> Spark应用运行流程(转)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODkwOC81NDc3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Shuo Lv" />
+          <p class="site-author-name" itemprop="name">Shuo Lv</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lvraikkonen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/1246109477/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/lu-shuo-53/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-quora"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.linkedin.com/in/shuo-lv-58881823/" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/shuo.lv" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://webdemo.myscript.com/views/math.html/" title="公式编辑器" target="_blank">公式编辑器</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pythontutor.com/" title="可视化Python代码" target="_blank">可视化Python代码</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://docs.python-guide.org/en/latest/" title="Python最佳实践" target="_blank">Python最佳实践</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#日志收集框架"><span class="nav-number">1.</span> <span class="nav-text">日志收集框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样例日志数据"><span class="nav-number">2.</span> <span class="nav-text">样例日志数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Filebeat"><span class="nav-number">3.</span> <span class="nav-text">配置Filebeat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Logstash"><span class="nav-number">4.</span> <span class="nav-text">配置Logstash</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Grok过滤器插件"><span class="nav-number">4.1.</span> <span class="nav-text">Grok过滤器插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时间处理插件Date"><span class="nav-number">4.2.</span> <span class="nav-text">时间处理插件Date</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据修改插件-Mutate"><span class="nav-number">4.3.</span> <span class="nav-text">数据修改插件(Mutate)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GeoIP-地址查询归类"><span class="nav-number">4.4.</span> <span class="nav-text">GeoIP 地址查询归类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动"><span class="nav-number">5.</span> <span class="nav-text">启动</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shuo Lv</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("QttC3P4LGflMxbppLnNEY62a-gzGzoHsz", "joh41qpX9cxG63me5aR8vKXx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- 背景动画 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
