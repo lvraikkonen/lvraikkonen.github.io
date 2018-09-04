@@ -84,11 +84,11 @@ output.logstash:
   index: '{[fields][log_topics]}'
 ```
 
-__note:__ 在6.0版本以后，document_type类型就不被支持了。为了分类处理INFO和ERROR日志，并写入不同的index中，在filebeat的配置里，加入`fields`的自定义字段，然后通过%{[]}获取对应的值 ，如下：
+__Note:__ 在6.0版本以后，document_type类型就不被支持了。为了分类处理INFO和ERROR日志，并写入不同的index中，在filebeat的配置里，加入`fields`的自定义字段，然后通过%{[]}获取对应的值 ，如下：
 
     if [fields][fieldname] == "string"
 
-为了以后不再采坑，建议参考安装包中自带的样例配置文件 `filebeat.reference.yml`
+为了以后不再踩坑，建议参考安装包中自带的样例配置文件 `filebeat.reference.yml`
 
 上面将收集到的Log数据传递给Logstash(为了演示，直接将Beats输出到Logstash)
 
