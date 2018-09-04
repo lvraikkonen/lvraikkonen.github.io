@@ -1,0 +1,1172 @@
+﻿<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Big Data,Spark,流处理," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="流处理类型Spark Streaming是Spark解决方案中实时处理的组件，本质是将数据源分割为很小的批次，以类似离线批处理的方式处理这部分数据。这种方式提升了数据吞吐能力，但是也增加了数据处理的延迟，延迟通常是秒级或者分钟级。  Spark Streaming底层依赖 Spark Core的 RDD，内部的调度方式也依赖于DAG调度器。Spark Streaming的离散数据流DStream">
+<meta name="keywords" content="Big Data,Spark,流处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark-Streaming入门和实践">
+<meta property="og:url" content="https://lvraikkonen.github.io/2018/08/31/Spark-Streaming入门和实践/index.html">
+<meta property="og:site_name" content="Claus&#39;s Tech Blog">
+<meta property="og:description" content="流处理类型Spark Streaming是Spark解决方案中实时处理的组件，本质是将数据源分割为很小的批次，以类似离线批处理的方式处理这部分数据。这种方式提升了数据吞吐能力，但是也增加了数据处理的延迟，延迟通常是秒级或者分钟级。  Spark Streaming底层依赖 Spark Core的 RDD，内部的调度方式也依赖于DAG调度器。Spark Streaming的离散数据流DStream">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://spark.apache.org/docs/latest/img/streaming-flow.png">
+<meta property="og:image" content="http://spark.apache.org/docs/latest/img/streaming-dstream-window.png">
+<meta property="og:image" content="http://7xkfga.com1.z0.glb.clouddn.com/a6df27183cf689b28129f31bc93527a1.jpg">
+<meta property="og:updated_time" content="2018-09-04T02:50:23.691Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spark-Streaming入门和实践">
+<meta name="twitter:description" content="流处理类型Spark Streaming是Spark解决方案中实时处理的组件，本质是将数据源分割为很小的批次，以类似离线批处理的方式处理这部分数据。这种方式提升了数据吞吐能力，但是也增加了数据处理的延迟，延迟通常是秒级或者分钟级。  Spark Streaming底层依赖 Spark Core的 RDD，内部的调度方式也依赖于DAG调度器。Spark Streaming的离散数据流DStream">
+<meta name="twitter:image" content="http://spark.apache.org/docs/latest/img/streaming-flow.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'JWQGEFMRGT',
+      apiKey: '7c12daa85b9bf759fcde9b547d3a9349',
+      indexName: 'lvraikkonen_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lvraikkonen.github.io/2018/08/31/Spark-Streaming入门和实践/"/>
+
+
+
+
+
+  <title>Spark-Streaming入门和实践 | Claus's Tech Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Claus's Tech Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">leave me alone i know what to do</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://lvraikkonen.github.io/2018/08/31/Spark-Streaming入门和实践/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shuo Lv">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Claus's Tech Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spark-Streaming入门和实践</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-31T14:01:19+08:00">
+                2018-08-31
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-09-04T10:50:23+08:00">
+                2018-09-04
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Big-Data/" itemprop="url" rel="index">
+                    <span itemprop="name">Big Data</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Big-Data/Spark/" itemprop="url" rel="index">
+                    <span itemprop="name">Spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/08/31/Spark-Streaming入门和实践/" class="leancloud_visitors" data-flag-title="Spark-Streaming入门和实践">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,656 字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="流处理类型"><a href="#流处理类型" class="headerlink" title="流处理类型"></a>流处理类型</h2><p>Spark Streaming是Spark解决方案中实时处理的组件，本质是将数据源分割为很小的批次，以类似离线批处理的方式处理这部分数据。这种方式提升了数据吞吐能力，但是也增加了数据处理的延迟，延迟通常是秒级或者分钟级。</p>
+<p><img src="http://spark.apache.org/docs/latest/img/streaming-flow.png" alt="Mini-Batch data process"></p>
+<p>Spark Streaming底层依赖 Spark Core的 RDD，内部的调度方式也依赖于DAG调度器。Spark Streaming的离散数据流DStream本质上是RDD在流式数据上的抽象。</p>
+<a id="more"></a>
+<h2 id="编写Spark-Streaming应用"><a href="#编写Spark-Streaming应用" class="headerlink" title="编写Spark Streaming应用"></a>编写Spark Streaming应用</h2><p>添加下述依赖到你的Maven项目中：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.spark<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spark-streaming_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>下面是WordCount程序的Streaming版本：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.spark._</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming._</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.<span class="type">StreamingContext</span>._ <span class="comment">// not necessary since Spark 1.3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Create a local StreamingContext with two working thread and batch interval of 1 second.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setMaster(<span class="string">"local[2]"</span>).setAppName(<span class="string">"NetworkWordCount"</span>)</span><br><span class="line"><span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(conf, <span class="type">Seconds</span>(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> lines = ssc.socketTextStream(<span class="string">"localhost"</span>, <span class="number">9999</span>)</span><br><span class="line"><span class="keyword">val</span> words = lines.flatMap(_.split(<span class="string">" "</span>))</span><br><span class="line"><span class="keyword">val</span> pairs = words.map(word =&gt; (word, <span class="number">1</span>))</span><br><span class="line"><span class="keyword">val</span> wordCounts = pairs.reduceByKey(_ + _)</span><br><span class="line"></span><br><span class="line">wordCounts.print()</span><br><span class="line"></span><br><span class="line">ssc.start()             <span class="comment">// Start the computation</span></span><br><span class="line">ssc.awaitTermination()  <span class="comment">// Wait for the computation to terminate</span></span><br></pre></td></tr></table></figure>
+<p>这个HelloWorld程序主要有下面几个步骤组成：</p>
+<ol>
+<li>初始化StreamingContext</li>
+<li>创建DStream接收器 (会单独起一个线程运行接收器)</li>
+<li>定义DStream的转换操作</li>
+<li>定义DStream的输出</li>
+<li>启动流处理程序</li>
+</ol>
+<h2 id="接收器"><a href="#接收器" class="headerlink" title="接收器"></a>接收器</h2><p>接收器有两类：基础的接收器(可以自己实现) 和高级数据源(例如 Kafka, Flume等)</p>
+<p>下面模拟实现一个自定义的接收器，需要继承Receiver抽象类，然后实现 <code>onStart()</code>方法和<code>onStop()</code>方法</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomReceiver</span>(<span class="params">host: <span class="type">String</span>, port: <span class="type">Int</span></span>)</span></span><br><span class="line"><span class="class">  <span class="keyword">extends</span> <span class="title">Receiver</span>[<span class="type">String</span>](<span class="params"><span class="type">StorageLevel</span>.<span class="type">MEMORY_AND_DISK_2</span></span>) <span class="keyword">with</span> <span class="title">Logging</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">onStart</span></span>(): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="comment">// 启动进程接收数据</span></span><br><span class="line">    <span class="keyword">new</span> <span class="type">Thread</span>(<span class="string">"Socket Receiver"</span>)&#123;</span><br><span class="line">      <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">run</span></span>()&#123; receive() &#125;</span><br><span class="line">    &#125;.start()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">onStop</span></span>(): <span class="type">Unit</span> = &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// create a customize socket connection and receive data until receiver is stopped</span></span><br><span class="line">  <span class="keyword">private</span> <span class="function"><span class="keyword">def</span> <span class="title">receive</span></span>(): <span class="type">Unit</span> =&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> socket: <span class="type">Socket</span> = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">var</span> userInput: <span class="type">String</span> = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// connect to host:port</span></span><br><span class="line">      socket = <span class="keyword">new</span> <span class="type">Socket</span>(host, port)</span><br><span class="line"></span><br><span class="line">      <span class="keyword">val</span> reader = <span class="keyword">new</span> <span class="type">BufferedReader</span>(<span class="keyword">new</span> <span class="type">InputStreamReader</span>(socket.getInputStream(), <span class="string">"UTF-8"</span>))</span><br><span class="line">      userInput = reader.readLine()</span><br><span class="line">      <span class="keyword">while</span>(!isStopped() &amp;&amp; userInput != <span class="literal">null</span>)&#123;</span><br><span class="line">        store(userInput)</span><br><span class="line">        userInput = reader.readLine()</span><br><span class="line">      &#125;</span><br><span class="line">      reader.close()</span><br><span class="line">      socket.close()</span><br><span class="line"></span><br><span class="line">      restart(<span class="string">"Trying to connect again"</span>)</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">catch</span> &#123;</span><br><span class="line">      <span class="keyword">case</span> e: java.net.<span class="type">ConnectException</span> =&gt;</span><br><span class="line">        restart(<span class="string">"Error connecting to "</span> + host + <span class="string">":"</span> + port, e)</span><br><span class="line">      <span class="keyword">case</span> t: <span class="type">Throwable</span> =&gt;</span><br><span class="line">        restart(<span class="string">"Error receiving data"</span>, t)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="http://spark.apache.org/docs/latest/streaming-custom-receivers.html" target="_blank" rel="noopener">Spark Streaming Custom Receivers</a></p>
+<p>关于例如Kafka和Flume等高级数据源，下面会有一章介绍</p>
+<h2 id="DStream的转换操作"><a href="#DStream的转换操作" class="headerlink" title="DStream的转换操作"></a>DStream的转换操作</h2><p>上面说过DStream本质上是RDD在流式数据上的抽象，所以RDD上很多的转换操作在这里都能通用，例如下面几个：</p>
+<ul>
+<li>map(func)</li>
+<li>flatMap(func)</li>
+<li>filter(func)</li>
+<li>repartition(numPartitions)</li>
+<li>union(otherStream)</li>
+<li>count()</li>
+<li>reduce(func)</li>
+<li>countByValue()</li>
+<li>reduceByKey(func, [numTasks])</li>
+<li>join(otherStream, [numTasks])</li>
+<li>cogroup(otherStream, [numTasks])</li>
+<li>transform(func)    </li>
+<li>updateStateByKey(func)</li>
+</ul>
+<p>下面是流处理需要处理的窗口函数(Window Operations)</p>
+<h3 id="Window-Operation-窗口操作"><a href="#Window-Operation-窗口操作" class="headerlink" title="Window Operation 窗口操作"></a>Window Operation 窗口操作</h3><p><img src="http://spark.apache.org/docs/latest/img/streaming-dstream-window.png" alt="WindowOperation"></p>
+<p>在窗口操作中需要指定两个参数:</p>
+<ul>
+<li>window length 窗口长度 —— 窗口的时间长度（上图中为3）</li>
+<li>sliding interval 滑动间隔 —— 窗口操作的执行间隔（上图中为2）</li>
+</ul>
+<p>这两个参数必须为流处理定义的批处理间隔的整数倍。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Reduce last 30 seconds of data, every 10 seconds</span></span><br><span class="line"><span class="keyword">val</span> windowedWordCounts = pairs.reduceByKeyAndWindow((a:<span class="type">Int</span>,b:<span class="type">Int</span>) =&gt; (a + b), <span class="type">Seconds</span>(<span class="number">30</span>), <span class="type">Seconds</span>(<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="DStreams上的输出操作"><a href="#DStreams上的输出操作" class="headerlink" title="DStreams上的输出操作"></a>DStreams上的输出操作</h2><h3 id="foreachRDD"><a href="#foreachRDD" class="headerlink" title="foreachRDD"></a>foreachRDD</h3><p><code>dstream.foreachRDD</code>是一个功能强大的原语primitive，它允许将数据发送到外部系统。下面将结果保存到数据库中</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dstream.foreachRDD &#123; rdd =&gt;</span><br><span class="line">  rdd.foreachPartition &#123; partitionOfRecords =&gt;</span><br><span class="line">    <span class="comment">// ConnectionPool is a static, lazily initialized pool of connections</span></span><br><span class="line">    <span class="keyword">val</span> connection = <span class="type">ConnectionPool</span>.getConnection()</span><br><span class="line">    partitionOfRecords.foreach(record =&gt; connection.send(record))</span><br><span class="line">    <span class="type">ConnectionPool</span>.returnConnection(connection)  <span class="comment">// return to the pool for future reuse</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Caching-Persistence-缓存-持久化"><a href="#Caching-Persistence-缓存-持久化" class="headerlink" title="Caching/Persistence 缓存/持久化"></a>Caching/Persistence 缓存/持久化</h2><p>类似于RDD，DStream也允许开发者在内存中持久化stream流数据</p>
+<h2 id="Checkpoint-设置"><a href="#Checkpoint-设置" class="headerlink" title="Checkpoint 设置"></a>Checkpoint 设置</h2><p>一个Streaming程序是需要7X24运行的，所以故障恢复能力是很重要的，为此，Spark Streaming需要检查点以便从故障中恢复。</p>
+<p>有两种类型的检查点：</p>
+<ol>
+<li>Metadata检查点</li>
+<li>数据检查点，将生成RDD保存在可靠的存储中</li>
+</ol>
+<p>note: 如果在应用程序中使用<code>updateStateByKey</code>或者<code>reduceByKeyAndWindow</code> (带有反转函数)，那么必须提供checkpointing目录</p>
+<h2 id="集成Kafka、Flume等"><a href="#集成Kafka、Flume等" class="headerlink" title="集成Kafka、Flume等"></a>集成Kafka、Flume等</h2><p>下面是集成Kafka的方法，首先添加依赖包</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.spark<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spark-streaming-kafka-0-10_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>这里有个坑: 版本不匹配的依赖可能会产生很多兼容性问题</strong>，由于Kafka 0.10.0之后引入了新的Kafka Consumer API，所以现在的这个版本的集成还是实验性的，以后可能还会有变化。Spark 2.3.0开始，kafka-0-8的依赖不再被支持。</p>
+<p><img src="http://7xkfga.com1.z0.glb.clouddn.com/a6df27183cf689b28129f31bc93527a1.jpg" alt=""></p>
+<h3 id="连接方式的比较"><a href="#连接方式的比较" class="headerlink" title="连接方式的比较"></a>连接方式的比较</h3><ul>
+<li><p>Kafka consumer传统消费者（老方式）需要连接zookeeper，简称Receiver方式，是高级的消费API，自动更新偏移量，支持WAL，但是效率比较低。</p>
+</li>
+<li><p>新的方式（高效的方式）不需要连接Zookeeper，但是需要自己维护偏移量，简称直连方式，直接连在broker上，但是需要手动维护偏移量，以迭代器的方式边接收数据边处理，效率较高。    </p>
+</li>
+</ul>
+<p>Kafka 0.10以后的只支持直连方式</p>
+<h3 id="创建DirectStream"><a href="#创建DirectStream" class="headerlink" title="创建DirectStream"></a>创建DirectStream</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.consumer.<span class="type">ConsumerRecord</span></span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.common.serialization.<span class="type">StringDeserializer</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.kafka010._</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.kafka010.<span class="type">LocationStrategies</span>.<span class="type">PreferConsistent</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.kafka010.<span class="type">ConsumerStrategies</span>.<span class="type">Subscribe</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> kafkaParams = <span class="type">Map</span>[<span class="type">String</span>, <span class="type">Object</span>](</span><br><span class="line">  <span class="string">"bootstrap.servers"</span> -&gt; <span class="string">"localhost:9092,anotherhost:9092"</span>,</span><br><span class="line">  <span class="string">"key.deserializer"</span> -&gt; classOf[<span class="type">StringDeserializer</span>],</span><br><span class="line">  <span class="string">"value.deserializer"</span> -&gt; classOf[<span class="type">StringDeserializer</span>],</span><br><span class="line">  <span class="string">"group.id"</span> -&gt; <span class="string">"use_a_separate_group_id_for_each_stream"</span>,</span><br><span class="line">  <span class="string">"auto.offset.reset"</span> -&gt; <span class="string">"latest"</span>,</span><br><span class="line">  <span class="string">"enable.auto.commit"</span> -&gt; (<span class="literal">false</span>: java.lang.<span class="type">Boolean</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> topics = <span class="type">Array</span>(<span class="string">"topicA"</span>, <span class="string">"topicB"</span>)</span><br><span class="line"><span class="keyword">val</span> stream = <span class="type">KafkaUtils</span>.createDirectStream[<span class="type">String</span>, <span class="type">String</span>](</span><br><span class="line">  streamingContext,</span><br><span class="line">  <span class="type">PreferConsistent</span>,</span><br><span class="line">  <span class="type">Subscribe</span>[<span class="type">String</span>, <span class="type">String</span>](topics, kafkaParams)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">stream.map(record =&gt; (record.key, record.value))</span><br></pre></td></tr></table></figure>
+<p><code>KafkaUtils.creatDirectStream</code> 需要传入3个参数：</p>
+<ol>
+<li>StreamingContext</li>
+<li>LocationStrategy，默认采用<code>LocationStrategies.PreferConsistent</code> </li>
+<li>ConsumerStrategy</li>
+</ol>
+<h3 id="偏移量操作"><a href="#偏移量操作" class="headerlink" title="偏移量操作"></a>偏移量操作</h3><p>上面说过，直连的方式需要手动维护偏移量。Kafka提供了一个提交offset的API，这个API把特定的kafka topic的offset进行存储。默认情况下，新的消费者会周期性的自动提交offset，这里把<code>enable.auto.commit</code>设置为false。但是，使用commitAsync api，用户可以在确保计算结果被成功保存后自己来提交offset。和使用checkpoint方式相比，Kafka是一个不用关心应用代码的变化可靠存储系统。</p>
+<p>获取偏移量</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">stream.foreachRDD &#123; rdd =&gt;</span><br><span class="line">  <span class="keyword">val</span> offsetRanges = rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges</span><br><span class="line">  rdd.foreachPartition &#123; iter =&gt;</span><br><span class="line">    <span class="keyword">val</span> o: <span class="type">OffsetRange</span> = offsetRanges(<span class="type">TaskContext</span>.get.partitionId)</span><br><span class="line">    println(<span class="string">s"<span class="subst">$&#123;o.topic&#125;</span> <span class="subst">$&#123;o.partition&#125;</span> <span class="subst">$&#123;o.fromOffset&#125;</span> <span class="subst">$&#123;o.untilOffset&#125;</span>"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以使用<code>commitAsync</code>来提交偏移量</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">stream.foreachRDD &#123; rdd =&gt;</span><br><span class="line">  <span class="keyword">val</span> offsetRanges = rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges</span><br><span class="line"></span><br><span class="line">  <span class="comment">// some time later, after outputs have completed</span></span><br><span class="line">  stream.asInstanceOf[<span class="type">CanCommitOffsets</span>].commitAsync(offsetRanges)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/WeChatImage_20170527190034.jpg" alt="Shuo Lv WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Big-Data/" rel="tag"># Big Data</a>
+          
+            <a href="/tags/Spark/" rel="tag"># Spark</a>
+          
+            <a href="/tags/流处理/" rel="tag"># 流处理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/22/ELK-Filebeat收集日志/" rel="next" title="ELK+Filebeat收集日志">
+                <i class="fa fa-chevron-left"></i> ELK+Filebeat收集日志
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODkwOC81NDc3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Shuo Lv" />
+          <p class="site-author-name" itemprop="name">Shuo Lv</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">71</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lvraikkonen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/1246109477/profile?topnav=1&wvr=6" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/lu-shuo-53/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-quora"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.linkedin.com/in/shuo-lv-58881823/" target="_blank" title="LinkedIn">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  LinkedIn
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/shuo.lv" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://webdemo.myscript.com/views/math.html/" title="公式编辑器" target="_blank">公式编辑器</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pythontutor.com/" title="可视化Python代码" target="_blank">可视化Python代码</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://docs.python-guide.org/en/latest/" title="Python最佳实践" target="_blank">Python最佳实践</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#流处理类型"><span class="nav-number">1.</span> <span class="nav-text">流处理类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写Spark-Streaming应用"><span class="nav-number">2.</span> <span class="nav-text">编写Spark Streaming应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接收器"><span class="nav-number">3.</span> <span class="nav-text">接收器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DStream的转换操作"><span class="nav-number">4.</span> <span class="nav-text">DStream的转换操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Window-Operation-窗口操作"><span class="nav-number">4.1.</span> <span class="nav-text">Window Operation 窗口操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DStreams上的输出操作"><span class="nav-number">5.</span> <span class="nav-text">DStreams上的输出操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#foreachRDD"><span class="nav-number">5.1.</span> <span class="nav-text">foreachRDD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Caching-Persistence-缓存-持久化"><span class="nav-number">6.</span> <span class="nav-text">Caching/Persistence 缓存/持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Checkpoint-设置"><span class="nav-number">7.</span> <span class="nav-text">Checkpoint 设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集成Kafka、Flume等"><span class="nav-number">8.</span> <span class="nav-text">集成Kafka、Flume等</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#连接方式的比较"><span class="nav-number">8.1.</span> <span class="nav-text">连接方式的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建DirectStream"><span class="nav-number">8.2.</span> <span class="nav-text">创建DirectStream</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#偏移量操作"><span class="nav-number">8.3.</span> <span class="nav-text">偏移量操作</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shuo Lv</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("QttC3P4LGflMxbppLnNEY62a-gzGzoHsz", "joh41qpX9cxG63me5aR8vKXx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+
+  <!-- 背景动画 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
